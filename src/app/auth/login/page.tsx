@@ -3,10 +3,10 @@ import ThemeSwitcher from '@/components/theme-switcher';
 import Logo from '@/components/logo';
 import Image from 'next/image';
 import * as React from 'react';
-import db from '@/lib/db';
+import { trpc } from '@/lib/trpc/server';
 
-export default async function LoginPage() {
-  const users = await db.user.findMany();
+export default function LoginPage() {
+  const users = trpc.auth.getUsers.query();
 
   console.log(users);
 
