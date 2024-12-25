@@ -5,13 +5,16 @@ import {
 } from '@/server/common/enums/error-codes.enum';
 import { emailTemplate } from './email-template';
 import transporter from '@/lib/nodemailer';
-import { env } from '@/lib/env';
 import { Routes } from '@/constants/routes';
 
 class EmailService {
-  async sendApprovalEmail(email: string, token: string): Promise<void> {
+  async sendApprovalEmail(
+    url: string,
+    email: string,
+    token: string,
+  ): Promise<void> {
     try {
-      const approvalLink = `${env.VERCEL_URL}/${Routes.Approve}?token=${token}&email=${email}`;
+      const approvalLink = `${url}/${Routes.Approve}?token=${token}&email=${email}`;
       const htmlContent = emailTemplate.replace(
         '{{approvalLink}}',
         approvalLink,

@@ -41,7 +41,7 @@ const SignUpApprovePage = () => {
       });
     }
     setIsLoading(false);
-  }, [email, token, verifyEmail]);
+  }, []);
 
   const handleResendEmail = async () => {
     if (!email) return;
@@ -57,7 +57,7 @@ const SignUpApprovePage = () => {
 
   useEffect(() => {
     approveEmail();
-  }, [approveEmail]);
+  }, []);
 
   return (
     <div className="flex items-center justify-center">
