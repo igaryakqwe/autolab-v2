@@ -2,8 +2,8 @@ import 'server-only';
 
 import { cache } from 'react';
 import { headers } from 'next/headers';
-import { createTRPCContext } from './trpc';
-import { appRouter, AppRouter } from './root';
+import { createTRPCContext } from '@/server/api/trpc';
+import { appRouter, AppRouter } from '@/server/api/root';
 import { createTRPCClient, httpLink, TRPCClientError } from '@trpc/client';
 import { getUrl, transformer } from '@/lib/trpc/shared';
 import { observable } from '@trpc/server/observable';

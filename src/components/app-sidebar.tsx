@@ -16,7 +16,7 @@ import {
 
 import { NavMain } from '@/components/nav-main';
 import { NavProjects } from '@/components/nav-projects';
-import { NavUser } from '@/components/nav-user';
+import NavUser from '@/components/nav-user';
 import { TeamSwitcher } from '@/components/team-switcher';
 import {
   Sidebar,
@@ -30,11 +30,6 @@ import Logo from '@/components/logo';
 
 // This is sample data.
 const data = {
-  user: {
-    name: 'shadcn',
-    email: 'm@example.com',
-    avatar: '/avatars/shadcn.jpg',
-  },
   teams: [
     {
       name: 'Acme Inc',
@@ -175,8 +170,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
       <SidebarFooter>
         <TeamSwitcher teams={data.teams} />
-
-        <NavUser user={data.user} />
+        <NavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

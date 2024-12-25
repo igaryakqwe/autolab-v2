@@ -3,6 +3,7 @@ import '@/theme/globals.css';
 import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
 import Providers from '@/providers';
+import { Toaster } from 'sonner';
 
 export const metadata: Metadata = {
   title: {
@@ -28,6 +29,7 @@ export default function RootLayout({
         className={`${GeistSans.variable} ${GeistMono.variable} antialiased`}
       >
         <Providers>{children}</Providers>
+        <Toaster richColors />
       </body>
     </html>
   );

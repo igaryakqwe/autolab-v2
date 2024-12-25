@@ -7,7 +7,7 @@ import { PropsWithChildren, useState } from 'react';
 import SuperJSON from 'superjson';
 import { HTTPHeaders } from '@trpc/client';
 
-import { type AppRouter } from './root';
+import { type AppRouter } from '@/server/api/root';
 import { createTRPCReact } from '@trpc/react-query';
 import { getUrl } from '@/lib/trpc/shared';
 

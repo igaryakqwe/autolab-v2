@@ -1,5 +1,5 @@
+import authRoute from './routes/auth/auth.route';
 import { createCallerFactory, createTRPCRouter } from './trpc';
-import authRoute from '@/trpc/auth-route';
 
 export const appRouter = createTRPCRouter({
   auth: authRoute,
