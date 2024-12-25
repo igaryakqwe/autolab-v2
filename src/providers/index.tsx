@@ -4,6 +4,7 @@ import TRPCReactProvider from '@/lib/trpc/client';
 import { auth } from '@/auth';
 import { SessionProvider } from 'next-auth/react';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
+import KeyboardProvider from '@/providers/keyboard-provider';
 
 const Providers = async ({ children }: PropsWithChildren) => {
   const session = await auth();
@@ -11,14 +12,16 @@ const Providers = async ({ children }: PropsWithChildren) => {
     <SessionProvider session={session}>
       <NuqsAdapter>
         <TRPCReactProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
+          <KeyboardProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+            </ThemeProvider>
+          </KeyboardProvider>
         </TRPCReactProvider>
       </NuqsAdapter>
     </SessionProvider>

@@ -4,6 +4,7 @@ import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
 import Providers from '@/providers';
 import { Toaster } from 'sonner';
+import NextTopLoader from 'nextjs-toploader';
 
 export const metadata: Metadata = {
   title: {
@@ -28,6 +29,7 @@ export default function RootLayout({
       <body
         className={`${GeistSans.variable} ${GeistMono.variable} antialiased`}
       >
+        <NextTopLoader showSpinner={false} color="#f6450e" />
         <Providers>{children}</Providers>
         <Toaster richColors />
       </body>
