@@ -30,7 +30,9 @@ const SignUpForm = () => {
 
     try {
       await signUpMutation.mutateAsync(data);
-      toast.success('Ви успішно зареєструвались!');
+      toast.success('Ви успішно зареєструвались!', {
+        description: 'Перевірте свою пошту для підтвердження',
+      });
     } catch (error) {
       toast.error('Помилка реєстрації', {
         description: (error as RequestError).message,

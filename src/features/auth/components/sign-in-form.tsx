@@ -9,15 +9,18 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoginFormInputs, loginSchema } from '@/types/auth';
 import RequestError from '@/server/common/request-error';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+import { Routes } from '@/constants/routes';
 import {
   ErrorCodes,
   ErrorMessages,
 } from '@/server/common/enums/error-codes.enum';
-import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
-import { Routes } from '@/constants/routes';
+import { api } from '@/lib/trpc/client';
+import { useQueryState } from 'nuqs';
 
 const SignInForm = () => {
+  const [error] = useQueryState('error');
   const { replace } = useRouter();
   const {
     register,
@@ -27,6 +30,8 @@ const SignInForm = () => {
     resolver: zodResolver(loginSchema),
   });
 
+  const sendEmailMutation = api.auth.sendApprovalEmail.useMutation();
+
   const onSubmit = async (data: LoginFormInputs) => {
     try {
       const res = await signIn('credentials', {
@@ -35,20 +40,20 @@ const SignInForm = () => {
         redirect: false,
       });
 
-      console.log(res);
-
       if (res?.error) {
-        throw new RequestError({
-          code: ErrorCodes.INVALID_CREDENTIALS,
-          message: ErrorMessages.INVALID_CREDENTIALS,
-        });
+        throw res;
       }
 
       toast.success('Ви успішно увійшли');
       replace(Routes.Dashboard);
     } catch (error) {
+      if ((error as RequestError)?.code === ErrorCodes.USER_NOT_VERIFIED) {
+        await sendEmailMutation.mutateAsync(data.email);
+      }
+
+      const message = ErrorMessages[(error as RequestError)?.code];
       toast.error('Помилка входу', {
-        description: (error as RequestError).message,
+        description: message,
       });
     }
   };
@@ -90,6 +95,11 @@ const SignInForm = () => {
       >
         Увійти
       </Button>
+      {error === 'OAuthAccountNotLinked' && (
+        <div className="text-center text-sm text-red-500">
+          Користувач з такою поштою вже існує
+        </div>
+      )}
     </form>
   );
 };

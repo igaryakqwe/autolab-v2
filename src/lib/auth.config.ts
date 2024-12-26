@@ -1,9 +1,19 @@
-import type { NextAuthConfig } from 'next-auth';
+import { CredentialsSignin, type NextAuthConfig } from 'next-auth';
 import Google from 'next-auth/providers/google';
 import Credentials from 'next-auth/providers/credentials';
 import { getUserByEmail } from '@/server/api/actions/auth-actions';
 import { LoginFormInputs } from '@/types/auth';
 import bcrypt from 'bcryptjs';
+import { ErrorCodes } from '@/server/common/enums/error-codes.enum';
+
+class CustomAuthError extends CredentialsSignin {
+  constructor(code: ErrorCodes) {
+    super();
+    this.code = code;
+    this.message = code;
+    this.stack = undefined;
+  }
+}
 
 export default {
   providers: [
@@ -19,17 +29,17 @@ export default {
         const user = await getUserByEmail(email);
 
         if (!user || !user.password) {
-          throw new Error('Invalid credentials');
+          throw new CustomAuthError(ErrorCodes.INVALID_CREDENTIALS);
         }
 
         const passwordMatch = await bcrypt.compare(password, user.password);
 
         if (!passwordMatch) {
-          throw new Error('Invalid credentials');
+          throw new CustomAuthError(ErrorCodes.INVALID_CREDENTIALS);
         }
 
         if (!user.emailVerified) {
-          throw new Error('Email is not verified');
+          throw new CustomAuthError(ErrorCodes.USER_NOT_VERIFIED);
         }
 
         return user;

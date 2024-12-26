@@ -15,8 +15,8 @@ class AuthService {
     this.db = db;
   }
 
-  hashPassword(password: string) {
-    return bcrypt.hash(password, 10);
+  async hashPassword(password: string) {
+    return await bcrypt.hash(password, 10);
   }
 
   async createUser(email: string, password: string): Promise<void> {

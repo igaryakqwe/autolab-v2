@@ -8,6 +8,7 @@ export enum ErrorCodes {
   FAILED_TO_GENERATE_TOKEN = 'FAILED_TO_GENERATE_TOKEN',
   EMAIL_VERIFICATION_ERROR = 'EMAIL_VERIFICATION_ERROR',
   TOKEN_EXPIRED = 'TOKEN_EXPIRED',
+  USER_NOT_VERIFIED = 'USER_NOT_VERIFIED',
 }
 
 export enum ErrorMessages {
@@ -20,4 +21,5 @@ export enum ErrorMessages {
   FAILED_TO_GENERATE_TOKEN = 'Помилка при генерації токену',
   EMAIL_VERIFICATION_ERROR = 'Помилка підтвердження пошти',
   TOKEN_EXPIRED = 'Термін дії токену закінчився. Ми відправили вам новий лист з підтвердженням',
+  USER_NOT_VERIFIED = 'Ви не підтвердили свою електронну пошту. Ми відправили вам новий лист з підтвердженням',
 }
