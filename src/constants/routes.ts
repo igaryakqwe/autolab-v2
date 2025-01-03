@@ -4,9 +4,14 @@ export enum Routes {
   SignUp = '/auth/sign-up',
   Approve = '/auth/sign-up/approve',
   Dashboard = '/dashboard',
-  Profile = '/account',
+  Account = '/dashboard/account',
+  AccountSettings = '/dashboard/account/settings',
 }
 
 export const publicRoutes = [Routes.Home];
 export const authRoutes = [Routes.SignIn, Routes.SignUp, Routes.Approve];
-export const privateRoutes = [Routes.Dashboard, Routes.Profile];
+export const privateRoutes = [
+  Routes.Dashboard,
+  Routes.Account,
+  Routes.AccountSettings,
+];

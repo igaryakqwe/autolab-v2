@@ -14,6 +14,11 @@ const NavUser = () => {
   const { data } = useSession();
   const user = data?.user;
 
+  const fullName =
+    user?.firstName && user?.lastName
+      ? `${user.firstName} ${user.lastName}`
+      : user?.name;
+
   if (!user) return null;
 
   return (
@@ -30,8 +35,8 @@ const NavUser = () => {
               className="rounded-lg"
             />
             <div className="grid flex-1 text-left text-sm leading-tight">
-              {user.name && (
-                <span className="truncate font-semibold">{user.name}</span>
+              {fullName && (
+                <span className="truncate font-semibold">{fullName}</span>
               )}
               <span className="truncate text-xs">{user.email}</span>
             </div>

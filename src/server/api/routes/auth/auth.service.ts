@@ -7,6 +7,10 @@ import {
 } from '@/server/common/enums/error-codes.enum';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { DateTime } from 'luxon';
+import { TUpdateSignInData } from '@/types/account';
+import { Logger } from '@/server/common/logger';
+
+const logger = new Logger('Auth Route');
 
 class AuthService {
   private db: PrismaClient;
@@ -29,6 +33,7 @@ class AuthService {
         },
       });
     } catch (error) {
+      logger.error(error);
       if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
           throw new RequestError({
@@ -72,7 +77,8 @@ class AuthService {
           expires,
         },
       });
-    } catch {
+    } catch (error) {
+      logger.error(error);
       throw new RequestError({
         code: ErrorCodes.FAILED_TO_GENERATE_TOKEN,
         message: ErrorMessages.FAILED_TO_GENERATE_TOKEN,
@@ -117,11 +123,65 @@ class AuthService {
           email,
         },
       });
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      logger.error(error);
       throw new RequestError({
         code: ErrorCodes.EMAIL_VERIFICATION_ERROR,
         message: ErrorMessages.EMAIL_VERIFICATION_ERROR,
+      });
+    }
+  }
+
+  async updateSignInData(userId: string, data: TUpdateSignInData) {
+    try {
+      await this.db.user.update({
+        where: { id: userId },
+        data,
+      });
+    } catch (error) {
+      logger.error(error);
+      throw new RequestError({
+        code: ErrorCodes.FAILED_TO_UPDATE_USER,
+        message: ErrorMessages.FAILED_TO_UPDATE_USER,
+      });
+    }
+  }
+
+  async updatePassword(
+    userId: string,
+    oldPassword: string,
+    newPassword: string,
+  ) {
+    const user = await this.db.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new RequestError({
+        code: ErrorCodes.USER_NOT_FOUND,
+        message: ErrorMessages.USER_NOT_FOUND,
+      });
+    }
+
+    if (!bcrypt.compareSync(oldPassword, user.password as string)) {
+      throw new RequestError({
+        code: ErrorCodes.INVALID_PASSWORD,
+        message: ErrorMessages.INVALID_PASSWORD,
+      });
+    }
+
+    try {
+      const hashedPassword = bcrypt.hashSync(newPassword, 10);
+
+      await this.db.user.update({
+        where: { id: userId },
+        data: { password: hashedPassword },
+      });
+    } catch (error) {
+      logger.error(error);
+      throw new RequestError({
+        code: ErrorCodes.FAILED_TO_UPDATE_USER,
+        message: ErrorMessages.FAILED_TO_UPDATE_USER,
       });
     }
   }

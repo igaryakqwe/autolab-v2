@@ -1,8 +1,6 @@
 'use server';
 
 import db from '@/lib/db';
-import { v4 as uuid } from 'uuid';
-import { DateTime } from 'luxon';
 
 export const getUserByEmail = async (email: string) => {
   try {
@@ -13,6 +11,14 @@ export const getUserByEmail = async (email: string) => {
       select: {
         id: true,
         email: true,
+        image: true,
+        username: true,
+        firstName: true,
+        lastName: true,
+        middleName: true,
+        birthDate: true,
+        phone: true,
+        gender: true,
         password: true,
         emailVerified: true,
       },
@@ -23,50 +29,27 @@ export const getUserByEmail = async (email: string) => {
   }
 };
 
-export const generateToken = async (email: string) => {
-  const token = uuid();
-  const expires = DateTime.now().plus({ days: 1 }).toJSDate();
-
+export const getUserById = async (id: string) => {
   try {
-    const existingToken = await db.verificationToken.findFirst({
+    return await db.user.findUnique({
       where: {
-        email,
+        id,
       },
-    });
-
-    if (existingToken) {
-      await db.verificationToken.delete({
-        where: {
-          email_token: {
-            email: existingToken.email,
-            token: existingToken.token,
-          },
-        },
-      });
-    }
-
-    await db.verificationToken.create({
-      data: {
-        email,
-        token,
-        expires,
+      select: {
+        id: true,
+        email: true,
+        image: true,
+        username: true,
+        firstName: true,
+        lastName: true,
+        middleName: true,
+        birthDate: true,
+        gender: true,
+        phone: true,
       },
     });
   } catch (error) {
-    console.error('Error generating token:', error);
-    throw new Error('Failed to generate token');
-  }
-};
-
-export const getToken = async (email: string) => {
-  try {
-    return await db.verificationToken.findFirst({
-      where: {
-        email,
-      },
-    });
-  } catch (error) {
-    console.error('Error finding token:', error);
-    throw new Error('Failed to find token');
+    console.error('Error finding users by id:', error);
+    throw new Error('Failed to find users by id');
   }
 };

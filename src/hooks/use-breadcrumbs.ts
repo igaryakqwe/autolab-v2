@@ -2,50 +2,12 @@
 
 import { usePathname } from 'next/navigation';
 import { useMemo } from 'react';
+import { routeMapping } from '@/constants/breadcrumbs';
 
-type BreadcrumbItem = {
-  title: string;
-  link: string;
-};
-
-const dashboardBreadcrumbs: BreadcrumbItem = {
-  title: 'Головна',
-  link: '/dashboard',
-};
-
-const routeMapping: Record<string, BreadcrumbItem[]> = {
-  '/dashboard': [dashboardBreadcrumbs],
-  '/dashboard/employees': [
-    dashboardBreadcrumbs,
-    { title: 'Працівники', link: '/dashboard/employees' },
-  ],
-  '/dashboard/services': [
-    dashboardBreadcrumbs,
-    { title: 'Сервіси', link: '/dashboard/product' },
-  ],
-  '/dashboard/patients': [
-    dashboardBreadcrumbs,
-    { title: 'Пацієнти', link: '/dashboard/patients' },
-  ],
-  '/dashboard/schedule': [
-    dashboardBreadcrumbs,
-    { title: 'Розклад', link: '/dashboard/schedule' },
-  ],
-  '/dashboard/profile': [
-    dashboardBreadcrumbs,
-    { title: 'Аккаунт', link: '/dashboard/profile' },
-  ],
-  '/dashboard/patients/*': [
-    dashboardBreadcrumbs,
-    { title: 'Пацієнти', link: '/dashboard/patients' },
-    { title: 'Пацієнт', link: '' },
-  ],
-};
-
-export function useBreadcrumbs() {
+const useBreadcrumbs = () => {
   const pathname = usePathname();
 
-  const breadcrumbs = useMemo(() => {
+  return useMemo(() => {
     const matchedRoute = Object.keys(routeMapping).find((route) => {
       const regex = new RegExp(`^${route.replace('*', '[^/]+')}$`);
       return regex.test(pathname);
@@ -58,6 +20,7 @@ export function useBreadcrumbs() {
         if (breadcrumb.link === '') {
           return {
             ...breadcrumb,
+            icon: breadcrumb.icon,
             link: pathname,
             title: dynamicSegment,
           };
@@ -72,9 +35,10 @@ export function useBreadcrumbs() {
       return {
         title: segment.charAt(0).toUpperCase() + segment.slice(1),
         link: path,
+        icon: routeMapping[path]?.[index]?.icon,
       };
     });
   }, [pathname]);
+};
 
-  return breadcrumbs;
-}
+export default useBreadcrumbs;

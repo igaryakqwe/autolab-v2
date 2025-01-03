@@ -10,9 +10,11 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useSidebar } from '@/components/ui/sidebar';
 import UserAvatar from '@/components/user-avatar';
-import { BadgeCheck, Bell, CreditCard, LogOut, Sparkles } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import { signOut, useSession } from 'next-auth/react';
 import { PropsWithChildren } from 'react';
+import userNavigation from '@/constants/user-navigation';
+import Link from 'next/link';
 
 const UserDropdown = ({ children }: PropsWithChildren) => {
   const { isMobile } = useSidebar();
@@ -24,7 +26,7 @@ const UserDropdown = ({ children }: PropsWithChildren) => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
+      <DropdownMenuTrigger className="w-full">{children}</DropdownMenuTrigger>
       <DropdownMenuContent
         className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
         side={isMobile ? 'bottom' : 'right'}
@@ -46,30 +48,22 @@ const UserDropdown = ({ children }: PropsWithChildren) => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <Sparkles />
-            Upgrade to Pro
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <BadgeCheck />
-            Account
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <CreditCard />
-            Billing
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Bell />
-            Notifications
-          </DropdownMenuItem>
+          {userNavigation.map((item) => {
+            const Icon = item.icon;
+            return (
+              <DropdownMenuItem asChild key={item.label}>
+                <Link href={item.href}>
+                  <Icon />
+                  {item.label}
+                </Link>
+              </DropdownMenuItem>
+            );
+          })}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => signOut()}>
           <LogOut />
-          Log out
+          Вихід
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

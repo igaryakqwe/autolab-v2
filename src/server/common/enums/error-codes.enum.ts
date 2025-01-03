@@ -9,6 +9,10 @@ export enum ErrorCodes {
   EMAIL_VERIFICATION_ERROR = 'EMAIL_VERIFICATION_ERROR',
   TOKEN_EXPIRED = 'TOKEN_EXPIRED',
   USER_NOT_VERIFIED = 'USER_NOT_VERIFIED',
+  FAILED_TO_UPDATE_USER = 'FAILED_TO_UPDATE_USER',
+  INVALID_PASSWORD = 'INVALID_PASSWORD',
+  PHONE_ALREADY_EXIST = 'PHONE_ALREADY_EXIST',
+  FAILED_TO_UPDATE_AVATAR = 'FAILED_TO_UPDATE_AVATAR',
 }
 
 export enum ErrorMessages {
@@ -22,4 +26,8 @@ export enum ErrorMessages {
   EMAIL_VERIFICATION_ERROR = 'Помилка підтвердження пошти',
   TOKEN_EXPIRED = 'Термін дії токену закінчився. Ми відправили вам новий лист з підтвердженням',
   USER_NOT_VERIFIED = 'Ви не підтвердили свою електронну пошту. Ми відправили вам новий лист з підтвердженням',
+  FAILED_TO_UPDATE_USER = 'Помилка при оновленні користувача',
+  INVALID_PASSWORD = 'Невірний пароль',
+  PHONE_ALREADY_EXIST = 'Користувач з таким номером телефону вже існує',
+  FAILED_TO_UPDATE_AVATAR = 'Помилка при оновленні аватара',
 }

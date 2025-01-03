@@ -11,6 +11,10 @@ export const env = createEnv({
     SMTP_HOST: z.string().min(1),
     SMTP_USERNAME: z.string().min(1),
     SMTP_PASSWORD: z.string().min(1),
+    S3_ACCESS_KEY: z.string().min(1),
+    S3_SECRET_KEY: z.string().min(1),
+    S3_REGION: z.string().min(1),
+    S3_BUCKET_NAME: z.string().min(1),
   },
   client: {},
   runtimeEnv: {
@@ -22,5 +26,9 @@ export const env = createEnv({
     SMTP_HOST: process.env.SMTP_HOST,
     SMTP_USERNAME: process.env.SMTP_USERNAME,
     SMTP_PASSWORD: process.env.SMTP_PASSWORD,
+    S3_ACCESS_KEY: process.env.S3_ACCESS_KEY,
+    S3_SECRET_KEY: process.env.S3_SECRET_KEY,
+    S3_REGION: process.env.S3_REGION,
+    S3_BUCKET_NAME: process.env.S3_BUCKET_NAME,
   },
 });

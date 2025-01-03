@@ -1,10 +1,12 @@
+'use client';
+
 import UserAvatar from '@/components/user-avatar';
 import UserDropdown from '@/components/user-dropdown';
-import { auth } from '@/auth';
+import { useSession } from 'next-auth/react';
 
-const NavUserHeader = async () => {
-  const sesseion = await auth();
-  const user = sesseion?.user;
+const NavUserHeader = () => {
+  const { data } = useSession();
+  const user = data?.user;
 
   if (!user) return null;
 

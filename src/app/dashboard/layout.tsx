@@ -28,7 +28,7 @@ const DashboardLayout = ({ children }: PropsWithChildren) => {
             <NavUserHeader />
           </div>
         </header>
-        {children}
+        <main className="py-6 px-4">{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );

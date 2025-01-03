@@ -23,6 +23,8 @@ export default {
         email: { type: 'email' },
         password: { type: 'password' },
       },
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
       async authorize(credentials) {
         const { email, password } = credentials as LoginFormInputs;
 

@@ -1,4 +1,5 @@
 'use client';
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -7,7 +8,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
-import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
+import useBreadcrumbs from '@/hooks/use-breadcrumbs';
 import { Fragment } from 'react';
 
 export function Breadcrumbs() {
@@ -18,17 +19,23 @@ export function Breadcrumbs() {
     <Breadcrumb>
       <BreadcrumbList>
         {items.map((item, index) => (
-          <Fragment key={item.title}>
+          <Fragment key={item.link}>
             {index !== items.length - 1 && (
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href={item.link}>{item.title}</BreadcrumbLink>
+                <BreadcrumbLink href={item.link}>
+                  {item.icon}
+                  {item.title}
+                </BreadcrumbLink>
               </BreadcrumbItem>
             )}
             {index < items.length - 1 && (
               <BreadcrumbSeparator className="hidden md:block" />
             )}
             {index === items.length - 1 && (
-              <BreadcrumbPage>{item.title}</BreadcrumbPage>
+              <BreadcrumbPage>
+                {item.icon}
+                {item.title}
+              </BreadcrumbPage>
             )}
           </Fragment>
         ))}
