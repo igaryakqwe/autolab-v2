@@ -11,7 +11,7 @@ const SettingsTabs = () => {
     <Tabs
       value={activeTab}
       orientation="vertical"
-      className="flex flex-col lg:flex-row w-full gap-2 py-3"
+      className="h-full flex flex-col lg:flex-row w-full gap-2 py-3"
     >
       <div className="lg:max-w-[200px] max-w-[90vw] w-full overflow-x-auto">
         <TabsList className="max-w-[200px] flex flex-row lg:flex-col justify-start gap-1 h-auto rounded-none bg-transparent px-2 py-4 text-foreground whitespace-nowrap">

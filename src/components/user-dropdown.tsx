@@ -22,6 +22,11 @@ const UserDropdown = ({ children }: PropsWithChildren) => {
   const { data } = useSession();
   const user = data?.user;
 
+  const fullName =
+    user?.firstName && user?.lastName
+      ? `${user.firstName} ${user.lastName}`
+      : user?.name;
+
   if (!user) return null;
 
   return (
@@ -41,7 +46,7 @@ const UserDropdown = ({ children }: PropsWithChildren) => {
               className="rounded-lg"
             />
             <div className="grid flex-1 text-left text-sm leading-tight">
-              <span className="truncate font-semibold">{user.name}</span>
+              <span className="truncate font-semibold">{fullName}</span>
               <span className="truncate text-xs">{user.email}</span>
             </div>
           </div>

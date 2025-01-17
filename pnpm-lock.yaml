@@ -20,6 +20,9 @@ importers:
       '@dnd-kit/core':
         specifier: ^6.3.1
         version: 6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@faker-js/faker':
+        specifier: ^9.3.0
+        version: 9.3.0
       '@hookform/resolvers':
         specifier: ^3.9.1
         version: 3.9.1(react-hook-form@7.54.2(react@18.3.1))
@@ -116,6 +119,9 @@ importers:
       kbar:
         specifier: 0.1.0-beta.45
         version: 0.1.0-beta.45(@types/react-dom@18.3.5(@types/react@18.3.17))(@types/react@18.3.17)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      leaflet:
+        specifier: ^1.9.4
+        version: 1.9.4
       lucide-react:
         specifier: ^0.468.0
         version: 0.468.0(react@18.3.1)
@@ -173,10 +179,16 @@ importers:
       zod:
         specifier: ^3.24.1
         version: 3.24.1
+      zustand:
+        specifier: ^5.0.3
+        version: 5.0.3(@types/react@18.3.17)(react@18.3.1)
     devDependencies:
       '@types/bcryptjs':
         specifier: ^2.4.6
         version: 2.4.6
+      '@types/leaflet':
+        specifier: ^1.9.16
+        version: 1.9.16
       '@types/luxon':
         specifier: ^3.4.2
         version: 3.4.2
@@ -472,6 +484,10 @@ packages:
   '@eslint/js@8.57.1':
     resolution: {integrity: sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+
+  '@faker-js/faker@9.3.0':
+    resolution: {integrity: sha512-r0tJ3ZOkMd9xsu3VRfqlFR6cz0V/jFYRswAIpC+m/DIfAUXq7g8N7wTAlhSANySXYGKzGryfDXwtwsY8TxEIDw==}
+    engines: {node: '>=18.0.0', npm: '>=9.0.0'}
 
   '@floating-ui/core@1.6.8':
     resolution: {integrity: sha512-7XJ9cPU+yI2QeLS+FCSlqNFZJq8arvswefkZrYI1yQBbftw6FyrZOxYSh+9S7z7TpeWlRt9zJ5IhM1WIL334jA==}
@@ -1387,8 +1403,14 @@ packages:
   '@types/cookie@0.6.0':
     resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
 
+  '@types/geojson@7946.0.15':
+    resolution: {integrity: sha512-9oSxFzDCT2Rj6DfcHF8G++jxBKS7mBqXl5xrRW+Kbvjry6Uduya2iiwqHPhVXpasAVMBYKkEPGgKhd3+/HZ6xA==}
+
   '@types/json5@0.0.29':
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
+
+  '@types/leaflet@1.9.16':
+    resolution: {integrity: sha512-wzZoyySUxkgMZ0ihJ7IaUIblG8Rdc8AbbZKLneyn+QjYsj5q1QU7TEKYqwTr10BGSzY5LI7tJk9Ifo+mEjdFRw==}
 
   '@types/luxon@3.4.2':
     resolution: {integrity: sha512-TifLZlFudklWlMBfhubvgqTXRzLDI5pCbGa4P8a3wPyUQSW+1xQ5eDsreP9DWHX3tjq1ke96uYG/nwundroWcA==}
@@ -2297,6 +2319,9 @@ packages:
     resolution: {integrity: sha512-MbjN408fEndfiQXbFQ1vnd+1NoLDsnQW41410oQBXiyXDMYH5z505juWa4KUE1LqxRC7DgOgZDbKLxHIwm27hA==}
     engines: {node: '>=0.10'}
 
+  leaflet@1.9.4:
+    resolution: {integrity: sha512-nxS1ynzJOmOlHp+iL3FyWqK89GtNL8U8rvlMOsQdTTssxZwCXh8N2NB3GDQOL+YR3XnWyZAxwQixURb+FA74PA==}
+
   levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
     engines: {node: '>= 0.8.0'}
@@ -3072,6 +3097,24 @@ packages:
   zod@3.24.1:
     resolution: {integrity: sha512-muH7gBL9sI1nciMZV67X5fTKKBLtwpZ5VBp1vsOQzj1MhrBZ4wlVCm3gedKZWLp0Oyel8sIGfeiz54Su+OVT+A==}
 
+  zustand@5.0.3:
+    resolution: {integrity: sha512-14fwWQtU3pH4dE0dOpdMiWjddcH+QzKIgk1cl8epwSE7yag43k/AD/m4L6+K7DytAOr9gGBe3/EXj9g7cdostg==}
+    engines: {node: '>=12.20.0'}
+    peerDependencies:
+      '@types/react': '>=18.0.0'
+      immer: '>=9.0.6'
+      react: '>=18.0.0'
+      use-sync-external-store: '>=1.2.0'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      immer:
+        optional: true
+      react:
+        optional: true
+      use-sync-external-store:
+        optional: true
+
 snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
@@ -3672,6 +3715,8 @@ snapshots:
       - supports-color
 
   '@eslint/js@8.57.1': {}
+
+  '@faker-js/faker@9.3.0': {}
 
   '@floating-ui/core@1.6.8':
     dependencies:
@@ -4682,7 +4727,13 @@ snapshots:
 
   '@types/cookie@0.6.0': {}
 
+  '@types/geojson@7946.0.15': {}
+
   '@types/json5@0.0.29': {}
+
+  '@types/leaflet@1.9.16':
+    dependencies:
+      '@types/geojson': 7946.0.15
 
   '@types/luxon@3.4.2': {}
 
@@ -5781,6 +5832,8 @@ snapshots:
     dependencies:
       language-subtag-registry: 0.3.23
 
+  leaflet@1.9.4: {}
+
   levn@0.4.1:
     dependencies:
       prelude-ls: 1.2.1
@@ -6588,3 +6641,8 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   zod@3.24.1: {}
+
+  zustand@5.0.3(@types/react@18.3.17)(react@18.3.1):
+    optionalDependencies:
+      '@types/react': 18.3.17
+      react: 18.3.1

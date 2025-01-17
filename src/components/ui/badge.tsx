@@ -1,19 +1,10 @@
-'use client';
-
 import * as React from 'react';
-import * as TooltipPrimitive from '@radix-ui/react-tooltip';
-
-import { cn } from '@/utils/style-utils';
 import { cva, type VariantProps } from 'class-variance-authority';
 
-const TooltipProvider = TooltipPrimitive.Provider;
+import { cn } from '@/utils/style-utils';
 
-const Tooltip = TooltipPrimitive.Root;
-
-const TooltipTrigger = TooltipPrimitive.Trigger;
-
-const tooltipVariants = cva(
-  'z-50 font-medium overflow-hidden rounded-md px-3 py-1.5 text-xs text-primary-foreground animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
+const badgeVariants = cva(
+  'inline-flex items-center rounded border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2',
   {
     variants: {
       variant: {
@@ -23,7 +14,7 @@ const tooltipVariants = cva(
           'border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80',
         destructive:
           'border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80',
-        outline: 'border bg-background text-foreground',
+        outline: 'text-foreground',
         blue: 'border-transparent bg-blue-600 text-white hover:bg-blue-700',
         green: 'border-transparent bg-green-600 text-white hover:bg-green-700',
         red: 'border-transparent bg-red-600 text-white hover:bg-red-700',
@@ -46,23 +37,14 @@ const tooltipVariants = cva(
   },
 );
 
-export interface TooltipProps
+export interface BadgeProps
   extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof tooltipVariants> {}
+    VariantProps<typeof badgeVariants> {}
 
-const TooltipContent = React.forwardRef<
-  React.ElementRef<typeof TooltipPrimitive.Content>,
-  TooltipProps & React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
->(({ className, sideOffset = 4, variant, ...props }, ref) => (
-  <TooltipPrimitive.Portal>
-    <TooltipPrimitive.Content
-      ref={ref}
-      sideOffset={sideOffset}
-      className={cn(tooltipVariants({ variant }), className)}
-      {...props}
-    />
-  </TooltipPrimitive.Portal>
-));
-TooltipContent.displayName = TooltipPrimitive.Content.displayName;
+function Badge({ className, variant, ...props }: BadgeProps) {
+  return (
+    <div className={cn(badgeVariants({ variant }), className)} {...props} />
+  );
+}
 
-export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider };
+export { Badge, badgeVariants };

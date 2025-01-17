@@ -13,6 +13,8 @@ export enum ErrorCodes {
   INVALID_PASSWORD = 'INVALID_PASSWORD',
   PHONE_ALREADY_EXIST = 'PHONE_ALREADY_EXIST',
   FAILED_TO_UPDATE_AVATAR = 'FAILED_TO_UPDATE_AVATAR',
+  FAILED_TO_UPLOAD_LOGO = 'FAILED_TO_UPLOAD_LOGO',
+  FAILED_TO_CREATE_ORGANIZATION = 'FAILED_TO_CREATE_ORGANIZATION',
 }
 
 export enum ErrorMessages {
@@ -30,4 +32,6 @@ export enum ErrorMessages {
   INVALID_PASSWORD = 'Невірний пароль',
   PHONE_ALREADY_EXIST = 'Користувач з таким номером телефону вже існує',
   FAILED_TO_UPDATE_AVATAR = 'Помилка при оновленні аватара',
+  FAILED_TO_UPLOAD_LOGO = 'Помилка при завантаженні логотипу',
+  FAILED_TO_CREATE_ORGANIZATION = 'Помилка при створенні організації',
 }

@@ -1,12 +1,4 @@
-'use client';
-
 import { useState } from 'react';
-import {
-  DndContext,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core';
 import { Card } from '@/components/ui/card';
 import ProfileProgress from '@/features/account/components/profile-progress';
 import UpdateProfileForm from '@/features/account/components/forms/update-profile-form';
@@ -15,16 +7,11 @@ const ProfileTab = () => {
   const [progress, setProgress] = useState(0);
 
   return (
-    <DndContext
-      sensors={useSensors(
-        useSensor(PointerSensor, { activationConstraint: { distance: 10 } }),
-      )}
-    >
-      <Card className="p-6">
-        <ProfileProgress progress={progress} />
-        <UpdateProfileForm setProgress={setProgress} />
-      </Card>
-    </DndContext>
+    <Card className="p-6">
+      <h2 className="text-xl font-semibold mb-4">Профіль</h2>
+      <ProfileProgress progress={progress} />
+      <UpdateProfileForm setProgress={setProgress} />
+    </Card>
   );
 };
 

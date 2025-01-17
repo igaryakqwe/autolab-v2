@@ -2,12 +2,9 @@
 
 import * as React from 'react';
 import {
-  AudioWaveform,
   BookOpen,
   Bot,
-  Command,
   Frame,
-  GalleryVerticalEnd,
   Map,
   PieChart,
   Settings2,
@@ -17,7 +14,7 @@ import {
 import { NavMain } from '@/components/nav-main';
 import { NavProjects } from '@/components/nav-projects';
 import NavUser from '@/components/nav-user';
-import { TeamSwitcher } from '@/components/team-switcher';
+import OrganizationSwitcher from '@/components/organization-switcher';
 import {
   Sidebar,
   SidebarContent,
@@ -30,23 +27,6 @@ import Logo from '@/components/logo';
 
 // This is sample data.
 const data = {
-  teams: [
-    {
-      name: 'Acme Inc',
-      logo: GalleryVerticalEnd,
-      plan: 'Enterprise',
-    },
-    {
-      name: 'Acme Corp.',
-      logo: AudioWaveform,
-      plan: 'Startup',
-    },
-    {
-      name: 'Evil Corp.',
-      logo: Command,
-      plan: 'Free',
-    },
-  ],
   navMain: [
     {
       title: 'Playground',
@@ -169,7 +149,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <TeamSwitcher teams={data.teams} />
+        <OrganizationSwitcher />
         <NavUser />
       </SidebarFooter>
       <SidebarRail />

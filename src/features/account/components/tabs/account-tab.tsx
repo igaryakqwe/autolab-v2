@@ -5,6 +5,7 @@ import ChangePasswordForm from '@/features/account/components/forms/change-passw
 const AccountTab = () => {
   return (
     <Card className="p-6">
+      <h2 className="text-xl font-semibold mb-4">Аккаунт</h2>
       <div className="flex md:flex-row flex-col w-full gap-6">
         <SignInDataForm />
         <div className="bg-muted-foreground h-full w-[2px] self-baseline" />
