@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { useEffect } from 'react';
-import { ChevronsUpDown } from 'lucide-react';
+import { ChevronsUpDown, Plus } from 'lucide-react';
 
 import {
   DropdownMenu,
@@ -17,19 +17,17 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { api } from '@/lib/trpc/client';
-import useOrganizationsStore, {
-  hydrateStore,
-} from '@/store/use-organizations-store';
+import useOrganizationsStore from '@/store/use-organizations-store';
 import OrganizationLogo from '@/components/organization-logo';
 import useLocalStorage from '@/hooks/use-local-storage';
+import Link from 'next/link';
+import { Routes } from '@/constants/routes';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const OrganizationSwitcher = () => {
   const { isMobile } = useSidebar();
 
-  const { organizations, setLoading } = useOrganizationsStore();
-
-  const { data, isLoading } = api.organization.getMy.useQuery();
+  const { organizations, isLoading } = useOrganizationsStore();
 
   const { storedValue, setValue } = useLocalStorage<string>(
     'selectedOrganization',
@@ -46,14 +44,7 @@ const OrganizationSwitcher = () => {
     }
   }, [organizations, setValue, storedValue]);
 
-  useEffect(() => {
-    setLoading(isLoading);
-    if (data && !isLoading && !organizations.length) {
-      hydrateStore(data);
-    }
-  }, [data, isLoading, organizations, setLoading]);
-
-  if (!data && !isLoading) return null;
+  if (!organizations.length && !isLoading) return null;
 
   return (
     <SidebarMenu>
@@ -61,22 +52,40 @@ const OrganizationSwitcher = () => {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
+              disabled={isLoading}
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <div className="flex aspect-square size-8 items-center justify-center rounded-lg">
-                <OrganizationLogo
-                  name={selectedOrganization?.name as string}
-                  image={selectedOrganization?.logo as string}
-                  className="rounded-lg"
-                />
-              </div>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">
-                  {selectedOrganization?.name}
-                </span>
-              </div>
-              <ChevronsUpDown className="ml-auto" />
+              {isLoading ? (
+                <>
+                  <Skeleton className="aspect-square size-8 rounded-lg" />
+                  <div className="grid flex-1 gap-1">
+                    <Skeleton className="h-4 w-[80px]" />
+                    <Skeleton className="h-3 w-[100px]" />
+                  </div>
+                  <Skeleton className="size-4 rounded-full" />
+                </>
+              ) : (
+                <>
+                  <div className="flex aspect-square size-8 items-center justify-center rounded-lg">
+                    <OrganizationLogo
+                      name={selectedOrganization?.name || ''}
+                      image={selectedOrganization?.logo || ''}
+                      className="rounded-lg"
+                    />
+                  </div>
+                  <div className="grid flex-1 text-left text-sm leading-tight">
+                    <span className="truncate font-medium">
+                      {selectedOrganization?.name || 'Не знайдено'}
+                    </span>
+                  </div>
+                  {organizations.length ? (
+                    <ChevronsUpDown className="ml-auto size-4" />
+                  ) : (
+                    <Plus className="size-4" />
+                  )}
+                </>
+              )}
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -107,6 +116,18 @@ const OrganizationSwitcher = () => {
                 </div>
               </DropdownMenuItem>
             ))}
+            {!organizations.length && !isLoading && (
+              <DropdownMenuItem className="gap-2 p-2" asChild>
+                <Link href={Routes.AccountOrganizations}>
+                  <div className="flex size-6 items-center justify-center rounded-md border bg-background">
+                    <Plus className="size-4" />
+                  </div>
+                  <div className="font-medium text-muted-foreground">
+                    Створити
+                  </div>
+                </Link>
+              </DropdownMenuItem>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>

@@ -6,6 +6,8 @@ export enum Routes {
   Dashboard = '/dashboard',
   Account = '/dashboard/account',
   AccountSettings = '/dashboard/account/settings',
+  AccountSecurity = '/dashboard/account/settings?tab=account',
+  AccountOrganizations = '/dashboard/account/settings?tab=organizations',
 }
 
 export const publicRoutes = [Routes.Home];

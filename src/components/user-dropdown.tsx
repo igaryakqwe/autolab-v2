@@ -31,7 +31,9 @@ const UserDropdown = ({ children }: PropsWithChildren) => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="w-full">{children}</DropdownMenuTrigger>
+      <DropdownMenuTrigger className="w-full" asChild>
+        {children}
+      </DropdownMenuTrigger>
       <DropdownMenuContent
         className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
         side={isMobile ? 'bottom' : 'right'}

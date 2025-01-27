@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${GeistSans.variable} ${GeistMono.variable} antialiased`}
+        className={`${GeistSans.variable} ${GeistMono.variable} antialiased max-h-screen`}
       >
         <NextTopLoader showSpinner={false} color="#f6450e" />
         <Providers>{children}</Providers>

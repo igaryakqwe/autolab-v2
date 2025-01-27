@@ -101,3 +101,8 @@ pre, code {
   }
 }
 
+.scrollable {
+  overflow-y: auto;
+  scrollbar-width: none;
+  scrollbar-color: var(--border) var(--background);
+}

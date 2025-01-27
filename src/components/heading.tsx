@@ -6,7 +6,7 @@ interface HeadingProps {
 export const Heading: React.FC<HeadingProps> = ({ title, description }) => {
   return (
     <div className="grid gap-1 mb-2">
-      <h2 className="text-3xl font-bold tracking-tight">{title}</h2>
+      <h1 className="text-3xl font-bold tracking-tight">{title}</h1>
       {description && (
         <p className="text-base text-muted-foreground">{description}</p>
       )}
