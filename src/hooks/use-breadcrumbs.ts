@@ -1,16 +1,33 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { useMemo } from 'react';
 import { routeMapping } from '@/constants/breadcrumbs';
 
 const useBreadcrumbs = () => {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   return useMemo(() => {
+    const currentPath =
+      pathname + (searchParams.toString() ? `?${searchParams.toString()}` : '');
+
     const matchedRoute = Object.keys(routeMapping).find((route) => {
-      const regex = new RegExp(`^${route.replace('*', '[^/]+')}$`);
-      return regex.test(pathname);
+      if (!route.includes('?')) {
+        return pathname === route;
+      }
+
+      const regex = new RegExp(
+        `^${
+          route.split('?')[0].replace(':id', '[^/]+') // Handle path part
+        }\\?${
+          route
+            .split('?')[1]
+            ?.replace(':id', '[^&]+') // Handle query part
+            .replace('=', '\\=') || ''
+        }$`,
+      );
+      return regex.test(currentPath);
     });
 
     if (matchedRoute) {
@@ -21,7 +38,7 @@ const useBreadcrumbs = () => {
           return {
             ...breadcrumb,
             icon: breadcrumb.icon,
-            link: pathname,
+            link: currentPath,
             title: dynamicSegment,
           };
         }
@@ -38,7 +55,7 @@ const useBreadcrumbs = () => {
         icon: routeMapping[path]?.[index]?.icon,
       };
     });
-  }, [pathname]);
+  }, [pathname, searchParams]);
 };
 
 export default useBreadcrumbs;

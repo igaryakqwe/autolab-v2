@@ -15,7 +15,7 @@ const CreateOrganizationDialog = dynamic(
   },
 );
 
-const OrganisationsTab = () => {
+const OrganizationsTab = () => {
   const { organizations, isLoading } = useOrganizationsStore();
 
   return (
@@ -26,7 +26,7 @@ const OrganisationsTab = () => {
           <Button icon={<PlusIcon className="mr-2 h-4 w-4" />}>Створити</Button>
         </CreateOrganizationDialog>
       </div>
-      <ScrollArea className="flex-grow p-6">
+      <ScrollArea className="flex-grow p-6 pt-0">
         {isLoading ? (
           <div className="h-full flex items-center justify-center">
             <LoadingSpinner />
@@ -48,4 +48,4 @@ const OrganisationsTab = () => {
   );
 };
 
-export default OrganisationsTab;
+export default OrganizationsTab;

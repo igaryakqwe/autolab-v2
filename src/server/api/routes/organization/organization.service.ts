@@ -125,6 +125,66 @@ class OrganizationService {
       });
     }
   }
+
+  async getOrganizationById(organizationId: string) {
+    try {
+      return await this.db.organization.findUnique({
+        where: {
+          id: organizationId,
+        },
+        select: {
+          id: true,
+          logo: true,
+          name: true,
+          description: true,
+          address: true,
+          phone: true,
+          email: true,
+          website: true,
+        },
+      });
+    } catch (error) {
+      logger.error(error);
+      throw error;
+    }
+  }
+
+  async getOrganizationEmployees(organizationId: string) {
+    try {
+      return await this.db.organization
+        .findUnique({
+          where: {
+            id: organizationId,
+          },
+          select: {
+            employees: {
+              select: {
+                role: true,
+                user: {
+                  select: {
+                    id: true,
+                    image: true,
+                    email: true,
+                    firstName: true,
+                    lastName: true,
+                    middleName: true,
+                  },
+                },
+              },
+            },
+          },
+        })
+        .then((organization) =>
+          organization?.employees.map((emp) => ({
+            ...emp.user,
+            role: emp.role,
+          })),
+        );
+    } catch (error) {
+      logger.error(error);
+      throw error;
+    }
+  }
 }
 
 export default OrganizationService;

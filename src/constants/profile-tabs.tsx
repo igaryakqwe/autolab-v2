@@ -1,7 +1,7 @@
 import { Building2, CarFront, User, Wrench } from 'lucide-react';
 import ProfileTab from '@/features/account/components/tabs/profile-tab';
 import AccountTab from '@/features/account/components/tabs/account-tab';
-import OrganisationsTab from '@/features/account/components/tabs/organisations-tab';
+import OrganizationsTab from '@/features/account/components/tabs/organizations-tab';
 
 export const profileTabs = [
   {
@@ -20,7 +20,7 @@ export const profileTabs = [
     id: 'organizations',
     label: 'Організації',
     icon: Building2,
-    content: OrganisationsTab,
+    content: OrganizationsTab,
   },
   {
     id: 'vehicles',

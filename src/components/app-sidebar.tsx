@@ -11,7 +11,7 @@ import {
   SquareTerminal,
 } from 'lucide-react';
 
-import { NavMain } from '@/components/nav-main';
+import NavOrganization from '@/components/nav-organization';
 import { NavProjects } from '@/components/nav-projects';
 import NavUser from '@/components/nav-user';
 import OrganizationSwitcher from '@/components/organization-switcher';
@@ -145,7 +145,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenuButton>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavOrganization />
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>

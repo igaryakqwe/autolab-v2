@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import { useEffect } from 'react';
 import { ChevronsUpDown, Plus } from 'lucide-react';
 
 import {
@@ -27,8 +26,8 @@ import { Skeleton } from '@/components/ui/skeleton';
 const OrganizationSwitcher = () => {
   const { isMobile } = useSidebar();
 
-  const { organizations, isLoading } = useOrganizationsStore();
-
+  const { organizations, isLoading, setCurrentOrganization } =
+    useOrganizationsStore();
   const { storedValue, setValue } = useLocalStorage<string>(
     'selectedOrganization',
     organizations[0]?.id,
@@ -38,11 +37,10 @@ const OrganizationSwitcher = () => {
     (organization) => organization.id === storedValue,
   );
 
-  useEffect(() => {
-    if (!storedValue && organizations.length) {
-      setValue(organizations[0]?.id);
-    }
-  }, [organizations, setValue, storedValue]);
+  const handleOrganizationChange = (organizationId: string) => {
+    setValue(organizationId);
+    setCurrentOrganization(organizationId);
+  };
 
   if (!organizations.length && !isLoading) return null;
 
@@ -100,7 +98,7 @@ const OrganizationSwitcher = () => {
             {organizations.map((organization) => (
               <DropdownMenuItem
                 key={organization.id}
-                onClick={() => setValue(organization.id)}
+                onClick={() => handleOrganizationChange(organization.id)}
                 className="gap-2 p-1"
               >
                 <OrganizationLogo
