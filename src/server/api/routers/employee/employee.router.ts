@@ -1,5 +1,5 @@
 import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
-import EmployeeService from '@/server/api/routes/employee/employee.service';
+import EmployeeService from '@/server/api/routers/employee/employee.service';
 import { z } from 'zod';
 import { EmployeeRole } from '@/types/organization';
 
@@ -27,6 +27,11 @@ const employeeRoute = createTRPCRouter({
     .input(z.array(z.string()))
     .mutation(async ({ input }) => {
       await employeeService.deleteEmployees(input);
+    }),
+  getByEmailOrUsername: protectedProcedure
+    .input(z.string())
+    .query(async ({ input }) => {
+      return await employeeService.getEmployeeByEmailOrUsername(input);
     }),
 });
 

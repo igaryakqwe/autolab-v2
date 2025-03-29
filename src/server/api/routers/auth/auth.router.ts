@@ -6,11 +6,11 @@ import {
 import {
   approveEmailSchema,
   signUpSchema,
-} from '@/server/api/routes/auth/auth.types';
-import AuthService from '@/server/api/routes/auth/auth.service';
+} from '@/server/api/routers/auth/auth.types';
+import AuthService from '@/server/api/routers/auth/auth.service';
 import { v4 as uuid } from 'uuid';
 import { z } from 'zod';
-import { emailService } from '@/server/api/routes/email/email.service';
+import { emailService } from '@/server/api/email/email.service';
 import { changePasswordSchema, signInDataSchema } from '@/types/account';
 
 const authRoute = createTRPCRouter({

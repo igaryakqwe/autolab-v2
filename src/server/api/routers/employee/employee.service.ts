@@ -1,5 +1,5 @@
-import EmployeeRepository from '@/server/api/routes/employee/employee.repository';
-import EmployeeMapper from '@/server/api/routes/employee/employee.mapper';
+import EmployeeRepository from '@/server/api/routers/employee/employee.repository';
+import EmployeeMapper from '@/server/api/routers/employee/employee.mapper';
 import { EmployeeRole } from '@/types/organization';
 
 class EmployeeService {
@@ -22,6 +22,12 @@ class EmployeeService {
 
   async deleteEmployees(employeeIds: string[]) {
     await this.employeeRepository.deleteEmployees(employeeIds);
+  }
+
+  async getEmployeeByEmailOrUsername(emailOrUsername: string) {
+    return await this.employeeRepository.getEmployeeByEmailOrUsername(
+      emailOrUsername,
+    );
   }
 }
 

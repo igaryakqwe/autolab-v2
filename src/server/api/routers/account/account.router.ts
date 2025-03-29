@@ -1,6 +1,6 @@
 import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
 import { fillProfileSchema } from '@/types/account';
-import AccountService from '@/server/api/routes/account/account.service';
+import AccountService from '@/server/api/routers/account/account.service';
 
 const accountRoute = createTRPCRouter({
   updateUserInfo: protectedProcedure

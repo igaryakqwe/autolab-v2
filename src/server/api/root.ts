@@ -1,14 +1,14 @@
-import authRoute from './routes/auth/auth.route';
-import organizationRoute from './routes/organization/organization.route';
+import authRouter from '@/server/api/routers/auth/auth.router';
+import organizationRouter from '@/server/api/routers/organization/organization.router';
 import { createCallerFactory, createTRPCRouter } from './trpc';
-import accountRoute from '@/server/api/routes/account/account.route';
-import employeeRoute from '@/server/api/routes/employee/employee.route';
+import employeeRouter from '@/server/api/routers/employee/employee.router';
+import accountRouter from '@/server/api/routers/account/account.router';
 
 export const appRouter = createTRPCRouter({
-  auth: authRoute,
-  account: accountRoute,
-  organization: organizationRoute,
-  employee: employeeRoute,
+  auth: authRouter,
+  account: accountRouter,
+  organization: organizationRouter,
+  employee: employeeRouter,
 });
 
 export type AppRouter = typeof appRouter;

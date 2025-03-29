@@ -33,6 +33,33 @@ class EmployeeRepository {
     }
   }
 
+  async getEmployeeByEmailOrUsername(emailOrUsername: string) {
+    try {
+      return await db.employee.findFirst({
+        where: {
+          user: {
+            OR: [{ email: emailOrUsername }, { username: emailOrUsername }],
+          },
+        },
+        include: {
+          user: {
+            select: {
+              id: true,
+              image: true,
+              email: true,
+              firstName: true,
+              lastName: true,
+              middleName: true,
+            },
+          },
+        },
+      });
+    } catch (error) {
+      logger.error(error);
+      throw error;
+    }
+  }
+
   async updateEmployee(employeeId: string, role: EmployeeRole) {
     try {
       return await db.employee.update({
