@@ -3,6 +3,7 @@
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useMemo } from 'react';
 import { routeMapping } from '@/constants/breadcrumbs';
+import { isMatchedBreadcrumb } from '@/utils/url-utils';
 
 const useBreadcrumbs = () => {
   const pathname = usePathname();
@@ -12,23 +13,7 @@ const useBreadcrumbs = () => {
     const currentPath =
       pathname + (searchParams.toString() ? `?${searchParams.toString()}` : '');
 
-    const matchedRoute = Object.keys(routeMapping).find((route) => {
-      if (!route.includes('?')) {
-        return pathname === route;
-      }
-
-      const regex = new RegExp(
-        `^${
-          route.split('?')[0].replace(':id', '[^/]+') // Handle path part
-        }\\?${
-          route
-            .split('?')[1]
-            ?.replace(':id', '[^&]+') // Handle query part
-            .replace('=', '\\=') || ''
-        }$`,
-      );
-      return regex.test(currentPath);
-    });
+    const matchedRoute = isMatchedBreadcrumb(pathname);
 
     if (matchedRoute) {
       const segments = pathname.split('/').filter(Boolean);

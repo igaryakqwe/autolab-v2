@@ -4,7 +4,7 @@ import { cn } from '@/utils/style-utils';
 import { UserRound } from 'lucide-react';
 
 interface UserAvatarProps {
-  image?: string;
+  image?: string | null;
   email: string;
   className?: string;
 }

@@ -1,5 +1,7 @@
+import EmployeesPage from '@/features/organization/employees-page';
+
 const Page = () => {
-  return <div></div>;
+  return <EmployeesPage />;
 };
 
 export default Page;

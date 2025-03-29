@@ -63,6 +63,7 @@ model Employee {
   userId         String
   organizationId String
   role           EmployeeRole
+  isActive       Boolean      @default(true)
   startDate      DateTime     @default(now())
   endDate        DateTime?
 

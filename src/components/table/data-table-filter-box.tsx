@@ -18,37 +18,35 @@ import {
 } from '@/components/ui/popover';
 import { Separator } from '@/components/ui/separator';
 import { CheckIcon, Plus } from 'lucide-react';
-import { Options } from 'nuqs';
+import { parseAsArrayOf, parseAsString, useQueryState } from 'nuqs';
 import React from 'react';
 import { cn } from '@/utils/style-utils';
 
-interface FilterOption {
+export interface FilterOption {
   value: string;
   label: string;
   icon?: React.ComponentType<{ className?: string }>;
 }
 
 interface FilterBoxProps {
-  filterKey: string;
+  searchKey: string;
   title: string;
   options: FilterOption[];
-  setFilterValue: (
-    value: string | ((old: string) => string | null) | null,
-    options?: Options | undefined,
-  ) => Promise<URLSearchParams>;
-  filterValue: string;
 }
 
 export function DataTableFilterBox({
+  searchKey,
   title,
   options,
-  setFilterValue,
-  filterValue,
 }: FilterBoxProps) {
+  const [filterValue, setFilterValue] = useQueryState(
+    searchKey,
+    parseAsArrayOf(parseAsString).withDefault([]),
+  );
+
   const selectedValuesSet = React.useMemo(() => {
     if (!filterValue) return new Set<string>();
-    const values = filterValue.split('.');
-    return new Set(values.filter((value) => value !== ''));
+    return new Set(filterValue.filter((value: string) => value !== ''));
   }, [filterValue]);
 
   const handleSelect = (value: string) => {
@@ -58,7 +56,7 @@ export function DataTableFilterBox({
     } else {
       newSet.add(value);
     }
-    setFilterValue(Array.from(newSet).join('.') || null);
+    setFilterValue(Array.from(newSet));
   };
 
   const resetFilter = () => setFilterValue(null);
@@ -84,7 +82,7 @@ export function DataTableFilterBox({
                     variant="secondary"
                     className="rounded-sm px-1 font-normal"
                   >
-                    {selectedValuesSet.size} selected
+                    {selectedValuesSet.size} обрано
                   </Badge>
                 ) : (
                   Array.from(selectedValuesSet).map((value) => (
@@ -107,7 +105,7 @@ export function DataTableFilterBox({
         <Command>
           <CommandInput placeholder={title} />
           <CommandList>
-            <CommandEmpty>No results found.</CommandEmpty>
+            <CommandEmpty>Не знайдено.</CommandEmpty>
             <CommandGroup>
               {options.map((option) => (
                 <CommandItem
@@ -142,7 +140,7 @@ export function DataTableFilterBox({
                     onSelect={resetFilter}
                     className="justify-center text-center"
                   >
-                    Clear filters
+                    Очистити
                   </CommandItem>
                 </CommandGroup>
               </>

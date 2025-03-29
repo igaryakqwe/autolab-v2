@@ -11,6 +11,7 @@ import NavUserHeader from '@/components/nav-user-header';
 import ThemeSwitcher from '@/components/theme-switcher';
 import SearchInput from '@/components/search-input';
 import OrganizationsProvider from '@/providers/organizations-provider';
+import { Heading } from '@/components/heading';
 
 const DashboardLayout = ({ children }: PropsWithChildren) => {
   return (
@@ -30,7 +31,10 @@ const DashboardLayout = ({ children }: PropsWithChildren) => {
               <NavUserHeader />
             </div>
           </header>
-          <main className="pb-6 px-4 h-[80dvh]">{children}</main>
+          <main className="pb-6 px-4 h-[80dvh]">
+            <Heading />
+            {children}
+          </main>
         </SidebarInset>
       </OrganizationsProvider>
     </SidebarProvider>

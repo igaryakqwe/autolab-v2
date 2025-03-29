@@ -1,4 +1,4 @@
-export const emailTemplate = `
+export const approveEmailTemplate = (approvalLink: string) => `
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -23,7 +23,7 @@ export const emailTemplate = `
                             <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 0 auto;">
                                 <tr>
                                     <td style="border-radius: 4px; background-color: #f6450e;">
-                                        <a href="{{approvalLink}}" target="_blank" style="border: solid 1px #f6450e; border-radius: 4px; color: #ffffff; padding: 12px 18px; text-decoration: none; display: inline-block; font-size: 16px; font-weight: bold; text-align: center;">Підтвердити електронну пошту</a>
+                                        <a href="${approvalLink}" target="_blank" style="border: solid 1px #f6450e; border-radius: 4px; color: #ffffff; padding: 12px 18px; text-decoration: none; display: inline-block; font-size: 16px; font-weight: bold; text-align: center;">Підтвердити електронну пошту</a>
                                     </td>
                                 </tr>
                             </table>

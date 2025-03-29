@@ -1,40 +1,36 @@
 'use client';
 
 import { Input } from '@/components/ui/input';
-import { Options } from 'nuqs';
-import { useTransition } from 'react';
+import { parseAsInteger, parseAsString, useQueryState } from 'nuqs';
 import { cn } from '@/utils/style-utils';
+import { ListFilter } from 'lucide-react';
 
-interface DataTableSearchProps {
-  searchQuery: string;
-  setSearchQuery: (
-    value: string | ((old: string) => string | null) | null,
-    options?: Options | undefined,
-  ) => Promise<URLSearchParams>;
-  setPage: (
-    value: number | ((old: number) => number | null) | null,
-    options?: Options | undefined,
-  ) => Promise<URLSearchParams>;
-}
-
-export function DataTableSearch({
-  searchQuery,
-  setSearchQuery,
-  setPage,
-}: DataTableSearchProps) {
-  const [isLoading, startTransition] = useTransition();
+const DataTableSearch = () => {
+  const [, setPage] = useQueryState('page', parseAsInteger.withDefault(1));
+  const [searchQuery, setSearchQuery] = useQueryState(
+    'search',
+    parseAsString.withDefault(''),
+  );
 
   const handleSearch = (value: string) => {
-    setSearchQuery(value, { startTransition });
+    setSearchQuery(value);
     setPage(1);
   };
 
   return (
-    <Input
-      placeholder="Пошук"
-      value={searchQuery ?? ''}
-      onChange={(e) => handleSearch(e.target.value)}
-      className={cn('w-full md:max-w-sm', isLoading && 'animate-pulse')}
-    />
+    <div className="relative">
+      <Input
+        placeholder="Пошук"
+        value={searchQuery ?? ''}
+        onChange={(e) => handleSearch(e.target.value)}
+        className={cn('w-full h-9 md:max-w-sm peer min-w-40 ps-9')}
+        aria-label="Filter by name or email"
+      />
+      <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
+        <ListFilter size={16} strokeWidth={2} aria-hidden="true" />
+      </div>
+    </div>
   );
-}
+};
+
+export default DataTableSearch;

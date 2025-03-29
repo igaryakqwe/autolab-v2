@@ -3,9 +3,9 @@ import {
   ErrorCodes,
   ErrorMessages,
 } from '@/server/common/enums/error-codes.enum';
-import { emailTemplate } from './email-template';
 import transporter from '@/lib/nodemailer';
 import { Routes } from '@/constants/routes';
+import { approveEmailTemplate } from './templates/approve-email';
 
 class EmailService {
   async sendApprovalEmail(
@@ -15,10 +15,7 @@ class EmailService {
   ): Promise<void> {
     try {
       const approvalLink = `${url}/${Routes.Approve}?token=${token}&email=${email}`;
-      const htmlContent = emailTemplate.replace(
-        '{{approvalLink}}',
-        approvalLink,
-      );
+      const htmlContent = approveEmailTemplate(approvalLink);
 
       await transporter.sendMail({
         from: '"Autolab" <noreply@autolab.com>',

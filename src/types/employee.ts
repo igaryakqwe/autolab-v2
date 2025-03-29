@@ -1,9 +1,10 @@
 export interface Employee {
-  id: number;
-  image: string;
+  id: string;
+  image: string | null;
   email: string;
-  firstName: string;
-  lastName: string;
-  middleName: string;
-  role: string;
+  firstName: string | null;
+  lastName: string | null;
+  middleName: string | null;
+  role: string | null;
+  isActive: boolean;
 }
