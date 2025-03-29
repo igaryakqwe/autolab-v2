@@ -1,7 +1,7 @@
-import EmployeesPage from '@/features/organization/employees-page';
+import EmployeesPage from '@/features/employees/employees-page';
 
-const Page = () => {
+const Employees = () => {
   return <EmployeesPage />;
 };
 
-export default Page;
+export default Employees;

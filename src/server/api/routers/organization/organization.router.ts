@@ -3,7 +3,7 @@ import OrganizationService from './organization.service';
 import { organizationSchema } from '@/types/organization';
 import { z } from 'zod';
 
-const organizationRoute = createTRPCRouter({
+const organizationRouter = createTRPCRouter({
   getMy: protectedProcedure.query(async ({ ctx }) => {
     const organizationService = new OrganizationService(ctx.db);
     return await organizationService.getOrganizationsByUser(
@@ -29,4 +29,4 @@ const organizationRoute = createTRPCRouter({
     }),
 });
 
-export default organizationRoute;
+export default organizationRouter;

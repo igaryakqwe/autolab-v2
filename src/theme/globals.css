@@ -3,11 +3,12 @@
 @tailwind utilities;
 
 body {
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
 
-pre, code {
-  font-family: var(--font-geist-mono), Arial, Helvetica, sans-serif;;
+pre,
+code {
+  font-family: var(--font-geist-mono), Arial, Helvetica, sans-serif;
 }
 
 @layer utilities {

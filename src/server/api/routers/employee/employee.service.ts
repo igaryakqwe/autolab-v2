@@ -24,10 +24,14 @@ class EmployeeService {
     await this.employeeRepository.deleteEmployees(employeeIds);
   }
 
-  async getEmployeeByEmailOrUsername(emailOrUsername: string) {
-    return await this.employeeRepository.getEmployeeByEmailOrUsername(
+  async getByEmailOrUsername(emailOrUsername: string) {
+    return await this.employeeRepository.getByEmailOrUsername(
       emailOrUsername,
     );
+  }
+
+  async inviteEmployee(userId: string, organizationId: string) {
+    return await this.employeeRepository.inviteEmployee(userId, organizationId);
   }
 }
 

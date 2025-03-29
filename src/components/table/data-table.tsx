@@ -14,9 +14,8 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
-  getPaginationRowModel,
-  PaginationState,
   useReactTable,
+  ColumnFiltersState,
 } from '@tanstack/react-table';
 import {
   ChevronLeftIcon,
@@ -34,7 +33,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { cn } from '@/utils/style-utils';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -43,6 +42,7 @@ interface DataTableProps<TData, TValue> {
   rowClassName?: (row: TData) => string;
   pageSizeOptions?: number[];
   onSelectionChange?: (selectedRows: TData[]) => void;
+  onFilterChange?: (filters: ColumnFiltersState) => void;
 }
 
 const DataTable = <TData, TValue>({
@@ -52,6 +52,7 @@ const DataTable = <TData, TValue>({
   rowClassName,
   pageSizeOptions = [10, 20, 30, 40, 50],
   onSelectionChange,
+  onFilterChange,
 }: DataTableProps<TData, TValue>) => {
   const [currentPage, setCurrentPage] = useQueryState(
     'page',
@@ -64,41 +65,59 @@ const DataTable = <TData, TValue>({
       .withDefault(10),
   );
   const [rowSelection, setRowSelection] = useState({});
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const paginationState = {
     pageIndex: currentPage - 1,
     pageSize: pageSize,
   };
 
-  const totalItems = data?.length;
-  const pageCount = Math.ceil(totalItems / pageSize);
+  // Apply filters first
+  const filteredData = useMemo(() => {
+    return data.filter((row) => {
+      return columnFilters.every((filter) => {
+        const value = row[filter.id as keyof TData];
+        if (filter.value === undefined || filter.value === null) return true;
 
-  const handlePaginationChange = (
-    updaterOrValue:
-      | PaginationState
-      | ((old: PaginationState) => PaginationState),
-  ) => {
-    const pagination =
-      typeof updaterOrValue === 'function'
-        ? updaterOrValue(paginationState)
-        : updaterOrValue;
+        if (typeof value === 'string') {
+          return value.toLowerCase().includes(String(filter.value).toLowerCase());
+        }
+        return value === filter.value;
+      });
+    });
+  }, [data, columnFilters]);
 
-    setCurrentPage(pagination.pageIndex + 1);
-    setPageSize(pagination.pageSize);
-  };
+  // Then apply pagination
+  const paginatedData = useMemo(() => {
+    const start = paginationState.pageIndex * paginationState.pageSize;
+    const end = start + paginationState.pageSize;
+    return filteredData.slice(start, end);
+  }, [filteredData, paginationState.pageIndex, paginationState.pageSize]);
 
   const table = useReactTable({
-    data,
+    data: paginatedData,
     columns,
-    pageCount,
+    pageCount: Math.ceil(filteredData.length / pageSize),
     state: {
       pagination: paginationState,
       rowSelection,
+      columnFilters,
     },
-    onPaginationChange: handlePaginationChange,
+    onPaginationChange: (updater) => {
+      const pagination =
+        typeof updater === 'function' ? updater(paginationState) : updater;
+      setCurrentPage(pagination.pageIndex + 1);
+      setPageSize(pagination.pageSize);
+    },
     onRowSelectionChange: setRowSelection,
+    onColumnFiltersChange: (updater) => {
+      const filters =
+        typeof updater === 'function' ? updater(columnFilters) : updater;
+      setColumnFilters(filters);
+      onFilterChange?.(filters);
+      setCurrentPage(1); // Reset to first page when filters change
+    },
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     manualPagination: true,
     enableRowSelection: true,
   });
@@ -112,6 +131,8 @@ const DataTable = <TData, TValue>({
 
   if (isLoading) return <DataTableSkeleton />;
 
+  const totalItems = filteredData.length;
+
   return (
     <div className="flex flex-col justify-between h-full">
       <ScrollArea className="grid h-[calc(90vh-220px)] rounded-md border md:h-[calc(90dvh-240px)]">
@@ -124,9 +145,9 @@ const DataTable = <TData, TValue>({
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
+                        header.column.columnDef.header,
+                        header.getContext(),
+                      )}
                   </TableHead>
                 ))}
               </TableRow>

@@ -4,18 +4,21 @@ import { api } from '@/lib/trpc/client';
 import useOrganizationsStore from '@/store/use-organizations-store';
 import DataTableSearch from '@/components/table/data-table-search';
 import DataTable from '@/components/table/data-table';
-import { employeeColumns } from '@/features/organization/constants/employee-columns';
-import RoleSelector from '@/features/organization/components/role-selector';
-import { PlusIcon } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { employeesColumns } from '@/features/employees/constants/employees-columns';
+import RoleSelector from '@/features/employees/components/role-selector';
 import { useMemo, useState } from 'react';
-import { filterEmployees } from '@/features/organization/utils/employees-filters';
+import { filterEmployees } from '@/features/employees/utils/employees-filters';
 import { parseAsArrayOf, parseAsString, useQueryStates } from 'nuqs';
 import { Employee } from '@/types/employee';
 import dynamic from 'next/dynamic';
 
 const DeleteManyButton = dynamic(
-  () => import('@/features/organization/components/delete-many-button'),
+  () => import('@/features/employees/components/delete-many-button'),
+  { ssr: false },
+);
+
+const InviteEmployeesModal = dynamic(
+  () => import('@/features/employees/components/invite-employees-modal'),
   { ssr: false },
 );
 
@@ -57,16 +60,16 @@ const EmployeesPage = () => {
         </div>
         <div className="flex gap-3">
           {selectedIds.length > 0 && (
-            <DeleteManyButton 
-              selectedIds={selectedIds} 
-              onDelete={handleDelete} 
+            <DeleteManyButton
+              selectedIds={selectedIds}
+              onDelete={handleDelete}
             />
           )}
-          <Button icon={<PlusIcon />}>Додати</Button>
+          <InviteEmployeesModal />
         </div>
       </div>
       <DataTable
-        columns={employeeColumns}
+        columns={employeesColumns}
         data={filteredData}
         isLoading={isLoading}
         onSelectionChange={setSelectedEmployees}

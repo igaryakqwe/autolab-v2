@@ -33,33 +33,6 @@ class EmployeeRepository {
     }
   }
 
-  async getEmployeeByEmailOrUsername(emailOrUsername: string) {
-    try {
-      return await db.employee.findFirst({
-        where: {
-          user: {
-            OR: [{ email: emailOrUsername }, { username: emailOrUsername }],
-          },
-        },
-        include: {
-          user: {
-            select: {
-              id: true,
-              image: true,
-              email: true,
-              firstName: true,
-              lastName: true,
-              middleName: true,
-            },
-          },
-        },
-      });
-    } catch (error) {
-      logger.error(error);
-      throw error;
-    }
-  }
-
   async updateEmployee(employeeId: string, role: EmployeeRole) {
     try {
       return await db.employee.update({
@@ -102,6 +75,39 @@ class EmployeeRepository {
         },
         data: {
           isActive: false,
+        },
+      });
+    } catch (error) {
+      logger.error(error);
+      throw error;
+    }
+  }
+
+  async getByEmailOrUsername(emailOrUsername: string) {
+    try {
+      return await db.user.findMany({
+        where: {
+          OR: [
+            { email: emailOrUsername },
+            { name: emailOrUsername },
+            { phone: emailOrUsername },
+          ],
+        },
+      });
+    } catch (error) {
+      logger.error(error);
+      throw error;
+    }
+  }
+
+  async inviteEmployee(userId: string, organizationId: string) {
+    try {
+      return await db.employee.create({
+        data: {
+          userId,
+          organizationId,
+          role: EmployeeRole.TECHNICIAN,
+          isActive: true,
         },
       });
     } catch (error) {

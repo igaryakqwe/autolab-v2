@@ -31,7 +31,20 @@ const employeeRoute = createTRPCRouter({
   getByEmailOrUsername: protectedProcedure
     .input(z.string())
     .query(async ({ input }) => {
-      return await employeeService.getEmployeeByEmailOrUsername(input);
+      return await employeeService.getByEmailOrUsername(input);
+    }),
+  inviteEmployee: protectedProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        organizationId: z.string(),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      return await employeeService.inviteEmployee(
+        input.userId,
+        input.organizationId,
+      );
     }),
 });
 

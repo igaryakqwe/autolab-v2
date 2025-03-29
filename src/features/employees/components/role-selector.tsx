@@ -1,5 +1,5 @@
 import { DataTableFilterBox } from '@/components/table/data-table-filter-box';
-import { rolesOptions } from '@/features/organization/constants/roles-options';
+import { rolesOptions } from '@/features/employees/constants/roles-options';
 
 const RoleSelector = () => {
   return (

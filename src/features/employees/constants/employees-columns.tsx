@@ -7,7 +7,7 @@ import { roleMapper } from '@/constants/role-mapper';
 import { EmployeeRole } from '@/types/organization';
 import { Checkbox } from '@/components/ui/checkbox';
 
-export const employeeColumns: ColumnDef<Employee>[] = [
+export const employeesColumns: ColumnDef<Employee>[] = [
   {
     id: 'select',
     header: ({ table }) => (
