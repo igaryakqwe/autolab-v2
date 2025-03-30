@@ -80,7 +80,9 @@ const DataTable = <TData, TValue>({
         if (filter.value === undefined || filter.value === null) return true;
 
         if (typeof value === 'string') {
-          return value.toLowerCase().includes(String(filter.value).toLowerCase());
+          return value
+            .toLowerCase()
+            .includes(String(filter.value).toLowerCase());
         }
         return value === filter.value;
       });
@@ -127,7 +129,7 @@ const DataTable = <TData, TValue>({
       .getSelectedRowModel()
       .rows.map((row) => row.original);
     onSelectionChange?.(selectedRows);
-  }, [rowSelection, table, onSelectionChange]);
+  }, [rowSelection, table]);
 
   if (isLoading) return <DataTableSkeleton />;
 
@@ -145,9 +147,9 @@ const DataTable = <TData, TValue>({
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext(),
-                      )}
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                   </TableHead>
                 ))}
               </TableRow>
@@ -177,7 +179,7 @@ const DataTable = <TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  Нема результатів
                 </TableCell>
               </TableRow>
             )}

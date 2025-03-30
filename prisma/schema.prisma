@@ -84,9 +84,9 @@ enum EmployeeRole {
 }
 
 model Service {
-  id          String @id @default(uuid())
+  id          String  @id @default(uuid())
   title       String
-  description String
+  description String?
   price       Float
   duration    Int
 
