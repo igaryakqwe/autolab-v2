@@ -15,6 +15,8 @@ export const env = createEnv({
     S3_SECRET_KEY: z.string().min(1),
     S3_REGION: z.string().min(1),
     S3_BUCKET_NAME: z.string().min(1),
+    AUTORIA_API_URL: z.string().min(1),
+    AUTORIA_API_KEY: z.string().min(1),
   },
   client: {},
   runtimeEnv: {
@@ -30,5 +32,7 @@ export const env = createEnv({
     S3_SECRET_KEY: process.env.S3_SECRET_KEY,
     S3_REGION: process.env.S3_REGION,
     S3_BUCKET_NAME: process.env.S3_BUCKET_NAME,
+    AUTORIA_API_URL: process.env.AUTORIA_API_URL,
+    AUTORIA_API_KEY: process.env.AUTORIA_API_KEY,
   },
 });

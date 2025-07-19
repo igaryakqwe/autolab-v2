@@ -6,16 +6,22 @@ import { UserRound } from 'lucide-react';
 interface UserAvatarProps {
   image?: string | null;
   email: string;
+  size?: number;
   className?: string;
 }
 
-const UserAvatar: FC<UserAvatarProps> = ({ image, email, className }) => {
+const UserAvatar: FC<UserAvatarProps> = ({
+  image,
+  email,
+  size = 16,
+  className,
+}) => {
   return (
     <Avatar className={cn('h-8 w-8 rounded-full', className)}>
       <AvatarImage src={image as string} alt={email} />
       <AvatarFallback className={cn('h-8 w-8 rounded-full', className)}>
         <UserRound
-          size={16}
+          size={size}
           strokeWidth={2}
           className="opacity-60"
           aria-hidden="true"

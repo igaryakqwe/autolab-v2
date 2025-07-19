@@ -4,14 +4,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { httpBatchLink, unstable_httpBatchStreamLink } from '@trpc/client';
 import { type inferRouterInputs, type inferRouterOutputs } from '@trpc/server';
 import { PropsWithChildren, useState } from 'react';
-import SuperJSON from 'superjson';
 import { HTTPHeaders } from '@trpc/client';
 
 import { type AppRouter } from '@/server/api/root';
 import { createTRPCReact } from '@trpc/react-query';
-import { getUrl } from '@/lib/trpc/shared';
-
-const createQueryClient = () => new QueryClient();
+import { getUrl, transformer } from '@/lib/trpc/shared';
+import { createQueryClient } from '@/lib/trpc/shared';
 
 let clientQueryClientSingleton: QueryClient | undefined = undefined;
 const getQueryClient = () => {
@@ -41,7 +39,7 @@ const TRPCReactProvider = ({ children }: PropsWithChildren) => {
             };
             return headers;
           },
-          transformer: SuperJSON,
+          transformer,
         }),
         unstable_httpBatchStreamLink({
           url: '/api/trpc/stream',
@@ -51,7 +49,7 @@ const TRPCReactProvider = ({ children }: PropsWithChildren) => {
             };
             return headers;
           },
-          transformer: SuperJSON,
+          transformer,
         }),
       ],
     }),

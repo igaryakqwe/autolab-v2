@@ -1,5 +1,7 @@
-const Page = () => {
-  return <h1>Vehicles</h1>;
+import VehiclesPage from '@/features/vehicles/vehicles.page';
+
+const Vehicle = () => {
+  return <VehiclesPage />;
 };
 
-export default Page;
+export default Vehicle;
