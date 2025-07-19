@@ -17,7 +17,6 @@ const vehicleRouter = createTRPCRouter({
   getModels: publicProcedure
     .input(z.number().optional())
     .query(async ({ input }) => {
-      console.log(input);
       return vehicleService.getModels(input);
     }),
 
@@ -31,6 +30,12 @@ const vehicleRouter = createTRPCRouter({
     .input(z.string())
     .query(async ({ input }) => {
       return vehicleService.getVehiclesByOrganization(input);
+    }),
+
+  getVehicleServiceRecords: protectedProcedure
+    .input(z.string())
+    .query(async ({ input }) => {
+      return vehicleService.getVehicleServiceRecords(input);
     }),
 
   createVehicle: protectedProcedure

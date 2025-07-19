@@ -9,6 +9,7 @@ export enum Routes {
   AccountSecurity = '/dashboard/account/settings?tab=account',
   AccountOrganizations = '/dashboard/account/settings?tab=organizations',
   Organization = '/dashboard/organization/:id',
+  Vehicle = '/dashboard/vehicles/:id',
 }
 
 export enum OrganizationRoutes {

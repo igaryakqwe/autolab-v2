@@ -1,3 +1,4 @@
+import OrganizationLogo from '@/components/organization-logo';
 import {
   Card,
   CardContent,
@@ -5,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Timeline,
   TimelineContent,
@@ -14,83 +16,48 @@ import {
   TimelineSeparator,
   TimelineTitle,
 } from '@/components/ui/timeline';
+import UserAvatar from '@/components/user-avatar';
+import { ServiceRecord } from '@/types/models/vehicle';
+import { formatCurrency } from '@/utils/currency.utils';
+import { calculateDurationHours, formatDate } from '@/utils/date-utils';
+import { formatName } from '@/utils/string-utils';
 import { cn } from '@/utils/style-utils';
-import { Wrench, CheckIcon, CalendarIcon, ClockIcon } from 'lucide-react';
-
-export type ServiceRecord = {
-  serviceName: string;
-  startTime: string;
-  endTime: string | null;
-  status: 'ЗАВЕРШЕНО' | 'В_ПРОЦЕСІ' | 'ОЧІКУЄ';
-  notes: string;
-  totalPrice: number | null;
-};
+import {
+  Wrench,
+  CheckIcon,
+  ClockIcon,
+  CalculatorIcon,
+  XIcon,
+} from 'lucide-react';
 
 export type ServiceHistoryProps = {
   records: ServiceRecord[];
 };
 
-const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString('uk-UA', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
+export const STATUS_MAPPER = {
+  COMPLETED: {
+    className: 'bg-emerald-500 border-emerald-500 text-white',
+    icon: CheckIcon,
+    label: 'Завершено',
+  },
+  IN_PROGRESS: {
+    className: 'bg-blue-500 border-blue-500 text-white',
+    icon: ClockIcon,
+    label: 'В процесі виконання',
+  },
+  PENDING: {
+    className: 'bg-amber-500 border-amber-500 text-white',
+    icon: CalculatorIcon,
+    label: 'Заплановано',
+  },
+  CANCELLED: {
+    className: 'bg-red-500 border-red-500 text-white',
+    icon: XIcon,
+    label: 'Відмінено',
+  },
 };
 
-const formatCurrency = (amount: number) => {
-  return new Intl.NumberFormat('uk-UA', {
-    style: 'currency',
-    currency: 'UAH',
-  }).format(amount);
-};
-
-export const history: ServiceHistoryProps = {
-  records: [
-    {
-      serviceName: 'Заміна масла та фільтра',
-      startTime: '2024-01-15T09:00:00Z',
-      endTime: '2024-01-15T11:30:00Z',
-      status: 'ЗАВЕРШЕНО',
-      notes:
-        'Планова заміна масла та фільтра. Перевірка тиску в шинах та рівня рідин.',
-      totalPrice: 2200,
-    },
-    {
-      serviceName:
-        'Заміна гальмівних колодок та промивка гальмівної рідини. Ротація шин.',
-      startTime: '2024-03-20T14:00:00Z',
-      endTime: '2024-03-20T16:45:00Z',
-      status: 'ЗАВЕРШЕНО',
-      notes:
-        'Заміна гальмівних колодок та промивка гальмівної рідини. Ротація шин.',
-      totalPrice: 6800,
-    },
-    {
-      serviceName: 'Річний огляд та технічне обслуговування',
-      startTime: '2024-06-10T08:30:00Z',
-      endTime: null,
-      status: 'В_ПРОЦЕСІ',
-      notes:
-        'Річний огляд та технічне обслуговування. Перевірка роботи двигуна.',
-      totalPrice: null,
-    },
-    {
-      serviceName:
-        'Заплановане обслуговування трансмісії та перевірка системи охолодження.',
-      startTime: '2024-07-05T10:00:00Z',
-      endTime: null,
-      status: 'ОЧІКУЄ',
-      notes:
-        'Заплановане обслуговування трансмісії та перевірка системи охолодження.',
-      totalPrice: null,
-    },
-  ],
-};
-
-const ServiceHistory = () => {
+const ServiceHistory = ({ records }: ServiceHistoryProps) => {
   return (
     <Card className="w-full">
       <CardHeader className="pb-4">
@@ -105,77 +72,126 @@ const ServiceHistory = () => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Timeline defaultValue={2}>
-          {history.records.map((record, index) => {
-            const isCompleted = record.status === 'ЗАВЕРШЕНО';
-            const isInProgress = record.status === 'В_ПРОЦЕСІ';
-            const isPending = record.status === 'ОЧІКУЄ';
-
-            return (
-              <TimelineItem key={index} step={index + 1} className="pb-6">
-                <div className="flex gap-4">
-                  <div className="flex flex-col items-center">
-                    <TimelineIndicator
-                      className={cn(
-                        'flex size-6 outline outline-background items-center justify-center shrink-0 z-10',
-                        isCompleted &&
-                          'bg-emerald-500 border-emerald-500 text-white',
-                        isInProgress &&
-                          'bg-blue-500 border-blue-500 text-white',
-                        isPending && 'bg-amber-500 border-amber-500 text-white',
+        <ScrollArea className="max-h-[calc(100vh-20rem)] overflow-y-auto">
+          <Timeline className="mx-1" defaultValue={2}>
+            {records.map((record, index) => {
+              const Icon = STATUS_MAPPER[record.status].icon;
+              return (
+                <TimelineItem key={record.id} step={index + 1} className="pb-8">
+                  <div className="flex gap-4">
+                    <div className="flex flex-col items-center">
+                      <TimelineIndicator
+                        className={cn(
+                          'flex size-6 items-center z-10 outline outline-background justify-center shrink-0',
+                          STATUS_MAPPER[record.status].className,
+                        )}
+                      >
+                        <Icon size={12} />
+                      </TimelineIndicator>
+                      {index < records.length - 1 && (
+                        <TimelineSeparator className="top-5 bg-border z-0" />
                       )}
-                    >
-                      {isCompleted && <CheckIcon size={12} />}
-                      {isInProgress && <ClockIcon size={12} />}
-                      {isPending && <CalendarIcon size={12} />}
-                    </TimelineIndicator>
-                    {index < history.records.length - 1 && (
-                      <TimelineSeparator className="top-5 bg-border z-0" />
-                    )}
-                  </div>
-                  <div className="flex-1 space-y-2">
-                    <div className="flex flex-col gap-1">
-                      <div className="flex items-center gap-2 justify-between">
-                        <TimelineTitle className="font-semibold text-md self-start">
-                          {record.serviceName}
-                        </TimelineTitle>
+                    </div>
+                    <div className="flex-1 space-y-4">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <TimelineTitle className="text-slate-900 dark:text-slate-100 text-lg font-semibold">
+                            {STATUS_MAPPER[record.status].label}
+                          </TimelineTitle>
+                          <TimelineDate className="text-slate-500 text-sm mt-1">
+                            {record.endTime ? (
+                              <>
+                                {formatDate(record.endTime.toISOString())} •
+                                Тривалість:{' '}
+                                {calculateDurationHours(
+                                  record.startTime,
+                                  record.endTime,
+                                )}{' '}
+                                годин
+                              </>
+                            ) : (
+                              <>{formatDate(record.startTime.toISOString())}</>
+                            )}
+                          </TimelineDate>
+                        </div>
                         {record.totalPrice && (
-                          <div className="text-right mt-2">
-                            <div className="font-semibold text-lg">
+                          <div className="text-right">
+                            <div className="font-bold text-slate-900 dark:text-slate-100 text-xl">
                               {formatCurrency(record.totalPrice)}
                             </div>
                           </div>
                         )}
                       </div>
-                      <TimelineDate className="text-muted-foreground text-sm">
-                        {record.endTime ? (
-                          <>
-                            Завершено: {formatDate(record.endTime)}
-                            <br />
-                            Тривалість:{' '}
-                            {Math.round(
-                              (new Date(record.endTime).getTime() -
-                                new Date(record.startTime).getTime()) /
-                                (1000 * 60 * 60 * 100),
-                            ) / 10}{' '}
-                            годин
-                          </>
-                        ) : isInProgress ? (
-                          'В процесі виконання'
-                        ) : (
-                          'Заплановано'
-                        )}
-                      </TimelineDate>
+
+                      <div className="bg-slate-50 dark:bg-slate-800 rounded-lg p-4">
+                        <h4 className="font-semibold text-slate-900 dark:text-slate-100 mb-3 text-sm">
+                          Виконані послуги:
+                        </h4>
+                        <div className="space-y-2">
+                          {record.services.map((service) => (
+                            <div
+                              key={service.id}
+                              className="flex justify-between items-center"
+                            >
+                              <span className="text-sm text-slate-700 dark:text-slate-300">
+                                {service.title}
+                              </span>
+                              <span className="font-medium text-slate-900 dark:text-slate-100">
+                                {formatCurrency(service.price)}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between bg-slate-50 dark:bg-slate-800 rounded-lg p-4">
+                        <div className="flex items-center gap-3">
+                          <UserAvatar
+                            image={record.employee.image || '/placeholder.svg'}
+                            email={`${record.employee.firstName} ${record.employee.lastName}`}
+                          />
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <span className="font-medium text-slate-900 dark:text-slate-100 text-sm">
+                                {formatName(
+                                  record.employee.firstName,
+                                  record.employee.lastName,
+                                  record.employee.middleName,
+                                )}
+                              </span>
+                            </div>
+                            {record.employee.phone && (
+                              <span className="text-xs text-slate-500">
+                                {record.employee.phone}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <OrganizationLogo
+                            image={record.organization.logo ?? undefined}
+                            name={record.organization.name}
+                          />
+                          <span className="font-medium text-slate-900 dark:text-slate-100 text-sm">
+                            {record.organization.name}
+                          </span>
+                        </div>
+                      </div>
+
+                      <TimelineContent className="text-slate-700 dark:text-slate-300 text-sm bg-white dark:bg-slate-900 p-4 rounded-lg border">
+                        <strong className="text-slate-900 dark:text-slate-100">
+                          Примітки:
+                        </strong>
+                        <br />
+                        {record.notes || 'Примітки відсутні'}
+                      </TimelineContent>
                     </div>
-                    <TimelineContent className="text-muted-foreground text-sm">
-                      {record.notes || 'Примітки відсутні'}
-                    </TimelineContent>
                   </div>
-                </div>
-              </TimelineItem>
-            );
-          })}
-        </Timeline>
+                </TimelineItem>
+              );
+            })}
+          </Timeline>
+        </ScrollArea>
       </CardContent>
     </Card>
   );

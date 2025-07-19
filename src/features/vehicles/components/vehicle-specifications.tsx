@@ -7,30 +7,29 @@ import {
 } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Car } from 'lucide-react';
-
-export const vehicle: VehicleSpecificationsProps = {
-  make: 'Chevrolet',
-  model: 'Malibu',
-  year: 2021,
-  licensePlate: 'АА1234ВВ',
-  vin: '1G1ZD5ST5MF123456',
-  engine: '1.5L Turbo',
-  engineVolume: 1.5,
-  bodyStyle: 'Седан',
-};
+import LicencePlate from './licence-plate';
 
 export type VehicleSpecificationsProps = {
   make: string;
   model: string;
   year: number;
-  bodyStyle?: string;
-  engine?: string;
-  engineVolume?: number;
-  licensePlate?: string;
-  vin?: string;
+  licensePlate: string | null;
+  engine: string | null;
+  engineVolume: number | null;
+  bodyStyle: string | null;
+  vin: string | null;
 };
 
-const VehicleSpecifications = () => {
+const VehicleSpecifications = ({
+  make,
+  model,
+  year,
+  licensePlate,
+  engine,
+  engineVolume,
+  bodyStyle,
+  vin,
+}: VehicleSpecificationsProps) => {
   return (
     <Card>
       <CardHeader className="pb-4">
@@ -50,7 +49,7 @@ const VehicleSpecifications = () => {
                 Марка і модель
               </p>
               <p className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-                {vehicle.make} {vehicle.model}
+                {make} {model}
               </p>
             </div>
             <div>
@@ -58,25 +57,24 @@ const VehicleSpecifications = () => {
                 Рік випуску
               </p>
               <p className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-                {vehicle.year}
+                {year}
               </p>
             </div>
             <div>
-              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                Тип кузова
+              <p className="text-xs mb-1 font-semibold text-muted-foreground uppercase tracking-wide">
+                Номерний знак
               </p>
-              <p className="text-sm text-slate-700 dark:text-slate-300">
-                {vehicle.bodyStyle || 'Не вказано'}
-              </p>
+              <LicencePlate plateNumber={licensePlate ?? ''} />
             </div>
           </div>
+
           <div className="space-y-4">
             <div>
               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
                 Двигун
               </p>
               <p className="text-sm text-slate-700 dark:text-slate-300">
-                {vehicle.engine || 'Не вказано'}
+                {engine || 'Не вказано'}
               </p>
             </div>
             <div>
@@ -84,17 +82,15 @@ const VehicleSpecifications = () => {
                 Об&apos;єм двигуна
               </p>
               <p className="text-sm text-slate-700 dark:text-slate-300">
-                {vehicle.engineVolume
-                  ? `${vehicle.engineVolume}л`
-                  : 'Не вказано'}
+                {engineVolume ? `${engineVolume.toFixed(1)} л` : 'Не вказано'}
               </p>
             </div>
             <div>
               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                Номерний знак
+                Тип кузова
               </p>
-              <p className="text-sm font-mono text-slate-700 dark:text-slate-300">
-                {vehicle.licensePlate || 'Не вказано'}
+              <p className="text-sm text-slate-700 dark:text-slate-300">
+                {bodyStyle ?? 'Не вказано'}
               </p>
             </div>
           </div>
@@ -107,7 +103,7 @@ const VehicleSpecifications = () => {
             Ідентифікаційний номер транспортного засобу
           </p>
           <p className="text-sm font-mono bg-slate-100 dark:bg-slate-800 p-3 rounded-lg border">
-            {vehicle.vin || 'Не вказано'}
+            {vin || 'Не вказано'}
           </p>
         </div>
       </CardContent>

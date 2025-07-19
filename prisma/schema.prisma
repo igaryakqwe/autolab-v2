@@ -29,7 +29,6 @@ model User {
   accounts       Account[]
   sessions       Session[]
   employees      Employee[]
-  serviceRecords ServiceRecord[]
   vehicle        Vehicle[]
 
   Client Client[]
@@ -167,9 +166,6 @@ model ServiceRecord {
 
   employeeId String
   employee   Employee @relation(fields: [employeeId], references: [id])
-
-  clientId String
-  client   User   @relation(fields: [clientId], references: [id])
 
   vehicleId String
   vehicle   Vehicle @relation(fields: [vehicleId], references: [id])

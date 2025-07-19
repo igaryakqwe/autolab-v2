@@ -3,6 +3,10 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { ColumnDef } from '@tanstack/react-table';
 import { Vehicle } from '@/types/models/vehicle';
 import LicencePlate from '@/features/vehicles/components/licence-plate';
+import { buttonVariants } from '@/components/ui/button';
+import Link from 'next/link';
+import { Routes } from '@/constants/routes';
+import { Eye } from 'lucide-react';
 
 const vehiclesColumns: ColumnDef<Vehicle>[] = [
   {
@@ -68,9 +72,17 @@ const vehiclesColumns: ColumnDef<Vehicle>[] = [
   },
   {
     header: 'Дії',
-    cell: () => {
+    cell: ({ row }) => {
+      const vehicleId = row.original.id;
+      const vehicleLink = Routes.Vehicle.replace(':id', vehicleId);
       return (
         <div className="flex space-x-2">
+          <Link
+            className={buttonVariants({ size: 'icon', variant: 'secondary' })}
+            href={vehicleLink}
+          >
+            <Eye className="h-4 w-4" />
+          </Link>
           {/* <ServiceInfoModal service={row.original} /> */}
           {/* <EditServiceModal service={row.original} /> */}
         </div>

@@ -8,21 +8,21 @@ import {
 import { Phone, User } from 'lucide-react';
 import UserAvatar from '@/components/user-avatar';
 
-export const owner: VehicleOwnerProps = {
-  firstName: 'Олександр',
-  lastName: 'Петренко',
-  middleName: 'Іванович',
-  phone: '+380 67 123 45 67',
-};
-
 export type VehicleOwnerProps = {
-  firstName: string;
-  lastName: string;
-  middleName: string;
-  phone: string;
+  image?: string | null;
+  firstName: string | null;
+  lastName: string | null;
+  middleName: string | null;
+  phone: string | null;
 };
 
-const VehicleOwner = () => {
+const VehicleOwner = ({
+  firstName,
+  lastName,
+  middleName,
+  phone,
+  image,
+}: VehicleOwnerProps) => {
   return (
     <Card className="h-fit">
       <CardHeader className="pb-4">
@@ -36,16 +36,19 @@ const VehicleOwner = () => {
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="flex items-center gap-4">
-          <UserAvatar size={20} className="w-16 h-16" email={owner.phone} />
+          <UserAvatar
+            size={20}
+            image={image}
+            className="w-16 h-16"
+            email={phone ?? ''}
+          />
           <div>
             <p className="text-lg font-semibold text-slate-900 dark:text-slate-100">
-              {owner.lastName} {owner.firstName} {owner.middleName}
+              {lastName ?? ''} {firstName ?? ''} {middleName ?? ''}
             </p>
             <div className="flex items-center gap-2 mt-1">
               <Phone className="h-4 w-4 text-muted-foreground" />
-              <p className="text-sm text-slate-600 dark:text-slate-400">
-                {owner.phone}
-              </p>
+              <p className="text-sm text-muted-foreground">{phone ?? 'N/A'}</p>
             </div>
           </div>
         </div>

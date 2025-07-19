@@ -13,6 +13,17 @@ const API_KEY = env.AUTORIA_API_KEY;
 
 class VehicleRepository {
   private readonly categoryId = 1;
+
+  private readonly carOwnerInclude = {
+    select: {
+      id: true,
+      firstName: true,
+      lastName: true,
+      middleName: true,
+      phone: true,
+    },
+  };
+
   async getAllMakes() {
     const res = await fetch(
       `${API_URL}/auto/categories/${this.categoryId}/marks?api_key=${API_KEY}`,
@@ -38,7 +49,6 @@ class VehicleRepository {
 
       if (!res.ok) {
         const error = await res.json();
-        console.log(error);
         throw new Error(error);
       }
 
@@ -59,6 +69,52 @@ class VehicleRepository {
       where: {
         id,
       },
+      include: {
+        client: this.carOwnerInclude,
+        user: {
+          select: {
+            ...this.carOwnerInclude.select,
+            image: true,
+          },
+        },
+      },
+    });
+  }
+
+  async getVehicleServiceRecords(vehicleId: string) {
+    return db.serviceRecord.findMany({
+      where: {
+        vehicleId,
+      },
+      include: {
+        services: {
+          select: {
+            id: true,
+            title: true,
+            price: true,
+          },
+        },
+        employee: {
+          select: {
+            user: {
+              select: {
+                image: true,
+                firstName: true,
+                lastName: true,
+                middleName: true,
+                phone: true,
+              },
+            },
+          },
+        },
+        organization: {
+          select: {
+            id: true,
+            name: true,
+            logo: true,
+          },
+        },
+      },
     });
   }
 
@@ -70,6 +126,9 @@ class VehicleRepository {
             organizationId,
           },
         },
+      },
+      orderBy: {
+        updatedAt: 'desc',
       },
     });
   }

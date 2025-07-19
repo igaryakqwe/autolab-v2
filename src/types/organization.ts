@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 export const organizationSchema = z.object({
+  id: z.string(),
   logo: z.string().url().optional(),
   name: z.string().nonempty("Назва організації обов'язкова"),
   description: z.string().optional(),
@@ -10,6 +11,19 @@ export const organizationSchema = z.object({
   phone: z.string().optional(),
   email: z.string().optional(),
   website: z.string().optional(),
+});
+
+export const OrganizationSchema = z.object({
+  id: z.string(),
+  logo: z.string().url().nullable(),
+  name: z.string().nonempty(),
+  description: z.string().nullable(),
+  address: z.string().nullable(),
+  longitude: z.number().nullable(),
+  latitude: z.number().nullable(),
+  phone: z.string().nullable(),
+  email: z.string().nullable(),
+  website: z.string().nullable(),
 });
 
 export type TCreateOrganizationData = z.infer<typeof organizationSchema>;

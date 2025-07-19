@@ -1,4 +1,7 @@
-import { MakeDto } from '@/server/api/routers/vehicle/dto/vehicle.dto';
+import {
+  MakeDto,
+  ServiceRecordDto,
+} from '@/server/api/routers/vehicle/dto/vehicle.dto';
 
 class VehicleMapper {
   private mapMake(make: MakeDto) {
@@ -14,6 +17,22 @@ class VehicleMapper {
 
   public mapModels(models: MakeDto[]) {
     return models.map((model) => this.mapMake(model));
+  }
+
+  public mapServiceRecords(records: ServiceRecordDto[]) {
+    return records.map((record) => this.mapServiceRecord(record));
+  }
+
+  private mapServiceRecord(record: ServiceRecordDto) {
+    return {
+      ...record,
+      employee: {
+        firstName: record.employee.user.firstName,
+        lastName: record.employee.user.lastName,
+        middleName: record.employee.user.middleName,
+        phone: record.employee.user.phone,
+      },
+    };
   }
 }
 

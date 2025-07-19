@@ -24,6 +24,13 @@ class VehicleService {
     return this.vehicleRepository.getVehicleById(id);
   }
 
+  public async getVehicleServiceRecords(vehicleId: string) {
+    const records =
+      await this.vehicleRepository.getVehicleServiceRecords(vehicleId);
+    if (!records) return [];
+    return this.vehicleMapper.mapServiceRecords(records);
+  }
+
   public async getVehiclesByOrganization(organizationId: string) {
     return this.vehicleRepository.getVehiclesByOrganization(organizationId);
   }

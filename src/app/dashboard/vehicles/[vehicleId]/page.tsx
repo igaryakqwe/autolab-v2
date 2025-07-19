@@ -1,4 +1,5 @@
 import VehiclePage from '@/features/vehicles/vehicle.page';
+import { HydrateClient, trpc } from '@/lib/trpc/server';
 
 interface VehicleProps {
   params: {
@@ -6,10 +7,17 @@ interface VehicleProps {
   };
 }
 
-const Vehicle = ({ params }: VehicleProps) => {
+const Vehicle = async ({ params }: VehicleProps) => {
   const { vehicleId } = params;
-  console.log(vehicleId);
-  return <VehiclePage />;
+
+  await trpc.vehicle.getVehicleById.prefetch(vehicleId);
+  await trpc.vehicle.getVehicleServiceRecords.prefetch(vehicleId);
+
+  return (
+    <HydrateClient>
+      <VehiclePage vehicleId={vehicleId} />
+    </HydrateClient>
+  );
 };
 
 export default Vehicle;

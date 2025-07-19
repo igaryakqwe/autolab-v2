@@ -47,9 +47,6 @@ const authRouter = createTRPCRouter({
     .input(approveEmailSchema)
     .mutation(async ({ input, ctx }) => {
       const authService = new AuthService(ctx.db);
-
-      console.log(ctx.headers.get('host'));
-
       await authService.verifyEmail(input.email, input.token);
     }),
 
