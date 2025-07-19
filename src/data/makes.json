@@ -1,0 +1,1498 @@
+[
+  {
+    "value": 5166,
+    "label": "Abarth"
+  },
+  {
+    "value": 98,
+    "label": "Acura"
+  },
+  {
+    "value": 2396,
+    "label": "Adler"
+  },
+  {
+    "value": 5165,
+    "label": "Aero"
+  },
+  {
+    "value": 55172,
+    "label": "AION"
+  },
+  {
+    "value": 55656,
+    "label": "Aito"
+  },
+  {
+    "value": 55399,
+    "label": "Aiways"
+  },
+  {
+    "value": 2,
+    "label": "Aixam"
+  },
+  {
+    "value": 3,
+    "label": "Alfa Romeo"
+  },
+  {
+    "value": 100,
+    "label": "Alpine"
+  },
+  {
+    "value": 3988,
+    "label": "Altamarea"
+  },
+  {
+    "value": 5821,
+    "label": "AMC"
+  },
+  {
+    "value": 5769,
+    "label": "Anaig"
+  },
+  {
+    "value": 5276,
+    "label": "Armstrong Siddeley"
+  },
+  {
+    "value": 101,
+    "label": "Aro"
+  },
+  {
+    "value": 3105,
+    "label": "Artega"
+  },
+  {
+    "value": 4,
+    "label": "Asia"
+  },
+  {
+    "value": 5793,
+    "label": "AsiaStar"
+  },
+  {
+    "value": 5,
+    "label": "Aston Martin"
+  },
+  {
+    "value": 6160,
+    "label": "ATS Corsa"
+  },
+  {
+    "value": 6,
+    "label": "Audi"
+  },
+  {
+    "value": 7,
+    "label": "Austin"
+  },
+  {
+    "value": 4355,
+    "label": "Austin-Healey"
+  },
+  {
+    "value": 102,
+    "label": "Autobianchi"
+  },
+  {
+    "value": 55330,
+    "label": "Avatr"
+  },
+  {
+    "value": 55051,
+    "label": "BAIC"
+  },
+  {
+    "value": 6228,
+    "label": "Baojun"
+  },
+  {
+    "value": 5245,
+    "label": "Baoya"
+  },
+  {
+    "value": 103,
+    "label": "Barkas (Баркас)"
+  },
+  {
+    "value": 1540,
+    "label": "Baw"
+  },
+  {
+    "value": 105,
+    "label": "Beijing"
+  },
+  {
+    "value": 8,
+    "label": "Bentley"
+  },
+  {
+    "value": 55530,
+    "label": "Bentley Mulliner"
+  },
+  {
+    "value": 106,
+    "label": "Bertone"
+  },
+  {
+    "value": 3127,
+    "label": "Bio Auto"
+  },
+  {
+    "value": 108,
+    "label": "Blonell"
+  },
+  {
+    "value": 55266,
+    "label": "BlueCar"
+  },
+  {
+    "value": 9,
+    "label": "BMW"
+  },
+  {
+    "value": 99,
+    "label": "BMW-Alpina"
+  },
+  {
+    "value": 6310,
+    "label": "Bollinger"
+  },
+  {
+    "value": 5240,
+    "label": "Borgward"
+  },
+  {
+    "value": 329,
+    "label": "Brilliance"
+  },
+  {
+    "value": 10,
+    "label": "Bristol"
+  },
+  {
+    "value": 109,
+    "label": "Bugatti"
+  },
+  {
+    "value": 110,
+    "label": "Buick"
+  },
+  {
+    "value": 386,
+    "label": "BYD"
+  },
+  {
+    "value": 6260,
+    "label": "Byton"
+  },
+  {
+    "value": 11,
+    "label": "Cadillac"
+  },
+  {
+    "value": 3221,
+    "label": "Caterham"
+  },
+  {
+    "value": 55284,
+    "label": "CATL"
+  },
+  {
+    "value": 6294,
+    "label": "Cenntro"
+  },
+  {
+    "value": 55610,
+    "label": "CEVO-C"
+  },
+  {
+    "value": 407,
+    "label": "Chana"
+  },
+  {
+    "value": 1580,
+    "label": "Changan"
+  },
+  {
+    "value": 55143,
+    "label": "Changfeng"
+  },
+  {
+    "value": 1567,
+    "label": "Changhe"
+  },
+  {
+    "value": 55171,
+    "label": "Chanje"
+  },
+  {
+    "value": 190,
+    "label": "Chery"
+  },
+  {
+    "value": 13,
+    "label": "Chevrolet"
+  },
+  {
+    "value": 14,
+    "label": "Chrysler"
+  },
+  {
+    "value": 15,
+    "label": "Citroen"
+  },
+  {
+    "value": 1451,
+    "label": "Cupra"
+  },
+  {
+    "value": 17,
+    "label": "Dacia"
+  },
+  {
+    "value": 198,
+    "label": "Dadi"
+  },
+  {
+    "value": 55242,
+    "label": "Daechang"
+  },
+  {
+    "value": 18,
+    "label": "Daewoo"
+  },
+  {
+    "value": 115,
+    "label": "DAF"
+  },
+  {
+    "value": 1441,
+    "label": "DAF / VDL"
+  },
+  {
+    "value": 3717,
+    "label": "Dagger"
+  },
+  {
+    "value": 19,
+    "label": "Daihatsu"
+  },
+  {
+    "value": 20,
+    "label": "Daimler"
+  },
+  {
+    "value": 4206,
+    "label": "Datsun"
+  },
+  {
+    "value": 3071,
+    "label": "De Lorean"
+  },
+  {
+    "value": 55216,
+    "label": "Denza"
+  },
+  {
+    "value": 4328,
+    "label": "Derways"
+  },
+  {
+    "value": 4883,
+    "label": "Detroit Electric"
+  },
+  {
+    "value": 4077,
+    "label": "DFSK"
+  },
+  {
+    "value": 55538,
+    "label": "Diandongwu"
+  },
+  {
+    "value": 2243,
+    "label": "DKW"
+  },
+  {
+    "value": 118,
+    "label": "Dodge"
+  },
+  {
+    "value": 308,
+    "label": "Dongfeng"
+  },
+  {
+    "value": 5051,
+    "label": "Dr. Motor"
+  },
+  {
+    "value": 4495,
+    "label": "DS"
+  },
+  {
+    "value": 55653,
+    "label": "e.Go"
+  },
+  {
+    "value": 120,
+    "label": "Eagle"
+  },
+  {
+    "value": 5469,
+    "label": "Elwinn"
+  },
+  {
+    "value": 55513,
+    "label": "Emgrand EV 350"
+  },
+  {
+    "value": 55225,
+    "label": "Enovate"
+  },
+  {
+    "value": 1413,
+    "label": "Ernst Auwarter"
+  },
+  {
+    "value": 3921,
+    "label": "Estrima"
+  },
+  {
+    "value": 55483,
+    "label": "Excalibur"
+  },
+  {
+    "value": 121,
+    "label": "FAW"
+  },
+  {
+    "value": 55208,
+    "label": "FAW Bestune"
+  },
+  {
+    "value": 55640,
+    "label": "FCB"
+  },
+  {
+    "value": 22,
+    "label": "Ferrari"
+  },
+  {
+    "value": 23,
+    "label": "Fiat"
+  },
+  {
+    "value": 4459,
+    "label": "Fiat-Abarth"
+  },
+  {
+    "value": 3444,
+    "label": "Fisker"
+  },
+  {
+    "value": 24,
+    "label": "Ford"
+  },
+  {
+    "value": 3104,
+    "label": "Fornasari"
+  },
+  {
+    "value": 55370,
+    "label": "Forthing"
+  },
+  {
+    "value": 187,
+    "label": "Foton"
+  },
+  {
+    "value": 25,
+    "label": "FSO"
+  },
+  {
+    "value": 197,
+    "label": "FUQI"
+  },
+  {
+    "value": 4506,
+    "label": "Gac"
+  },
+  {
+    "value": 55252,
+    "label": "GAC-Honda"
+  },
+  {
+    "value": 185,
+    "label": "Geely"
+  },
+  {
+    "value": 2604,
+    "label": "Genesis"
+  },
+  {
+    "value": 2790,
+    "label": "Geo"
+  },
+  {
+    "value": 123,
+    "label": "GMC"
+  },
+  {
+    "value": 4316,
+    "label": "Golf Car"
+  },
+  {
+    "value": 183,
+    "label": "Gonow"
+  },
+  {
+    "value": 124,
+    "label": "Great Wall"
+  },
+  {
+    "value": 1575,
+    "label": "Groz"
+  },
+  {
+    "value": 191,
+    "label": "Hafei"
+  },
+  {
+    "value": 3674,
+    "label": "Haima"
+  },
+  {
+    "value": 1784,
+    "label": "Hanomag"
+  },
+  {
+    "value": 2053,
+    "label": "Hansa"
+  },
+  {
+    "value": 55308,
+    "label": "Hanteng"
+  },
+  {
+    "value": 5456,
+    "label": "Haval"
+  },
+  {
+    "value": 5791,
+    "label": "Hawtai"
+  },
+  {
+    "value": 3411,
+    "label": "Hindustan"
+  },
+  {
+    "value": 55403,
+    "label": "HiPhi"
+  },
+  {
+    "value": 28,
+    "label": "Honda"
+  },
+  {
+    "value": 5572,
+    "label": "Hong Xing"
+  },
+  {
+    "value": 55205,
+    "label": "Hongqi"
+  },
+  {
+    "value": 5624,
+    "label": "Horch"
+  },
+  {
+    "value": 55108,
+    "label": "Hozon"
+  },
+  {
+    "value": 55173,
+    "label": "Hozon Neta"
+  },
+  {
+    "value": 2595,
+    "label": "Huabei"
+  },
+  {
+    "value": 388,
+    "label": "Huanghai"
+  },
+  {
+    "value": 55557,
+    "label": "Huawei"
+  },
+  {
+    "value": 55619,
+    "label": "Hudson"
+  },
+  {
+    "value": 55303,
+    "label": "Human Horizons"
+  },
+  {
+    "value": 3002,
+    "label": "Humber"
+  },
+  {
+    "value": 127,
+    "label": "Hummer"
+  },
+  {
+    "value": 4663,
+    "label": "Humvee"
+  },
+  {
+    "value": 29,
+    "label": "Hyundai"
+  },
+  {
+    "value": 55563,
+    "label": "IM"
+  },
+  {
+    "value": 55587,
+    "label": "Ineos"
+  },
+  {
+    "value": 128,
+    "label": "Infiniti"
+  },
+  {
+    "value": 4273,
+    "label": "Innocenti"
+  },
+  {
+    "value": 3821,
+    "label": "Iran Khodro"
+  },
+  {
+    "value": 30,
+    "label": "Isuzu"
+  },
+  {
+    "value": 3757,
+    "label": "ItalCar"
+  },
+  {
+    "value": 175,
+    "label": "Iveco"
+  },
+  {
+    "value": 317,
+    "label": "JAC"
+  },
+  {
+    "value": 55217,
+    "label": "JAC-Volkswagen"
+  },
+  {
+    "value": 31,
+    "label": "Jaguar"
+  },
+  {
+    "value": 1590,
+    "label": "JCB"
+  },
+  {
+    "value": 32,
+    "label": "Jeep"
+  },
+  {
+    "value": 55069,
+    "label": "Jetour"
+  },
+  {
+    "value": 335,
+    "label": "Jiangnan"
+  },
+  {
+    "value": 2231,
+    "label": "Jinbei"
+  },
+  {
+    "value": 4549,
+    "label": "Jinbei Minibusus"
+  },
+  {
+    "value": 3018,
+    "label": "JMC"
+  },
+  {
+    "value": 1574,
+    "label": "Jonway"
+  },
+  {
+    "value": 412,
+    "label": "Karosa"
+  },
+  {
+    "value": 55200,
+    "label": "Karry"
+  },
+  {
+    "value": 55282,
+    "label": "Keyton"
+  },
+  {
+    "value": 55489,
+    "label": "KG Mobility"
+  },
+  {
+    "value": 33,
+    "label": "Kia"
+  },
+  {
+    "value": 2676,
+    "label": "King Long"
+  },
+  {
+    "value": 4606,
+    "label": "KingWoo"
+  },
+  {
+    "value": 4843,
+    "label": "Kirkham"
+  },
+  {
+    "value": 2643,
+    "label": "Koenigsegg"
+  },
+  {
+    "value": 4000,
+    "label": "Konecranes"
+  },
+  {
+    "value": 35,
+    "label": "Lamborghini"
+  },
+  {
+    "value": 36,
+    "label": "Lancia"
+  },
+  {
+    "value": 37,
+    "label": "Land Rover"
+  },
+  {
+    "value": 406,
+    "label": "Landwind"
+  },
+  {
+    "value": 134,
+    "label": "LDV"
+  },
+  {
+    "value": 55215,
+    "label": "Leap"
+  },
+  {
+    "value": 55409,
+    "label": "Leapmotor"
+  },
+  {
+    "value": 2442,
+    "label": "Leopard"
+  },
+  {
+    "value": 55230,
+    "label": "Lesheng"
+  },
+  {
+    "value": 55375,
+    "label": "Letin"
+  },
+  {
+    "value": 38,
+    "label": "Lexus"
+  },
+  {
+    "value": 55440,
+    "label": "Li Auto"
+  },
+  {
+    "value": 5339,
+    "label": "Lichi"
+  },
+  {
+    "value": 334,
+    "label": "Lifan"
+  },
+  {
+    "value": 135,
+    "label": "Lincoln"
+  },
+  {
+    "value": 55341,
+    "label": "Lingpao"
+  },
+  {
+    "value": 55197,
+    "label": "Link Tour"
+  },
+  {
+    "value": 55579,
+    "label": "Lixiang"
+  },
+  {
+    "value": 41,
+    "label": "Lotus"
+  },
+  {
+    "value": 136,
+    "label": "LTI"
+  },
+  {
+    "value": 6317,
+    "label": "Lucid"
+  },
+  {
+    "value": 55664,
+    "label": "Luxeed"
+  },
+  {
+    "value": 4269,
+    "label": "Luxgen"
+  },
+  {
+    "value": 55594,
+    "label": "Lynk&Co"
+  },
+  {
+    "value": 3578,
+    "label": "Mahindra"
+  },
+  {
+    "value": 4064,
+    "label": "Marshell"
+  },
+  {
+    "value": 139,
+    "label": "Maruti"
+  },
+  {
+    "value": 45,
+    "label": "Maserati"
+  },
+  {
+    "value": 55270,
+    "label": "Maxus"
+  },
+  {
+    "value": 46,
+    "label": "Maybach"
+  },
+  {
+    "value": 47,
+    "label": "Mazda"
+  },
+  {
+    "value": 3101,
+    "label": "McLaren"
+  },
+  {
+    "value": 1904,
+    "label": "MEGA"
+  },
+  {
+    "value": 48,
+    "label": "Mercedes-Benz"
+  },
+  {
+    "value": 144,
+    "label": "Mercury"
+  },
+  {
+    "value": 3948,
+    "label": "Merkur"
+  },
+  {
+    "value": 49,
+    "label": "MG"
+  },
+  {
+    "value": 6055,
+    "label": "Microcar"
+  },
+  {
+    "value": 4528,
+    "label": "Miles"
+  },
+  {
+    "value": 147,
+    "label": "MINI"
+  },
+  {
+    "value": 52,
+    "label": "Mitsubishi"
+  },
+  {
+    "value": 402,
+    "label": "Mitsuoka"
+  },
+  {
+    "value": 4069,
+    "label": "Mobility Ventures"
+  },
+  {
+    "value": 55599,
+    "label": "Modern Auto"
+  },
+  {
+    "value": 53,
+    "label": "Morgan"
+  },
+  {
+    "value": 54,
+    "label": "Morris"
+  },
+  {
+    "value": 5039,
+    "label": "MPM Motors"
+  },
+  {
+    "value": 5138,
+    "label": "MYBRO"
+  },
+  {
+    "value": 55114,
+    "label": "NEO"
+  },
+  {
+    "value": 55214,
+    "label": "Neta"
+  },
+  {
+    "value": 55080,
+    "label": "NIO"
+  },
+  {
+    "value": 55,
+    "label": "Nissan"
+  },
+  {
+    "value": 2489,
+    "label": "Norster"
+  },
+  {
+    "value": 2045,
+    "label": "Nysa (Ниса)"
+  },
+  {
+    "value": 148,
+    "label": "Oldsmobile"
+  },
+  {
+    "value": 2963,
+    "label": "Oltcit"
+  },
+  {
+    "value": 56,
+    "label": "Opel"
+  },
+  {
+    "value": 2974,
+    "label": "ORA"
+  },
+  {
+    "value": 55313,
+    "label": "Otosan"
+  },
+  {
+    "value": 3193,
+    "label": "Packard"
+  },
+  {
+    "value": 2644,
+    "label": "Pagani"
+  },
+  {
+    "value": 1852,
+    "label": "Peerless"
+  },
+  {
+    "value": 3446,
+    "label": "Peg-Perego"
+  },
+  {
+    "value": 346,
+    "label": "Peterbilt"
+  },
+  {
+    "value": 58,
+    "label": "Peugeot"
+  },
+  {
+    "value": 3590,
+    "label": "Pininfarina"
+  },
+  {
+    "value": 3215,
+    "label": "Pinzgauer"
+  },
+  {
+    "value": 181,
+    "label": "Plymouth"
+  },
+  {
+    "value": 6131,
+    "label": "Polestar"
+  },
+  {
+    "value": 55589,
+    "label": "Polestone"
+  },
+  {
+    "value": 149,
+    "label": "Pontiac"
+  },
+  {
+    "value": 59,
+    "label": "Porsche"
+  },
+  {
+    "value": 2728,
+    "label": "Praga Baby"
+  },
+  {
+    "value": 60,
+    "label": "Proton"
+  },
+  {
+    "value": 55412,
+    "label": "Puli"
+  },
+  {
+    "value": 5340,
+    "label": "Qifeng"
+  },
+  {
+    "value": 1332,
+    "label": "Quicksilver"
+  },
+  {
+    "value": 4369,
+    "label": "Ram"
+  },
+  {
+    "value": 4681,
+    "label": "Ravon"
+  },
+  {
+    "value": 55374,
+    "label": "Raysince"
+  },
+  {
+    "value": 62,
+    "label": "Renault"
+  },
+  {
+    "value": 4466,
+    "label": "Rezvani"
+  },
+  {
+    "value": 55281,
+    "label": "Rich"
+  },
+  {
+    "value": 3330,
+    "label": "Rimac"
+  },
+  {
+    "value": 6227,
+    "label": "Rivian"
+  },
+  {
+    "value": 5761,
+    "label": "Robeta"
+  },
+  {
+    "value": 55063,
+    "label": "Roewe"
+  },
+  {
+    "value": 63,
+    "label": "Rolls-Royce"
+  },
+  {
+    "value": 64,
+    "label": "Rover"
+  },
+  {
+    "value": 55637,
+    "label": "RSWG"
+  },
+  {
+    "value": 55377,
+    "label": "Runhorse"
+  },
+  {
+    "value": 65,
+    "label": "Saab"
+  },
+  {
+    "value": 3437,
+    "label": "Saipa"
+  },
+  {
+    "value": 196,
+    "label": "Saleen"
+  },
+  {
+    "value": 192,
+    "label": "Samand"
+  },
+  {
+    "value": 325,
+    "label": "Samsung"
+  },
+  {
+    "value": 55669,
+    "label": "Santana"
+  },
+  {
+    "value": 331,
+    "label": "Saturn"
+  },
+  {
+    "value": 2734,
+    "label": "Sceo"
+  },
+  {
+    "value": 3268,
+    "label": "Scion"
+  },
+  {
+    "value": 67,
+    "label": "SEAT"
+  },
+  {
+    "value": 2492,
+    "label": "Secma"
+  },
+  {
+    "value": 1726,
+    "label": "Selena"
+  },
+  {
+    "value": 55597,
+    "label": "Seres"
+  },
+  {
+    "value": 3100,
+    "label": "Shelby"
+  },
+  {
+    "value": 1572,
+    "label": "Shineray"
+  },
+  {
+    "value": 195,
+    "label": "Shuanghuan"
+  },
+  {
+    "value": 4003,
+    "label": "Sidetracker"
+  },
+  {
+    "value": 55218,
+    "label": "Sihao (Sol)"
+  },
+  {
+    "value": 70,
+    "label": "Skoda"
+  },
+  {
+    "value": 55199,
+    "label": "Skywell"
+  },
+  {
+    "value": 311,
+    "label": "SMA"
+  },
+  {
+    "value": 71,
+    "label": "Smart"
+  },
+  {
+    "value": 194,
+    "label": "SouEast"
+  },
+  {
+    "value": 55115,
+    "label": "South-East"
+  },
+  {
+    "value": 3212,
+    "label": "Soyat"
+  },
+  {
+    "value": 411,
+    "label": "Spyker"
+  },
+  {
+    "value": 55553,
+    "label": "SRM"
+  },
+  {
+    "value": 73,
+    "label": "SsangYong"
+  },
+  {
+    "value": 214,
+    "label": "Star"
+  },
+  {
+    "value": 55658,
+    "label": "Stelato"
+  },
+  {
+    "value": 3228,
+    "label": "Studebaker"
+  },
+  {
+    "value": 75,
+    "label": "Subaru"
+  },
+  {
+    "value": 2879,
+    "label": "Suda"
+  },
+  {
+    "value": 55068,
+    "label": "Suda Hanen"
+  },
+  {
+    "value": 385,
+    "label": "Sunbeam"
+  },
+  {
+    "value": 76,
+    "label": "Suzuki"
+  },
+  {
+    "value": 5341,
+    "label": "T-King"
+  },
+  {
+    "value": 77,
+    "label": "Talbot"
+  },
+  {
+    "value": 2497,
+    "label": "Tarpan Honker"
+  },
+  {
+    "value": 78,
+    "label": "TATA"
+  },
+  {
+    "value": 204,
+    "label": "Tatra"
+  },
+  {
+    "value": 3922,
+    "label": "Tazzari"
+  },
+  {
+    "value": 2233,
+    "label": "Tesla"
+  },
+  {
+    "value": 6092,
+    "label": "Think"
+  },
+  {
+    "value": 4237,
+    "label": "Think Global"
+  },
+  {
+    "value": 4033,
+    "label": "Thunder Tiger"
+  },
+  {
+    "value": 1578,
+    "label": "Tianma"
+  },
+  {
+    "value": 55081,
+    "label": "Tiffany"
+  },
+  {
+    "value": 2050,
+    "label": "Tiger"
+  },
+  {
+    "value": 2552,
+    "label": "Tofas"
+  },
+  {
+    "value": 79,
+    "label": "Toyota"
+  },
+  {
+    "value": 345,
+    "label": "Trabant"
+  },
+  {
+    "value": 80,
+    "label": "Triumph"
+  },
+  {
+    "value": 81,
+    "label": "TVR"
+  },
+  {
+    "value": 3017,
+    "label": "Ultima"
+  },
+  {
+    "value": 206,
+    "label": "Van Hool"
+  },
+  {
+    "value": 5873,
+    "label": "Vantage"
+  },
+  {
+    "value": 82,
+    "label": "Vauxhall"
+  },
+  {
+    "value": 83,
+    "label": "Venturi"
+  },
+  {
+    "value": 184,
+    "label": "Venucia"
+  },
+  {
+    "value": 3320,
+    "label": "Vepr"
+  },
+  {
+    "value": 55657,
+    "label": "VinFast"
+  },
+  {
+    "value": 84,
+    "label": "Volkswagen"
+  },
+  {
+    "value": 85,
+    "label": "Volvo"
+  },
+  {
+    "value": 55279,
+    "label": "Voyah"
+  },
+  {
+    "value": 2021,
+    "label": "Wanderer"
+  },
+  {
+    "value": 2403,
+    "label": "Wanfeng"
+  },
+  {
+    "value": 339,
+    "label": "Wartburg"
+  },
+  {
+    "value": 55539,
+    "label": "Weiao"
+  },
+  {
+    "value": 55113,
+    "label": "Weilan"
+  },
+  {
+    "value": 55088,
+    "label": "Weltmeister"
+  },
+  {
+    "value": 1992,
+    "label": "Wiesmann"
+  },
+  {
+    "value": 1820,
+    "label": "Willys"
+  },
+  {
+    "value": 2653,
+    "label": "Wuling"
+  },
+  {
+    "value": 55337,
+    "label": "XEV"
+  },
+  {
+    "value": 3452,
+    "label": "Xiaolong"
+  },
+  {
+    "value": 5107,
+    "label": "Xiaomi"
+  },
+  {
+    "value": 338,
+    "label": "Xinkai"
+  },
+  {
+    "value": 107,
+    "label": "Xpeng"
+  },
+  {
+    "value": 55201,
+    "label": "Yema"
+  },
+  {
+    "value": 5285,
+    "label": "Yogomo"
+  },
+  {
+    "value": 55546,
+    "label": "Yudo"
+  },
+  {
+    "value": 87,
+    "label": "Yugo"
+  },
+  {
+    "value": 2309,
+    "label": "Zastava"
+  },
+  {
+    "value": 55280,
+    "label": "Zeekr"
+  },
+  {
+    "value": 182,
+    "label": "Zhidou"
+  },
+  {
+    "value": 2958,
+    "label": "Zimmer"
+  },
+  {
+    "value": 3610,
+    "label": "Zotye"
+  },
+  {
+    "value": 3089,
+    "label": "Zuk"
+  },
+  {
+    "value": 322,
+    "label": "ZX"
+  },
+  {
+    "value": 170,
+    "label": "ЄРАЗ"
+  },
+  {
+    "value": 188,
+    "label": "Богдан"
+  },
+  {
+    "value": 3000,
+    "label": "Бронто"
+  },
+  {
+    "value": 88,
+    "label": "ВАЗ / Lada"
+  },
+  {
+    "value": 91,
+    "label": "ГАЗ"
+  },
+  {
+    "value": 410,
+    "label": "ГолАЗ"
+  },
+  {
+    "value": 169,
+    "label": "Жук"
+  },
+  {
+    "value": 89,
+    "label": "ЗАЗ"
+  },
+  {
+    "value": 168,
+    "label": "ЗИЛ"
+  },
+  {
+    "value": 1544,
+    "label": "ЗИМ"
+  },
+  {
+    "value": 186,
+    "label": "ЗИС"
+  },
+  {
+    "value": 92,
+    "label": "ИЖ"
+  },
+  {
+    "value": 189,
+    "label": "ЛуАЗ"
+  },
+  {
+    "value": 94,
+    "label": "Москвич/АЗЛК"
+  },
+  {
+    "value": 327,
+    "label": "РАФ"
+  },
+  {
+    "value": 199,
+    "label": "Ретро автомобілі"
+  },
+  {
+    "value": 2863,
+    "label": "Саморобний"
+  },
+  {
+    "value": 96,
+    "label": "СеАЗ"
+  },
+  {
+    "value": 2491,
+    "label": "СМЗ"
+  },
+  {
+    "value": 1351,
+    "label": "СПЭВ / SPEV"
+  },
+  {
+    "value": 4537,
+    "label": "ТагАЗ"
+  },
+  {
+    "value": 2638,
+    "label": "ТогАЗ"
+  },
+  {
+    "value": 4038,
+    "label": "Тренер"
+  },
+  {
+    "value": 93,
+    "label": "УАЗ"
+  },
+  {
+    "value": 4021,
+    "label": "Циклон"
+  },
+  {
+    "value": 2307,
+    "label": "Эстония"
+  }
+]

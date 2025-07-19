@@ -14,8 +14,8 @@ const DeleteManyButton = ({ selectedIds, onDelete }: DeleteManyButtonProps) => {
 
   const utils = api.useUtils();
   const { isPending, mutateAsync } = api.employee.deleteMany.useMutation({
-    onSuccess: () => {
-      utils.employee.getAll.invalidate();
+    onSuccess: async () => {
+      await utils.employee.getAll.invalidate();
       onDelete?.();
     },
   });

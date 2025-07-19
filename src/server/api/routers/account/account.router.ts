@@ -2,7 +2,7 @@ import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
 import { fillProfileSchema } from '@/types/account';
 import AccountService from '@/server/api/routers/account/account.service';
 
-const accountRoute = createTRPCRouter({
+const accountRouter = createTRPCRouter({
   updateUserInfo: protectedProcedure
     .input(fillProfileSchema)
     .mutation(async ({ input, ctx }) => {
@@ -12,4 +12,4 @@ const accountRoute = createTRPCRouter({
     }),
 });
 
-export default accountRoute;
+export default accountRouter;

@@ -23,6 +23,8 @@ module.exports = {
     'prettier/prettier': 'error',
     'react/react-in-jsx-scope': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    'import/prefer-default-export': 'error',
+    'import/no-default-export': 'off'
   },
   settings: {
     react: {

@@ -1,5 +1,7 @@
-const Page = () => {
-  return <h1>Clients</h1>;
+import ClientsPage from '@/features/clients/clients.page';
+
+const Clients = () => {
+  return <ClientsPage />;
 };
 
-export default Page;
+export default Clients;
