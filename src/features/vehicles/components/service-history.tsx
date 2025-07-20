@@ -1,11 +1,6 @@
 import OrganizationLogo from '@/components/organization-logo';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import SectionHeader from '@/components/section-header';
+import { Card, CardContent } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Timeline,
@@ -22,57 +17,53 @@ import { formatCurrency } from '@/utils/currency.utils';
 import { calculateDurationHours, formatDate } from '@/utils/date-utils';
 import { formatName } from '@/utils/string-utils';
 import { cn } from '@/utils/style-utils';
-import {
-  Wrench,
-  CheckIcon,
-  ClockIcon,
-  CalculatorIcon,
-  XIcon,
-} from 'lucide-react';
+import { WrenchIcon, PlusIcon } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { STATUS_MAPPER } from '@/features/vehicles/lib/constants';
 
 export type ServiceHistoryProps = {
   records: ServiceRecord[];
 };
 
-export const STATUS_MAPPER = {
-  COMPLETED: {
-    className: 'bg-emerald-500 border-emerald-500 text-white',
-    icon: CheckIcon,
-    label: 'Завершено',
-  },
-  IN_PROGRESS: {
-    className: 'bg-blue-500 border-blue-500 text-white',
-    icon: ClockIcon,
-    label: 'В процесі виконання',
-  },
-  PENDING: {
-    className: 'bg-amber-500 border-amber-500 text-white',
-    icon: CalculatorIcon,
-    label: 'Заплановано',
-  },
-  CANCELLED: {
-    className: 'bg-red-500 border-red-500 text-white',
-    icon: XIcon,
-    label: 'Відмінено',
-  },
-};
-
 const ServiceHistory = ({ records }: ServiceHistoryProps) => {
+  if (!records.length) {
+    return (
+      <Card className="w-full">
+        <SectionHeader
+          title="Історія обслуговування"
+          description="Хронологія технічного обслуговування та ремонту"
+          icon={
+            <div className="p-2 w-fit bg-orange-100 dark:bg-orange-900 rounded-lg">
+              <WrenchIcon className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+            </div>
+          }
+        >
+          <Button icon={<PlusIcon />}>Додати</Button>
+        </SectionHeader>
+        <CardContent>
+          <div className="flex items-center justify-center">
+            <p className="text-slate-500">Немає обслуговувань</p>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <Card className="w-full">
-      <CardHeader className="pb-4">
-        <CardTitle className="flex items-center gap-2 text-slate-900 dark:text-slate-100">
-          <div className="p-2 bg-orange-100 dark:bg-orange-900 rounded-lg">
-            <Wrench className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+      <SectionHeader
+        title="Історія обслуговування"
+        description="Хронологія технічного обслуговування та ремонту"
+        icon={
+          <div className="p-2 w-fit bg-orange-100 dark:bg-orange-900 rounded-lg">
+            <WrenchIcon className="h-5 w-5 text-orange-600 dark:text-orange-400" />
           </div>
-          Історія обслуговування
-        </CardTitle>
-        <CardDescription>
-          Хронологія технічного обслуговування та ремонту
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <ScrollArea className="max-h-[calc(100vh-20rem)] overflow-y-auto">
+        }
+      >
+        <Button icon={<PlusIcon />}>Додати</Button>
+      </SectionHeader>
+      <CardContent className="">
+        <ScrollArea className="max-h-[37rem] overflow-y-auto">
           <Timeline className="mx-1" defaultValue={2}>
             {records.map((record, index) => {
               const Icon = STATUS_MAPPER[record.status].icon;

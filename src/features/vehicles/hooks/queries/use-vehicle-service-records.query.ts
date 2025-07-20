@@ -5,7 +5,7 @@ const useVehicleServiceRecordsQuery = (vehicleId: string) => {
     data = [],
     isLoading,
     error,
-  } = api.vehicle.getVehicleServiceRecords.useQuery(vehicleId, {
+  } = api.serviceRecord.getVehicleServiceRecords.useQuery(vehicleId, {
     enabled: !!vehicleId,
   });
 

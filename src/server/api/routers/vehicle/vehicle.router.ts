@@ -32,12 +32,6 @@ const vehicleRouter = createTRPCRouter({
       return vehicleService.getVehiclesByOrganization(input);
     }),
 
-  getVehicleServiceRecords: protectedProcedure
-    .input(z.string())
-    .query(async ({ input }) => {
-      return vehicleService.getVehicleServiceRecords(input);
-    }),
-
   createVehicle: protectedProcedure
     .input(CreateVehicleSchema)
     .mutation(async ({ input }) => {

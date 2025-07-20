@@ -1,4 +1,4 @@
-import { ServiceRecord, VehicleShema } from '@/types/models/vehicle';
+import { VehicleShema } from '@/types/models/vehicle';
 import { z } from 'zod';
 
 export const MakeDtoSchema = z.object({
@@ -27,15 +27,3 @@ export type CreateVehicleDto = z.infer<typeof CreateVehicleSchema>;
 export const UpdateVehicleSchema = VehicleShema.partial();
 
 export type UpdateVehicleDto = z.infer<typeof UpdateVehicleSchema>;
-
-export interface ServiceRecordDto extends Omit<ServiceRecord, 'employee'> {
-  employee: {
-    user: {
-      image: string | null;
-      firstName: string | null;
-      lastName: string | null;
-      middleName: string | null;
-      phone: string | null;
-    };
-  };
-}

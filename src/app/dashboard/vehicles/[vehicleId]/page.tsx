@@ -11,7 +11,7 @@ const Vehicle = async ({ params }: VehicleProps) => {
   const { vehicleId } = params;
 
   await trpc.vehicle.getVehicleById.prefetch(vehicleId);
-  await trpc.vehicle.getVehicleServiceRecords.prefetch(vehicleId);
+  await trpc.serviceRecord.getVehicleServiceRecords.prefetch(vehicleId);
 
   return (
     <HydrateClient>

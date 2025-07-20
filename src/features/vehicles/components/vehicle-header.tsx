@@ -2,7 +2,7 @@ import SvgIcon from '@/components/icons/svg-icon';
 import { Button } from '@/components/ui/button';
 import { CarFrontIcon, Settings } from 'lucide-react';
 import LicencePlate from '@/features/vehicles/components/licence-plate';
-import { getVehicleImage } from '../lib/utils';
+import { getVehicleImage } from '@/features/vehicles/lib/utils';
 
 export type VehicleHeaderProps = {
   make: string;

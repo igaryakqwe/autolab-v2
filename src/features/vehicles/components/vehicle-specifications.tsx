@@ -1,13 +1,8 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { Car } from 'lucide-react';
-import LicencePlate from './licence-plate';
+import { CarIcon } from 'lucide-react';
+import LicencePlate from '@/features/vehicles/components/licence-plate';
+import SectionHeader from '@/components/section-header';
 
 export type VehicleSpecificationsProps = {
   make: string;
@@ -32,15 +27,16 @@ const VehicleSpecifications = ({
 }: VehicleSpecificationsProps) => {
   return (
     <Card>
-      <CardHeader className="pb-4">
-        <CardTitle className="flex items-center gap-2 text-slate-900 dark:text-slate-100">
+      <SectionHeader
+        title="Технічні характеристики"
+        description="Технічні деталі та ідентифікація"
+        icon={
           <div className="p-2 bg-blue-100 rounded-lg">
-            <Car className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+            <CarIcon className="h-5 w-5 text-blue-600 dark:text-blue-400" />
           </div>
-          Технічні характеристики
-        </CardTitle>
-        <CardDescription>Технічні деталі та ідентифікація</CardDescription>
-      </CardHeader>
+        }
+      />
+
       <CardContent className="space-y-6">
         <div className="grid grid-cols-2 gap-6">
           <div className="space-y-4">

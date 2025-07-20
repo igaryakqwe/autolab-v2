@@ -6,7 +6,9 @@ import LicencePlate from '@/features/vehicles/components/licence-plate';
 import { buttonVariants } from '@/components/ui/button';
 import Link from 'next/link';
 import { Routes } from '@/constants/routes';
-import { Eye } from 'lucide-react';
+import { CarFrontIcon, Eye } from 'lucide-react';
+import SvgIcon from '@/components/icons/svg-icon';
+import { getVehicleImage } from '@/features/vehicles/lib/utils';
 
 const vehiclesColumns: ColumnDef<Vehicle>[] = [
   {
@@ -26,11 +28,21 @@ const vehiclesColumns: ColumnDef<Vehicle>[] = [
       />
     ),
   },
+
   {
     header: 'Марка',
     accessorKey: 'make',
     cell: ({ row }) => {
-      return <span className="text-sm font-medium">{row.original.make}</span>;
+      return (
+        <div className="flex items-center gap-2">
+          <SvgIcon
+            className="size-7"
+            src={getVehicleImage(row.original.make)}
+            fallback={<CarFrontIcon className="size-6" />}
+          />
+          <span className="text-sm font-medium">{row.original.make}</span>
+        </div>
+      );
     },
   },
   {

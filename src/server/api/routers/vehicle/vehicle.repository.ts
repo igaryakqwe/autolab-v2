@@ -81,43 +81,6 @@ class VehicleRepository {
     });
   }
 
-  async getVehicleServiceRecords(vehicleId: string) {
-    return db.serviceRecord.findMany({
-      where: {
-        vehicleId,
-      },
-      include: {
-        services: {
-          select: {
-            id: true,
-            title: true,
-            price: true,
-          },
-        },
-        employee: {
-          select: {
-            user: {
-              select: {
-                image: true,
-                firstName: true,
-                lastName: true,
-                middleName: true,
-                phone: true,
-              },
-            },
-          },
-        },
-        organization: {
-          select: {
-            id: true,
-            name: true,
-            logo: true,
-          },
-        },
-      },
-    });
-  }
-
   async getVehiclesByOrganization(organizationId: string) {
     return db.vehicle.findMany({
       where: {

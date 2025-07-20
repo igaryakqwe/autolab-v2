@@ -35,7 +35,7 @@ export function Breadcrumbs() {
               <BreadcrumbSeparator className="hidden md:block" />
             )}
             {index === items.length - 1 && (
-              <BreadcrumbPage>
+              <BreadcrumbPage className="font-medium text-md">
                 {item.icon}
                 {item.title}
               </BreadcrumbPage>

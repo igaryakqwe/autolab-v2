@@ -21,7 +21,7 @@ const VehiclePage = ({ vehicleId }: VehiclePageProps) => {
   if (!vehicle || !serviceRecords || !vehicleOwner) return notFound();
 
   return (
-    <div className="pb-6">
+    <div className="pb-6 h-[calc(100vh-20rem)]">
       <VehicleHeader {...vehicle} />
 
       <div className="flex gap-6 w-full lg:flex-nowrap flex-wrap">

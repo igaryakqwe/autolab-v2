@@ -1,12 +1,7 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Phone, User } from 'lucide-react';
 import UserAvatar from '@/components/user-avatar';
+import SectionHeader from '@/components/section-header';
 
 export type VehicleOwnerProps = {
   image?: string | null;
@@ -25,15 +20,16 @@ const VehicleOwner = ({
 }: VehicleOwnerProps) => {
   return (
     <Card className="h-fit">
-      <CardHeader className="pb-4">
-        <CardTitle className="flex items-center gap-2 text-slate-900 dark:text-slate-100">
+      <SectionHeader
+        title="Власник автомобіля"
+        description="Контактна інформація клієнта"
+        icon={
           <div className="p-2 bg-emerald-100 dark:bg-emerald-900 rounded-lg">
             <User className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
           </div>
-          Власник автомобіля
-        </CardTitle>
-        <CardDescription>Контактна інформація клієнта</CardDescription>
-      </CardHeader>
+        }
+      />
+
       <CardContent className="space-y-6">
         <div className="flex items-center gap-4">
           <UserAvatar
