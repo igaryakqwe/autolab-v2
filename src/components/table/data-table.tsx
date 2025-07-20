@@ -137,7 +137,7 @@ const DataTable = <TData, TValue>({
 
   return (
     <div className="flex flex-col justify-between h-full">
-      <ScrollArea className="grid h-[calc(90vh-220px)] rounded-md border md:h-[calc(90dvh-240px)]">
+      <ScrollArea className="grid h-[calc(90dvh-220px)] rounded-md border md:h-[calc(90dvh-11rem)]">
         <Table className="relative h-full">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

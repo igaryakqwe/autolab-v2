@@ -3,9 +3,9 @@ export const capitalize = (str: string) => {
 };
 
 export const formatName = (
-  firstName: string | null,
-  lastName: string | null,
-  middleName: string | null,
+  firstName?: string | null,
+  lastName?: string | null,
+  middleName?: string | null,
 ) => {
   const fullName = `${lastName ?? ''} ${firstName ?? ''} ${middleName ?? ''}`;
   return fullName.trim() || 'Не вказано';

@@ -13,7 +13,7 @@ import { z } from 'zod';
 import { emailService } from '@/server/api/email/email.service';
 import { changePasswordSchema, signInDataSchema } from '@/types/account';
 
-const authRoute = createTRPCRouter({
+const authRouter = createTRPCRouter({
   register: publicProcedure
     .input(signUpSchema)
     .mutation(async ({ input, ctx }) => {
@@ -47,9 +47,6 @@ const authRoute = createTRPCRouter({
     .input(approveEmailSchema)
     .mutation(async ({ input, ctx }) => {
       const authService = new AuthService(ctx.db);
-
-      console.log(ctx.headers.get('host'));
-
       await authService.verifyEmail(input.email, input.token);
     }),
 
@@ -72,4 +69,4 @@ const authRoute = createTRPCRouter({
     }),
 });
 
-export default authRoute;
+export default authRouter;

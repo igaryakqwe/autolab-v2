@@ -25,9 +25,7 @@ class EmployeeService {
   }
 
   async getByEmailOrUsername(emailOrUsername: string) {
-    return await this.employeeRepository.getByEmailOrUsername(
-      emailOrUsername,
-    );
+    return await this.employeeRepository.getByEmailOrUsername(emailOrUsername);
   }
 
   async inviteEmployee(userId: string, organizationId: string) {

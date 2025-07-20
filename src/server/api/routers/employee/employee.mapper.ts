@@ -10,6 +10,7 @@ interface InitialEmployee {
     firstName: string | null;
     lastName: string | null;
     middleName: string | null;
+    phone: string | null;
   };
 }
 
@@ -23,6 +24,7 @@ class EmployeeMapper {
       id: employee.user.id,
       image: employee.user.image,
       email: employee.user.email,
+      phone: employee.user.phone,
       firstName: employee.user.firstName,
       lastName: employee.user.lastName,
       middleName: employee.user.middleName,

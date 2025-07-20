@@ -23,6 +23,7 @@ class EmployeeRepository {
               firstName: true,
               lastName: true,
               middleName: true,
+              phone: true,
             },
           },
         },
