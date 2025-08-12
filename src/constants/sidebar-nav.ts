@@ -1,4 +1,4 @@
-import { CarFront, UserCircle, Users, Wrench } from 'lucide-react';
+import { CarFront, UserCircle, Users, Wrench, Calendar } from 'lucide-react';
 import { ElementType } from 'react';
 import { OrganizationRoutes } from '@/constants/routes';
 
@@ -31,5 +31,10 @@ export const organizationNav: NavLink[] = [
     title: 'Авто',
     url: OrganizationRoutes.Vehicles,
     icon: CarFront,
+  },
+  {
+    title: 'Календар',
+    url: OrganizationRoutes.Calendar,
+    icon: Calendar,
   },
 ];

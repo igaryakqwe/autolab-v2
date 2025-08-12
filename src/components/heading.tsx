@@ -1,6 +1,6 @@
 'use client';
 import { usePathname } from 'next/navigation';
-import { getDashboardHeading } from '@/utils/url-utils';
+import { getDashboardHeading } from '@/utils/url.utils';
 
 export const Heading = () => {
   const pathname = usePathname();

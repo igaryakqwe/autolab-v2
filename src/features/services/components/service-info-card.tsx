@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge';
 import { Service } from '@/types/service';
-import { formatDuration } from '@/utils/date-utils';
+import { formatShortDuration } from '@/utils/date.utils';
 import { Clock } from 'lucide-react';
 
 interface ServiceInfoCardProps {
@@ -16,7 +16,7 @@ const ServiceInfoCard = ({ service }: ServiceInfoCardProps) => {
         <h3 className="text-xl font-bold">{title}</h3>
         <Badge className="ml-2 flex items-center gap-1">
           <Clock className="h-3 w-3" />
-          {formatDuration(duration)}
+          {formatShortDuration(duration)}
         </Badge>
       </div>
       {description && <h4>{description}</h4>}

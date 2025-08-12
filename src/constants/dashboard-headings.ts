@@ -33,4 +33,8 @@ export const dashboardHeadings = {
     title: 'Авто',
     description: 'Тут ви можете переглянути інформацію про авто',
   },
+  [OrganizationRoutes.Calendar]: {
+    title: 'Календар',
+    description: 'Тут ви можете переглянути розклад роботи',
+  },
 } as Record<Route, DashboardHeading>;

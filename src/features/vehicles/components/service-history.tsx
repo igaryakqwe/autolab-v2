@@ -14,7 +14,7 @@ import {
 import UserAvatar from '@/components/user-avatar';
 import { ServiceRecord } from '@/types/models/vehicle';
 import { formatCurrency } from '@/utils/currency.utils';
-import { calculateDurationHours, formatDate } from '@/utils/date-utils';
+import { calculateDurationHours, formatDate } from '@/utils/date.utils';
 import { formatName } from '@/utils/string-utils';
 import { cn } from '@/utils/style-utils';
 import { WrenchIcon, PlusIcon } from 'lucide-react';
@@ -92,8 +92,7 @@ const ServiceHistory = ({ records }: ServiceHistoryProps) => {
                           <TimelineDate className="text-slate-500 text-sm mt-1">
                             {record.endTime ? (
                               <>
-                                {formatDate(record.endTime.toISOString())} •
-                                Тривалість:{' '}
+                                {formatDate(record.endTime)} • Тривалість:{' '}
                                 {calculateDurationHours(
                                   record.startTime,
                                   record.endTime,
@@ -101,7 +100,7 @@ const ServiceHistory = ({ records }: ServiceHistoryProps) => {
                                 годин
                               </>
                             ) : (
-                              <>{formatDate(record.startTime.toISOString())}</>
+                              <>{formatDate(record.startTime)}</>
                             )}
                           </TimelineDate>
                         </div>

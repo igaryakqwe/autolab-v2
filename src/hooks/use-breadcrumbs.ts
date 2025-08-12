@@ -3,7 +3,7 @@
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useMemo } from 'react';
 import { routeMapping } from '@/constants/breadcrumbs';
-import { isMatchedBreadcrumb } from '@/utils/url-utils';
+import { isMatchedBreadcrumb } from '@/utils/url.utils';
 
 const useBreadcrumbs = () => {
   const pathname = usePathname();

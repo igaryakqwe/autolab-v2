@@ -18,6 +18,7 @@ export enum OrganizationRoutes {
   Employees = '/dashboard/organization/employees?organizationId=:id',
   Services = '/dashboard/organization/services?organizationId=:id',
   Vehicles = '/dashboard/organization/vehicles?organizationId=:id',
+  Calendar = '/dashboard/organization/calendar?organizationId=:id',
   Settings = '/dashboard/organization/settings?organizationId=:id',
 }
 
