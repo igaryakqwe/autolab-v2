@@ -46,6 +46,29 @@ class ServiceRecordRepository {
     });
   }
 
+  async getOrganizationServiceRecords(organizationId: string) {
+    return db.serviceRecord.findMany({
+      where: {
+        organizationId,
+      },
+      select: {
+        id: true,
+        startTime: true,
+        endTime: true,
+        status: true,
+        totalPrice: true,
+        vehicle: {
+          select: {
+            id: true,
+            make: true,
+            model: true,
+            licensePlate: true,
+          },
+        },
+      },
+    });
+  }
+
   async createServiceRecord(record: CreateServiceRecordDto) {
     return db.serviceRecord.create({
       data: {

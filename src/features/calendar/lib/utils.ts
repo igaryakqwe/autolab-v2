@@ -6,37 +6,15 @@ import {
   addDays,
   format,
 } from 'date-fns';
-import {
-  CalendarEvent,
-  CalendarView,
-  EventColor,
-} from '@/features/calendar/lib/types';
+import { CalendarEvent, CalendarView } from '@/features/calendar/lib/types';
 import { DAYS_IN_AGENDA } from '@/features/calendar/lib/constants';
 import { formatMonth, formatMonthYear } from '@/utils/date.utils';
 import { uk } from 'date-fns/locale/uk';
+import { ServiceStatus } from '@/types/models/vehicle';
+import { STATUS_MAPPER } from '@/features/vehicles/lib/constants';
 
-/**
- * Get CSS classes for event colors
- */
-export function getEventColorClasses(color?: EventColor | string): string {
-  const eventColor = color || 'sky';
-
-  switch (eventColor) {
-    case 'sky':
-      return 'bg-sky-200/50 hover:bg-sky-200/40 text-sky-950/80 dark:bg-sky-400/25 dark:hover:bg-sky-400/20 dark:text-sky-200 shadow-sky-700/8';
-    case 'amber':
-      return 'bg-amber-200/50 hover:bg-amber-200/40 text-amber-950/80 dark:bg-amber-400/25 dark:hover:bg-amber-400/20 dark:text-amber-200 shadow-amber-700/8';
-    case 'violet':
-      return 'bg-violet-200/50 hover:bg-violet-200/40 text-violet-950/80 dark:bg-violet-400/25 dark:hover:bg-violet-400/20 dark:text-violet-200 shadow-violet-700/8';
-    case 'rose':
-      return 'bg-rose-200/50 hover:bg-rose-200/40 text-rose-950/80 dark:bg-rose-400/25 dark:hover:bg-rose-400/20 dark:text-rose-200 shadow-rose-700/8';
-    case 'emerald':
-      return 'bg-emerald-200/50 hover:bg-emerald-200/40 text-emerald-950/80 dark:bg-emerald-400/25 dark:hover:bg-emerald-400/20 dark:text-emerald-200 shadow-emerald-700/8';
-    case 'orange':
-      return 'bg-orange-200/50 hover:bg-orange-200/40 text-orange-950/80 dark:bg-orange-400/25 dark:hover:bg-orange-400/20 dark:text-orange-200 shadow-orange-700/8';
-    default:
-      return 'bg-sky-200/50 hover:bg-sky-200/40 text-sky-950/80 dark:bg-sky-400/25 dark:hover:bg-sky-400/20 dark:text-sky-200 shadow-sky-700/8';
-  }
+export function getEventColorClasses(status: ServiceStatus): string {
+  return STATUS_MAPPER[status].className;
 }
 
 /**
@@ -61,9 +39,10 @@ export function getBorderRadiusClasses(
  * Check if an event is a multi-day event
  */
 export function isMultiDayEvent(event: CalendarEvent): boolean {
-  const eventStart = new Date(event.start);
-  const eventEnd = new Date(event.end);
-  return event.allDay || eventStart.getDate() !== eventEnd.getDate();
+  const eventStart = new Date(event.startTime);
+  const eventEnd = new Date(event.endTime);
+  const isAllDay = isAllDayEvent(eventStart, eventEnd);
+  return isAllDay || eventStart.getDate() !== eventEnd.getDate();
 }
 
 /**
@@ -75,10 +54,13 @@ export function getEventsForDay(
 ): CalendarEvent[] {
   return events
     .filter((event) => {
-      const eventStart = new Date(event.start);
+      const eventStart = new Date(event.startTime);
       return isSameDay(day, eventStart);
     })
-    .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
+    .sort(
+      (a, b) =>
+        new Date(a.startTime).getTime() - new Date(b.startTime).getTime(),
+    );
 }
 
 /**
@@ -92,7 +74,7 @@ export function sortEvents(events: CalendarEvent[]): CalendarEvent[] {
     if (aIsMultiDay && !bIsMultiDay) return -1;
     if (!aIsMultiDay && bIsMultiDay) return 1;
 
-    return new Date(a.start).getTime() - new Date(b.start).getTime();
+    return new Date(a.startTime).getTime() - new Date(b.startTime).getTime();
   });
 }
 
@@ -106,8 +88,8 @@ export function getSpanningEventsForDay(
   return events.filter((event) => {
     if (!isMultiDayEvent(event)) return false;
 
-    const eventStart = new Date(event.start);
-    const eventEnd = new Date(event.end);
+    const eventStart = new Date(event.startTime);
+    const eventEnd = new Date(event.endTime);
 
     // Only include if it's not the start day but is either the end day or a middle day
     return (
@@ -125,8 +107,8 @@ export function getAllEventsForDay(
   day: Date,
 ): CalendarEvent[] {
   return events.filter((event) => {
-    const eventStart = new Date(event.start);
-    const eventEnd = new Date(event.end);
+    const eventStart = new Date(event.startTime);
+    const eventEnd = new Date(event.endTime);
     return (
       isSameDay(day, eventStart) ||
       isSameDay(day, eventEnd) ||
@@ -144,15 +126,18 @@ export function getAgendaEventsForDay(
 ): CalendarEvent[] {
   return events
     .filter((event) => {
-      const eventStart = new Date(event.start);
-      const eventEnd = new Date(event.end);
+      const eventStart = new Date(event.startTime);
+      const eventEnd = new Date(event.endTime);
       return (
         isSameDay(day, eventStart) ||
         isSameDay(day, eventEnd) ||
         (day > eventStart && day < eventEnd)
       );
     })
-    .sort((a, b) => new Date(a.start).getTime() - new Date(b.start).getTime());
+    .sort(
+      (a, b) =>
+        new Date(a.startTime).getTime() - new Date(b.startTime).getTime(),
+    );
 }
 
 /**
@@ -189,4 +174,23 @@ const viewTitleFormatters: Record<CalendarView, (date: Date) => string> = {
 export const getViewTitle = (view: CalendarView, date: Date): string => {
   const formatter = viewTitleFormatters[view] || viewTitleFormatters.month;
   return formatter(date);
+};
+
+export const isAllDayEvent = (startTime: Date, endTime: Date): boolean => {
+  if (!isSameDay(startTime, endTime)) {
+    return false;
+  }
+
+  const isStartAtMidnight =
+    startTime.getHours() === 0 &&
+    startTime.getMinutes() === 0 &&
+    startTime.getSeconds() === 0 &&
+    startTime.getMilliseconds() === 0;
+
+  const isEndAtMidnight =
+    endTime.getHours() === 23 &&
+    endTime.getMinutes() === 59 &&
+    endTime.getSeconds() === 59;
+
+  return isStartAtMidnight && isEndAtMidnight;
 };

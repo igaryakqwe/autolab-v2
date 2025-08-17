@@ -13,6 +13,15 @@ class ServiceRecordService {
     return serviceRecordMapper.mapServiceRecords(records);
   }
 
+  public async getOrganizationServiceRecords(organizationId: string) {
+    const records =
+      await serviceRecordRepository.getOrganizationServiceRecords(
+        organizationId,
+      );
+    if (!records) return [];
+    return records;
+  }
+
   public async createServiceRecord(record: CreateServiceRecordDto) {
     const serviceRecord =
       await serviceRecordRepository.createServiceRecord(record);

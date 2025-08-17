@@ -15,6 +15,12 @@ const serviceRecordRouter = createTRPCRouter({
       return serviceRecordService.getVehicleServiceRecords(input);
     }),
 
+  getOrganizationServiceRecords: protectedProcedure
+    .input(z.string())
+    .query(async ({ input }) => {
+      return serviceRecordService.getOrganizationServiceRecords(input);
+    }),
+
   createServiceRecord: protectedProcedure
     .input(CreateServiceRecordDto)
     .mutation(async ({ input }) => {

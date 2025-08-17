@@ -10,6 +10,7 @@ import { uk } from 'date-fns/locale';
 import { AgendaDaysToShow } from '@/features/calendar/lib/constants';
 import { getAgendaEventsForDay } from '@/features/calendar/lib/utils';
 import { EventItem } from '@/features/calendar/components/event-item';
+import { cn } from '@/utils/style-utils';
 
 interface AgendaViewProps {
   currentDate: Date;
@@ -42,7 +43,7 @@ export function AgendaView({
   );
 
   return (
-    <div className="border-border/70 border-t px-4 h-[calc(100vh-15rem)]">
+    <div className="border-border/70 border-t px-4 h-full max-h-[calc(100vh-12.5rem)]">
       {!hasEvents ? (
         <div className="flex min-h-[70svh] flex-col items-center justify-center py-16 text-center">
           <RiCalendarEventLine
@@ -53,7 +54,7 @@ export function AgendaView({
           <p className="text-muted-foreground">Немає записів на цей період.</p>
         </div>
       ) : (
-        <ScrollArea className="h-[calc(100vh-15rem)]">
+        <ScrollArea className="h-[calc(100vh-12.5rem)]">
           {days.map((day) => {
             const dayEvents = getAgendaEventsForDay(events, day);
 
@@ -62,11 +63,13 @@ export function AgendaView({
             return (
               <div
                 key={day.toString()}
-                className="border-border/70 relative my-12 border-t"
+                className="border-border/70 relative my-8 border-t"
               >
                 <span
-                  className="bg-background absolute -top-3 left-0 flex h-6 items-center pe-4 text-[10px] capitalize data-today:font-medium sm:pe-4 sm:text-xs"
-                  data-today={isToday(day) || undefined}
+                  className={cn(
+                    'bg-background absolute -top-3 left-0 flex h-6 items-center pe-4 text-xs capitalize sm:pe-4 sm:text-sm',
+                    isToday(day) && 'text-foreground font-semibold',
+                  )}
                 >
                   {format(day, 'd MMMMMM, EEEE', { locale: uk })}
                 </span>

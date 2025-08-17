@@ -19,6 +19,7 @@ import {
   getAllEventsForDay,
   getEventsForDay,
   getSpanningEventsForDay,
+  isAllDayEvent,
   sortEvents,
 } from '@/features/calendar/lib/utils';
 import { useEventVisibility } from '@/features/calendar/hooks/use-event-visibility';
@@ -49,6 +50,7 @@ export function MonthView({
   onEventSelect,
   onEventCreate,
 }: MonthViewProps) {
+  console.log(events);
   const days = useMemo(() => {
     const monthStart = startOfMonth(currentDate);
     const monthEnd = endOfMonth(monthStart);
@@ -116,7 +118,7 @@ export function MonthView({
           );
         })}
       </div>
-      <ScrollArea className="h-[calc(100vh-17.5rem)]">
+      <ScrollArea className="h-[calc(100vh-15rem)]">
         {weeks.map((week, weekIndex) => (
           <div
             key={`week-${weekIndex}`}
@@ -167,8 +169,9 @@ export function MonthView({
                       className="min-h-[calc((var(--event-height)+var(--event-gap))*2)] sm:min-h-[calc((var(--event-height)+var(--event-gap))*3)] lg:min-h-[calc((var(--event-height)+var(--event-gap))*4)]"
                     >
                       {sortEvents(allDayEvents).map((event, index) => {
-                        const eventStart = new Date(event.start);
-                        const eventEnd = new Date(event.end);
+                        const eventStart = new Date(event.startTime);
+                        const eventEnd = new Date(event.endTime);
+                        const isAllDay = isAllDayEvent(eventStart, eventEnd);
                         const isFirstDay = isSameDay(day, eventStart);
                         const isLastDay = isSameDay(day, eventEnd);
 
@@ -192,12 +195,15 @@ export function MonthView({
                                 isLastDay={isLastDay}
                               >
                                 <div className="invisible" aria-hidden={true}>
-                                  {!event.allDay && (
+                                  {!isAllDay && (
                                     <span>
-                                      {format(new Date(event.start), 'h:mm')}{' '}
+                                      {format(
+                                        new Date(event.startTime),
+                                        'h:mm',
+                                      )}{' '}
                                     </span>
                                   )}
-                                  {event.title}
+                                  {event.vehicle.make} - {event.vehicle.model}
                                 </div>
                               </EventItem>
                             </div>
@@ -249,8 +255,8 @@ export function MonthView({
                               </div>
                               <div className="space-y-1">
                                 {sortEvents(allEvents).map((event) => {
-                                  const eventStart = new Date(event.start);
-                                  const eventEnd = new Date(event.end);
+                                  const eventStart = new Date(event.startTime);
+                                  const eventEnd = new Date(event.endTime);
                                   const isFirstDay = isSameDay(day, eventStart);
                                   const isLastDay = isSameDay(day, eventEnd);
 

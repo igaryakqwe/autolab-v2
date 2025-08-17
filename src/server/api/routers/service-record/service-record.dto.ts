@@ -19,7 +19,7 @@ export const CreateServiceRecordDto = z.object({
   organizationId: z.string(),
   services: z.array(z.string()),
   startTime: z.date(),
-  endTime: z.date().optional(),
+  endTime: z.date(),
   totalPrice: z.number(),
   status: z.enum(['PENDING', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED']),
 });

@@ -8,6 +8,7 @@ import { differenceInDays } from 'date-fns';
 import { CalendarEvent } from '@/features/calendar/lib/types';
 import { EventItem } from '@/features/calendar/components/event-item';
 import { useCalendarDnd } from '@/features/calendar/components/calendar-dnd-context';
+import { isAllDayEvent } from '../lib/utils';
 
 interface DraggableEventProps {
   event: CalendarEvent;
@@ -40,12 +41,13 @@ export function DraggableEvent({
     x: number;
     y: number;
   } | null>(null);
+  const allDay = isAllDayEvent(event.startTime, event.endTime);
 
   // Check if this is a multi-day event
-  const eventStart = new Date(event.start);
-  const eventEnd = new Date(event.end);
+  const eventStart = new Date(event.startTime);
+  const eventEnd = new Date(event.endTime);
   const isMultiDayEvent =
-    isMultiDay || event.allDay || differenceInDays(eventEnd, eventStart) >= 1;
+    isMultiDay || allDay || differenceInDays(eventEnd, eventStart) >= 1;
 
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({

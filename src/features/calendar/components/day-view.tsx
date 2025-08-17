@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
+
 import React, { useMemo } from 'react';
 import {
   addHours,
@@ -13,7 +15,7 @@ import {
 } from 'date-fns';
 
 import { EventItem } from '@/features/calendar/components/event-item';
-import { isMultiDayEvent } from '@/features/calendar/lib/utils';
+import { isAllDayEvent, isMultiDayEvent } from '@/features/calendar/lib/utils';
 import { useCurrentTimeIndicator } from '@/features/calendar/hooks/use-current-time-indicator';
 import {
   EndHour,
@@ -60,8 +62,8 @@ export function DayView({
   const dayEvents = useMemo(() => {
     return events
       .filter((event) => {
-        const eventStart = new Date(event.start);
-        const eventEnd = new Date(event.end);
+        const eventStart = new Date(event.startTime);
+        const eventEnd = new Date(event.endTime);
         return (
           isSameDay(currentDate, eventStart) ||
           isSameDay(currentDate, eventEnd) ||
@@ -69,23 +71,26 @@ export function DayView({
         );
       })
       .sort(
-        (a, b) => new Date(a.start).getTime() - new Date(b.start).getTime(),
+        (a, b) =>
+          new Date(a.startTime).getTime() - new Date(b.startTime).getTime(),
       );
   }, [currentDate, events]);
 
   // Filter all-day events
   const allDayEvents = useMemo(() => {
     return dayEvents.filter((event) => {
+      const isAllDay = isAllDayEvent(event.startTime, event.endTime);
       // Include explicitly marked all-day events or multi-day events
-      return event.allDay || isMultiDayEvent(event);
+      return isAllDay || isMultiDayEvent(event);
     });
   }, [dayEvents]);
 
   // Get only single-day time-based events
   const timeEvents = useMemo(() => {
     return dayEvents.filter((event) => {
+      const isAllDay = isAllDayEvent(event.startTime, event.endTime);
       // Exclude all-day events and multi-day events
-      return !event.allDay && !isMultiDayEvent(event);
+      return !isAllDay && !isMultiDayEvent(event);
     });
   }, [dayEvents]);
 
@@ -96,10 +101,10 @@ export function DayView({
 
     // Sort events by start time and duration
     const sortedEvents = [...timeEvents].sort((a, b) => {
-      const aStart = new Date(a.start);
-      const bStart = new Date(b.start);
-      const aEnd = new Date(a.end);
-      const bEnd = new Date(b.end);
+      const aStart = new Date(a.startTime);
+      const bStart = new Date(b.startTime);
+      const aEnd = new Date(a.endTime);
+      const bEnd = new Date(b.endTime);
 
       // First sort by start time
       if (aStart < bStart) return -1;
@@ -115,8 +120,8 @@ export function DayView({
     const columns: { event: CalendarEvent; end: Date }[][] = [];
 
     sortedEvents.forEach((event) => {
-      const eventStart = new Date(event.start);
-      const eventEnd = new Date(event.end);
+      const eventStart = new Date(event.startTime);
+      const eventEnd = new Date(event.endTime);
 
       // Adjust start and end times if they're outside this day
       const adjustedStart = isSameDay(currentDate, eventStart)
@@ -146,7 +151,10 @@ export function DayView({
           const overlaps = col.some((c) =>
             areIntervalsOverlapping(
               { start: adjustedStart, end: adjustedEnd },
-              { start: new Date(c.event.start), end: new Date(c.event.end) },
+              {
+                start: new Date(c.event.startTime),
+                end: new Date(c.event.endTime),
+              },
             ),
           );
           if (!overlaps) {
@@ -190,9 +198,34 @@ export function DayView({
     'day',
   );
 
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  // Initialize scroll position to 8 AM
+  useEffect(() => {
+    const scrollToEightAM = () => {
+      if (scrollContainerRef.current) {
+        const targetHour = 8;
+        // Calculate position: (target hour - start hour) * cell height
+        const targetTop = (targetHour - StartHour) * WeekCellsHeight;
+
+        // Use requestAnimationFrame to ensure the scroll area is properly rendered
+        requestAnimationFrame(() => {
+          if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollTop = targetTop;
+          }
+        });
+      }
+    };
+
+    // Small delay to ensure all components are mounted
+    const timeoutId = setTimeout(scrollToEightAM, 100);
+
+    return () => clearTimeout(timeoutId);
+  }, [currentDate]); // Re-run when currentDate changes
+
   return (
     <div data-slot="day-view" className="contents">
-      <ScrollArea className="h-[calc(100vh-15rem)]">
+      <ScrollArea className="h-[calc(100vh-12.5rem)]" ref={scrollContainerRef}>
         {showAllDaySection && (
           <div className="border-border/70 bg-muted/50 border-t">
             <div className="grid grid-cols-[3rem_1fr] sm:grid-cols-[4rem_1fr]">
@@ -201,8 +234,8 @@ export function DayView({
               </div>
               <div className="border-border/70 relative border-r p-1 last:border-r-0">
                 {allDayEvents.map((event) => {
-                  const eventStart = new Date(event.start);
-                  const eventEnd = new Date(event.end);
+                  const eventStart = new Date(event.startTime);
+                  const eventEnd = new Date(event.endTime);
                   const isFirstDay = isSameDay(currentDate, eventStart);
                   const isLastDay = isSameDay(currentDate, eventEnd);
 
@@ -216,7 +249,9 @@ export function DayView({
                       isLastDay={isLastDay}
                     >
                       {/* Always show the title in day view for better usability */}
-                      <div>{event.title}</div>
+                      <div>
+                        {event.vehicle.make} - {event.vehicle.model}
+                      </div>
                     </EventItem>
                   );
                 })}

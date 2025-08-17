@@ -14,12 +14,13 @@ import {
 import UserAvatar from '@/components/user-avatar';
 import { ServiceRecord } from '@/types/models/vehicle';
 import { formatCurrency } from '@/utils/currency.utils';
-import { calculateDurationHours, formatDate } from '@/utils/date.utils';
+import { formatDate, formatShortDuration } from '@/utils/date.utils';
 import { formatName } from '@/utils/string-utils';
 import { cn } from '@/utils/style-utils';
 import { WrenchIcon, PlusIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { STATUS_MAPPER } from '@/features/vehicles/lib/constants';
+import { differenceInMinutes } from 'date-fns';
 
 export type ServiceHistoryProps = {
   records: ServiceRecord[];
@@ -93,11 +94,12 @@ const ServiceHistory = ({ records }: ServiceHistoryProps) => {
                             {record.endTime ? (
                               <>
                                 {formatDate(record.endTime)} • Тривалість:{' '}
-                                {calculateDurationHours(
-                                  record.startTime,
-                                  record.endTime,
-                                )}{' '}
-                                годин
+                                {formatShortDuration(
+                                  differenceInMinutes(
+                                    record.endTime,
+                                    record.startTime,
+                                  ),
+                                )}
                               </>
                             ) : (
                               <>{formatDate(record.startTime)}</>

@@ -156,10 +156,10 @@ model Client {
 model ServiceRecord {
   id         String        @id @default(uuid())
   startTime  DateTime
-  endTime    DateTime?
+  endTime    DateTime
   status     ServiceStatus @default(PENDING)
   notes      String?
-  totalPrice Float?
+  totalPrice Float
 
   organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id])

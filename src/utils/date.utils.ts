@@ -1,8 +1,4 @@
-import {
-  differenceInMinutes,
-  format,
-  formatDuration as formatDurationFn,
-} from 'date-fns';
+import { format, formatDuration as formatDurationFn } from 'date-fns';
 import { uk } from 'date-fns/locale';
 
 export const formatDuration = (duration: number) => {
@@ -45,17 +41,4 @@ export const getTime = (date: Date): string => {
     minute: '2-digit',
     hour12: false,
   });
-};
-
-export const calculateDurationHours = (
-  start: Date | string,
-  end: Date | string,
-): number => {
-  const startDate = new Date(start);
-  const endDate = new Date(end);
-
-  const minutes = differenceInMinutes(endDate, startDate);
-  const hours = minutes / 60;
-
-  return Math.round(hours * 10) / 10;
 };
