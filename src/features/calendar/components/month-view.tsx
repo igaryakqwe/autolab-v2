@@ -24,7 +24,6 @@ import {
 } from '@/features/calendar/lib/utils';
 import { useEventVisibility } from '@/features/calendar/hooks/use-event-visibility';
 import { EventGap, EventHeight } from '@/features/calendar/lib/constants';
-import { DefaultStartHour } from '@/features/calendar/lib/constants';
 import {
   Popover,
   PopoverContent,
@@ -36,21 +35,16 @@ import { uk } from 'date-fns/locale';
 import { DroppableCell } from '@/features/calendar/components/droppable-cell';
 import { EventItem } from '@/features/calendar/components/event-item';
 import { DraggableEvent } from '@/features/calendar/components/draggable-event';
+import { CreateServiceRecordDto } from '@/server/api/routers/service-record/service-record.dto';
 
 interface MonthViewProps {
   currentDate: Date;
   events: CalendarEvent[];
-  onEventSelect: (event: CalendarEvent) => void;
-  onEventCreate: (startTime: Date) => void;
+  onEventSelect: (data: CreateServiceRecordDto) => void;
+  onEventCreate: (data: CreateServiceRecordDto) => void;
 }
 
-export function MonthView({
-  currentDate,
-  events,
-  onEventSelect,
-  onEventCreate,
-}: MonthViewProps) {
-  console.log(events);
+export function MonthView({ currentDate, events }: MonthViewProps) {
   const days = useMemo(() => {
     const monthStart = startOfMonth(currentDate);
     const monthEnd = endOfMonth(monthStart);
@@ -81,11 +75,6 @@ export function MonthView({
 
     return result;
   }, [days]);
-
-  const handleEventClick = (event: CalendarEvent, e: React.MouseEvent) => {
-    e.stopPropagation();
-    onEventSelect(event);
-  };
 
   const [isMounted, setIsMounted] = useState(true);
   const { contentRef, getVisibleEventCount } = useEventVisibility({
@@ -152,15 +141,7 @@ export function MonthView({
                   data-today={isToday(day) || undefined}
                   data-outside-cell={!isCurrentMonth || undefined}
                 >
-                  <DroppableCell
-                    id={cellId}
-                    date={day}
-                    onClick={() => {
-                      const startTime = new Date(day);
-                      startTime.setHours(DefaultStartHour, 0, 0);
-                      onEventCreate(startTime);
-                    }}
-                  >
+                  <DroppableCell id={cellId} date={day}>
                     <div className="group-data-today:bg-primary group-data-today:text-primary-foreground mt-1 inline-flex size-6 items-center justify-center rounded-full text-sm">
                       {format(day, 'd')}
                     </div>
@@ -188,7 +169,6 @@ export function MonthView({
                               aria-hidden={isHidden ? 'true' : undefined}
                             >
                               <EventItem
-                                onClick={(e) => handleEventClick(event, e)}
                                 event={event}
                                 view="month"
                                 isFirstDay={isFirstDay}
@@ -219,7 +199,6 @@ export function MonthView({
                             <DraggableEvent
                               event={event}
                               view="month"
-                              onClick={(e) => handleEventClick(event, e)}
                               isFirstDay={isFirstDay}
                               isLastDay={isLastDay}
                             />
@@ -263,9 +242,6 @@ export function MonthView({
                                   return (
                                     <EventItem
                                       key={event.id}
-                                      onClick={(e) =>
-                                        handleEventClick(event, e)
-                                      }
                                       event={event}
                                       view="month"
                                       isFirstDay={isFirstDay}

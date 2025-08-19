@@ -1,10 +1,10 @@
 import { Employee } from '@/types/employee';
 
 interface InitialEmployee {
+  id: string;
   role: string;
   isActive: boolean;
   user: {
-    id: string;
     image: string | null;
     email: string;
     firstName: string | null;
@@ -21,7 +21,7 @@ class EmployeeMapper {
 
   getOne(employee: InitialEmployee): Employee {
     return {
-      id: employee.user.id,
+      id: employee.id,
       image: employee.user.image,
       email: employee.user.email,
       phone: employee.user.phone,

@@ -28,12 +28,13 @@ import { getTime } from '@/utils/date.utils';
 import { CalendarEvent } from '@/features/calendar/lib/types';
 import { DraggableEvent } from '@/features/calendar/components/draggable-event';
 import { DroppableCell } from '@/features/calendar/components/droppable-cell';
+import { CreateServiceRecordDto } from '@/server/api/routers/service-record/service-record.dto';
 
 interface DayViewProps {
   currentDate: Date;
   events: CalendarEvent[];
-  onEventSelect: (event: CalendarEvent) => void;
-  onEventCreate: (startTime: Date) => void;
+  onEventSelect: (event: CreateServiceRecordDto) => void;
+  onEventCreate: (data: CreateServiceRecordDto) => void;
 }
 
 interface PositionedEvent {
@@ -45,12 +46,7 @@ interface PositionedEvent {
   zIndex: number;
 }
 
-export function DayView({
-  currentDate,
-  events,
-  onEventSelect,
-  onEventCreate,
-}: DayViewProps) {
+export function DayView({ currentDate, events }: DayViewProps) {
   const hours = useMemo(() => {
     const dayStart = startOfDay(currentDate);
     return eachHourOfInterval({
@@ -187,11 +183,6 @@ export function DayView({
     return result;
   }, [currentDate, timeEvents]);
 
-  const handleEventClick = (event: CalendarEvent, e: React.MouseEvent) => {
-    e.stopPropagation();
-    onEventSelect(event);
-  };
-
   const showAllDaySection = allDayEvents.length > 0;
   const { currentTimePosition, currentTimeVisible } = useCurrentTimeIndicator(
     currentDate,
@@ -242,7 +233,6 @@ export function DayView({
                   return (
                     <EventItem
                       key={`spanning-${event.id}`}
-                      onClick={(e) => handleEventClick(event, e)}
                       event={event}
                       view="month"
                       isFirstDay={isFirstDay}
@@ -294,7 +284,6 @@ export function DayView({
                   <DraggableEvent
                     event={positionedEvent.event}
                     view="day"
-                    onClick={(e) => handleEventClick(positionedEvent.event, e)}
                     showTime
                     height={positionedEvent.height}
                   />
@@ -342,12 +331,6 @@ export function DayView({
                           quarter === 3 &&
                             'top-[calc(var(--week-cells-height)/4*3)]',
                         )}
-                        onClick={() => {
-                          const startTime = new Date(currentDate);
-                          startTime.setHours(hourValue);
-                          startTime.setMinutes(quarter * 15);
-                          onEventCreate(startTime);
-                        }}
                       />
                     );
                   })}

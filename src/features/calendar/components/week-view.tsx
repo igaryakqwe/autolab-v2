@@ -31,12 +31,13 @@ import { useCurrentTimeIndicator } from '@/features/calendar/hooks/use-current-t
 import { EventItem } from '@/features/calendar/components/event-item';
 import { DraggableEvent } from '@/features/calendar/components/draggable-event';
 import { DroppableCell } from '@/features/calendar/components/droppable-cell';
+import { CreateServiceRecordDto } from '@/server/api/routers/service-record/service-record.dto';
 
 interface WeekViewProps {
   currentDate: Date;
   events: CalendarEvent[];
-  onEventSelect: (event: CalendarEvent) => void;
-  onEventCreate: (startTime: Date) => void;
+  onEventSelect: (event: CreateServiceRecordDto) => void;
+  onEventCreate: (data: CreateServiceRecordDto) => void;
 }
 
 interface PositionedEvent {
@@ -48,12 +49,7 @@ interface PositionedEvent {
   zIndex: number;
 }
 
-export function WeekView({
-  currentDate,
-  events,
-  onEventSelect,
-  onEventCreate,
-}: WeekViewProps) {
+export function WeekView({ currentDate, events }: WeekViewProps) {
   const days = useMemo(() => {
     const weekStart = startOfWeek(currentDate, { weekStartsOn: 1 });
     const weekEnd = endOfWeek(currentDate, { weekStartsOn: 1 });
@@ -212,11 +208,6 @@ export function WeekView({
     return result;
   }, [days, events]);
 
-  const handleEventClick = (event: CalendarEvent, e: React.MouseEvent) => {
-    e.stopPropagation();
-    onEventSelect(event);
-  };
-
   const showAllDaySection = allDayEvents.length > 0;
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
@@ -301,7 +292,6 @@ export function WeekView({
                       <EventItem
                         className="w-full"
                         key={`spanning-${event.id}`}
-                        onClick={(e) => handleEventClick(event, e)}
                         event={event}
                         view="month"
                         isFirstDay={isFirstDay}
@@ -366,9 +356,6 @@ export function WeekView({
                     <DraggableEvent
                       event={positionedEvent.event}
                       view="week"
-                      onClick={(e) =>
-                        handleEventClick(positionedEvent.event, e)
-                      }
                       showTime
                       height={positionedEvent.height}
                     />
@@ -414,12 +401,6 @@ export function WeekView({
                             quarter === 3 &&
                               'top-[calc(var(--week-cells-height)/4*3)]',
                           )}
-                          onClick={() => {
-                            const startTime = new Date(day);
-                            startTime.setHours(hourValue);
-                            startTime.setMinutes(quarter * 15);
-                            onEventCreate(startTime);
-                          }}
                         />
                       );
                     })}

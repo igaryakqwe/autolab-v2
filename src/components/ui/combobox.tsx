@@ -1,6 +1,6 @@
 'use client';
 
-import { Check, ChevronsUpDown } from 'lucide-react';
+import { Check, ChevronsUpDown, XIcon } from 'lucide-react';
 import { useId, useMemo, useRef, useState, useEffect } from 'react';
 import {
   useController,
@@ -22,7 +22,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { Label } from './label';
+import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 export type ComboboxOption = {
   label: string;
@@ -253,3 +255,181 @@ const ComboboxItem = ({
     </div>
   );
 };
+
+type MultiSelectComboboxProps<
+  TFieldValues extends FieldValues,
+  TName extends FieldPath<TFieldValues>,
+> = {
+  name: TName;
+  control: Control<TFieldValues>;
+  label: string;
+  placeholder?: string;
+  description?: string;
+  options: ComboboxOption[];
+  emptyMessage?: string;
+  searchPlaceholder?: string;
+  className?: string;
+  error?: string;
+};
+
+export function MultiSelectCombobox<
+  TFieldValues extends FieldValues,
+  TName extends FieldPath<TFieldValues>,
+>({
+  name,
+  control,
+  label,
+  placeholder = 'Select options',
+  description,
+  options,
+  emptyMessage = 'No options found.',
+  searchPlaceholder = 'Search...',
+  className,
+  error,
+}: MultiSelectComboboxProps<TFieldValues, TName>) {
+  const id = useId();
+  const [searchValue, setSearchValue] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
+
+  const { field, fieldState } = useController({
+    name,
+    control,
+  });
+
+  const errorMessage = error || fieldState.error?.message;
+  const selectedValues: unknown[] = useMemo(
+    () => field.value || [],
+    [field.value],
+  );
+
+  const filteredOptions = useMemo(() => {
+    if (!searchValue) return options;
+    return options.filter((option) =>
+      option.label.toLowerCase().includes(searchValue.toLowerCase()),
+    );
+  }, [options, searchValue]);
+
+  const selectedOptions = useMemo(() => {
+    return options.filter((option) => selectedValues.includes(option.value));
+  }, [options, selectedValues]);
+
+  const handleSelect = (optionValue: unknown) => {
+    const newValues = selectedValues.includes(optionValue)
+      ? selectedValues.filter((value: unknown) => value !== optionValue)
+      : [...selectedValues, optionValue];
+
+    field.onChange(newValues);
+  };
+
+  const handleRemove = (optionValue: unknown) => {
+    const newValues = selectedValues.filter(
+      (value: unknown) => value !== optionValue,
+    );
+    field.onChange(newValues);
+  };
+
+  const handleOpenChange = (open: boolean) => {
+    setIsOpen(open);
+    if (!open) {
+      setSearchValue('');
+    }
+  };
+
+  return (
+    <div className={cn('space-y-2', className)}>
+      <Label htmlFor={id}>{label}</Label>
+      <Popover open={isOpen} onOpenChange={handleOpenChange}>
+        <PopoverTrigger asChild>
+          <Button
+            id={id}
+            variant="outline"
+            role="combobox"
+            className={cn(
+              'w-full justify-between min-h-10 h-auto',
+              !selectedValues.length && 'text-muted-foreground',
+            )}
+            aria-invalid={!!errorMessage}
+            aria-expanded={isOpen}
+          >
+            <div className="flex flex-wrap gap-1 flex-1">
+              {selectedOptions.length > 0 ? (
+                selectedOptions.map((option) => (
+                  <Badge
+                    key={option.label}
+                    variant="secondary"
+                    className="text-xs"
+                  >
+                    {option.label}
+                    <button
+                      type="button"
+                      className="ml-1 hover:bg-secondary-foreground/20 rounded-full"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleRemove(option.value);
+                      }}
+                    >
+                      <XIcon className="size-2 text-muted-foreground group-hover:text-destructive" />
+                    </button>
+                  </Badge>
+                ))
+              ) : (
+                <span>{placeholder}</span>
+              )}
+            </div>
+            <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-fit p-0" align="start" sideOffset={4}>
+          <Command shouldFilter={false} className="overflow-hidden">
+            <CommandInput
+              placeholder={searchPlaceholder}
+              className="h-9"
+              value={searchValue}
+              onValueChange={setSearchValue}
+            />
+            <CommandList className="max-h-[200px]">
+              {filteredOptions.length === 0 ? (
+                <div className="py-6 text-center text-sm text-muted-foreground">
+                  {emptyMessage}
+                </div>
+              ) : (
+                <ScrollArea className="h-[200px]">
+                  {filteredOptions.map((option) => {
+                    const isSelected = selectedValues.includes(option.value);
+                    return (
+                      <div
+                        key={option.label}
+                        className={cn(
+                          'flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground',
+                          isSelected && 'bg-accent text-accent-foreground',
+                        )}
+                        onClick={() => handleSelect(option.value)}
+                      >
+                        <Check
+                          className={cn(
+                            'mr-2 h-4 w-4',
+                            isSelected ? 'opacity-100' : 'opacity-0',
+                          )}
+                        />
+                        <div className="flex-1">
+                          <div>{option.label}</div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </ScrollArea>
+              )}
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
+      {description && (
+        <p className="text-sm text-muted-foreground">{description}</p>
+      )}
+      {errorMessage && (
+        <p className="text-sm font-medium text-destructive">{errorMessage}</p>
+      )}
+    </div>
+  );
+}

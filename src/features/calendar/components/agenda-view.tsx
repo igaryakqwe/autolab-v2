@@ -11,31 +11,21 @@ import { AgendaDaysToShow } from '@/features/calendar/lib/constants';
 import { getAgendaEventsForDay } from '@/features/calendar/lib/utils';
 import { EventItem } from '@/features/calendar/components/event-item';
 import { cn } from '@/utils/style-utils';
+import { CreateServiceRecordDto } from '@/server/api/routers/service-record/service-record.dto';
 
 interface AgendaViewProps {
   currentDate: Date;
   events: CalendarEvent[];
-  onEventSelect: (event: CalendarEvent) => void;
+  onEventSelect: (event: CreateServiceRecordDto) => void;
 }
 
-export function AgendaView({
-  currentDate,
-  events,
-  onEventSelect,
-}: AgendaViewProps) {
+export function AgendaView({ currentDate, events }: AgendaViewProps) {
   // Show events for the next days based on constant
   const days = useMemo(() => {
-    console.log('Agenda view updating with date:', currentDate.toISOString());
     return Array.from({ length: AgendaDaysToShow }, (_, i) =>
       addDays(new Date(currentDate), i),
     );
   }, [currentDate]);
-
-  const handleEventClick = (event: CalendarEvent, e: React.MouseEvent) => {
-    e.stopPropagation();
-    console.log('Agenda view event clicked:', event);
-    onEventSelect(event);
-  };
 
   // Check if there are any days with events
   const hasEvents = days.some(
@@ -75,12 +65,7 @@ export function AgendaView({
                 </span>
                 <div className="mt-6 space-y-2">
                   {dayEvents.map((event) => (
-                    <EventItem
-                      key={event.id}
-                      event={event}
-                      view="agenda"
-                      onClick={(e) => handleEventClick(event, e)}
-                    />
+                    <EventItem key={event.id} event={event} view="agenda" />
                   ))}
                 </div>
               </div>

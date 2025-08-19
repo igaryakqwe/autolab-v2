@@ -2,9 +2,9 @@ import { z } from 'zod';
 import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
 import ServiceRecordService from '@/server/api/routers/service-record/service-record.service';
 import {
-  CreateServiceRecordDto,
-  UpdateServiceRecordDto,
-} from './service-record.dto';
+  CreateServiceRecordSchema,
+  UpdateServiceRecordSchema,
+} from '@/server/api/routers/service-record/service-record.dto';
 
 const serviceRecordService = new ServiceRecordService();
 
@@ -22,13 +22,13 @@ const serviceRecordRouter = createTRPCRouter({
     }),
 
   createServiceRecord: protectedProcedure
-    .input(CreateServiceRecordDto)
+    .input(CreateServiceRecordSchema)
     .mutation(async ({ input }) => {
       return serviceRecordService.createServiceRecord(input);
     }),
 
   updateServiceRecord: protectedProcedure
-    .input(UpdateServiceRecordDto)
+    .input(UpdateServiceRecordSchema)
     .mutation(async ({ input }) => {
       return serviceRecordService.updateServiceRecord(input.id, input);
     }),

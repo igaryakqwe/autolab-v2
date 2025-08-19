@@ -29,7 +29,7 @@ const VehiclePage = ({ vehicleId }: VehiclePageProps) => {
           <VehicleSpecifications {...vehicle} />
           <VehicleOwner {...vehicleOwner} />
         </div>
-        <ServiceHistory records={serviceRecords} />
+        <ServiceHistory vehicleId={vehicleId} records={serviceRecords} />
       </div>
     </div>
   );

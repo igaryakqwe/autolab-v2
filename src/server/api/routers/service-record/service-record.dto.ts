@@ -13,7 +13,7 @@ export interface ServiceRecordDto extends Omit<ServiceRecord, 'employee'> {
   };
 }
 
-export const CreateServiceRecordDto = z.object({
+export const CreateServiceRecordSchema = z.object({
   vehicleId: z.string(),
   employeeId: z.string(),
   organizationId: z.string(),
@@ -22,11 +22,12 @@ export const CreateServiceRecordDto = z.object({
   endTime: z.date(),
   totalPrice: z.number(),
   status: z.enum(['PENDING', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED']),
+  notes: z.string().nullable(),
 });
 
-export const UpdateServiceRecordDto = CreateServiceRecordDto.extend({
+export const UpdateServiceRecordSchema = CreateServiceRecordSchema.extend({
   id: z.string(),
 });
 
-export type CreateServiceRecordDto = z.infer<typeof CreateServiceRecordDto>;
-export type UpdateServiceRecordDto = z.infer<typeof UpdateServiceRecordDto>;
+export type CreateServiceRecordDto = z.infer<typeof CreateServiceRecordSchema>;
+export type UpdateServiceRecordDto = z.infer<typeof UpdateServiceRecordSchema>;

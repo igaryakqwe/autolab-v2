@@ -21,12 +21,23 @@ import { WrenchIcon, PlusIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { STATUS_MAPPER } from '@/features/vehicles/lib/constants';
 import { differenceInMinutes } from 'date-fns';
+import ServiceRecordDialog from '@/features/calendar/components/service-record-dialog';
+import ServiceRecordForm from '@/features/calendar/components/service-record-form';
+import useCreateServiceRecordMutation from '@/features/calendar/hooks/mutations/use-create-service-record.mutation';
+import { CreateServiceRecordDto } from '@/server/api/routers/service-record/service-record.dto';
 
 export type ServiceHistoryProps = {
+  vehicleId: string;
   records: ServiceRecord[];
 };
 
-const ServiceHistory = ({ records }: ServiceHistoryProps) => {
+const ServiceHistory = ({ vehicleId, records }: ServiceHistoryProps) => {
+  const { createServiceRecord, isCreating } = useCreateServiceRecordMutation();
+
+  const handleEventCreate = (data: CreateServiceRecordDto) => {
+    createServiceRecord(data);
+  };
+
   if (!records.length) {
     return (
       <Card className="w-full">
@@ -39,7 +50,24 @@ const ServiceHistory = ({ records }: ServiceHistoryProps) => {
             </div>
           }
         >
-          <Button icon={<PlusIcon />}>Додати</Button>
+          <ServiceRecordDialog
+            trigger={
+              <Button
+                className="max-sm:hidden max-[479px]:aspect-square max-[479px]:p-0!"
+                icon={<PlusIcon size={16} aria-hidden="true" />}
+              >
+                <span className="max-sm:sr-only">Додати</span>
+              </Button>
+            }
+          >
+            <ServiceRecordForm
+              initialData={{
+                vehicleId,
+              }}
+              onSubmit={handleEventCreate}
+              isLoading={isCreating}
+            />
+          </ServiceRecordDialog>
         </SectionHeader>
         <CardContent>
           <div className="flex items-center justify-center">
@@ -61,7 +89,24 @@ const ServiceHistory = ({ records }: ServiceHistoryProps) => {
           </div>
         }
       >
-        <Button icon={<PlusIcon />}>Додати</Button>
+        <ServiceRecordDialog
+          trigger={
+            <Button
+              className="max-sm:hidden max-[479px]:aspect-square max-[479px]:p-0!"
+              icon={<PlusIcon size={16} aria-hidden="true" />}
+            >
+              <span className="max-sm:sr-only">Додати</span>
+            </Button>
+          }
+        >
+          <ServiceRecordForm
+            initialData={{
+              vehicleId,
+            }}
+            onSubmit={handleEventCreate}
+            isLoading={isCreating}
+          />
+        </ServiceRecordDialog>{' '}
       </SectionHeader>
       <CardContent className="">
         <ScrollArea className="max-h-[37rem] overflow-y-auto">

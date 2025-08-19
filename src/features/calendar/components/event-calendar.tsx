@@ -32,6 +32,10 @@ import { MonthView } from '@/features/calendar/components/month-view';
 import { WeekView } from '@/features/calendar/components/week-view';
 import { DayView } from '@/features/calendar/components/day-view';
 import { AgendaView } from '@/features/calendar/components/agenda-view';
+import ServiceRecordDialog from './service-record-dialog';
+import ServiceRecordForm from './service-record-form';
+import useCreateServiceRecordMutation from '../hooks/mutations/use-create-service-record.mutation';
+import { CreateServiceRecordDto } from '@/server/api/routers/service-record/service-record.dto';
 
 export interface EventCalendarProps {
   events?: CalendarEvent[];
@@ -49,6 +53,7 @@ export function EventCalendar({
 }: EventCalendarProps) {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [view, setView] = useState<CalendarView>(initialView);
+  const { createServiceRecord, isCreating } = useCreateServiceRecordMutation();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -111,11 +116,13 @@ export function EventCalendar({
     setCurrentDate(new Date());
   };
 
-  const handleEventSelect = (event: CalendarEvent) => {
+  const handleEventSelect = (event: CreateServiceRecordDto) => {
     console.log('Event selected:', event);
   };
 
-  const handleEventCreate = () => {};
+  const handleEventCreate = (data: CreateServiceRecordDto) => {
+    createServiceRecord(data);
+  };
 
   const handleEventUpdate = () => {};
 
@@ -206,12 +213,21 @@ export function EventCalendar({
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-            <Button
-              className="max-[479px]:aspect-square max-[479px]:p-0!"
-              icon={<PlusIcon size={16} aria-hidden="true" />}
+            <ServiceRecordDialog
+              trigger={
+                <Button
+                  className="max-sm:hidden max-[479px]:aspect-square max-[479px]:p-0!"
+                  icon={<PlusIcon size={16} aria-hidden="true" />}
+                >
+                  <span className="max-sm:sr-only">Додати</span>
+                </Button>
+              }
             >
-              <span className="max-sm:sr-only">Додати</span>
-            </Button>
+              <ServiceRecordForm
+                onSubmit={handleEventCreate}
+                isLoading={isCreating}
+              />
+            </ServiceRecordDialog>
           </div>
         </div>
 

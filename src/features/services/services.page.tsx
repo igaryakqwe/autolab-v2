@@ -4,7 +4,7 @@ import DataTableSearch from '@/components/table/data-table-search';
 import { useState } from 'react';
 import servicesColumns from './constants/columns';
 import DataTable from '@/components/table/data-table';
-import useServicesQuery from './hooks/useServicesQuery';
+import useServicesQuery from './hooks/queries/use-services.query';
 import useOrganizationsStore from '@/store/use-organizations-store';
 import { filterServices } from './utils/filter-services';
 import { parseAsString, useQueryState } from 'nuqs';
@@ -30,9 +30,11 @@ const ServicesPage = () => {
   const [search] = useQueryState('search', parseAsString.withDefault(''));
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
-  const { data, isLoading } = useServicesQuery(currentOrganization as string);
+  const { services, isLoading } = useServicesQuery(
+    currentOrganization as string,
+  );
 
-  const filteredData = filterServices(search, data);
+  const filteredData = filterServices(search, services);
 
   const handleSelect = (services: Service[]) => {
     const ids = services.map((service) => service.id);
