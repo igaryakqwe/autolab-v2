@@ -14,18 +14,57 @@ import {
 import UserAvatar from '@/components/user-avatar';
 import { ServiceRecord } from '@/types/models/vehicle';
 import { formatCurrency } from '@/utils/currency.utils';
-import { calculateDurationHours, formatDate } from '@/utils/date-utils';
+import { formatDate, formatShortDuration } from '@/utils/date.utils';
 import { formatName } from '@/utils/string-utils';
 import { cn } from '@/utils/style-utils';
 import { WrenchIcon, PlusIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { STATUS_MAPPER } from '@/features/vehicles/lib/constants';
+import { differenceInMinutes } from 'date-fns';
+import ServiceRecordDialog from '@/features/calendar/components/service-record-dialog';
+import ServiceRecordForm from '@/features/calendar/components/service-record-form';
+import useCreateServiceRecordMutation from '@/features/calendar/hooks/mutations/use-create-service-record.mutation';
+import {
+  CreateServiceRecordDto,
+  CreateServiceRecordSchema,
+  UpdateServiceRecordDto,
+} from '@/server/api/routers/service-record/service-record.dto';
+import useCalendarDialogStore from '@/features/calendar/stores/use-calendar-dialog.store';
+import { toast } from '@/utils/toast-utils';
 
 export type ServiceHistoryProps = {
+  vehicleId: string;
   records: ServiceRecord[];
 };
 
-const ServiceHistory = ({ records }: ServiceHistoryProps) => {
+const ServiceHistory = ({ vehicleId, records }: ServiceHistoryProps) => {
+  const { createServiceRecord, isCreating } = useCreateServiceRecordMutation();
+
+  const setIsOpen = useCalendarDialogStore((state) => state.setOpen);
+  const setInitialValues = useCalendarDialogStore(
+    (state) => state.setInitialValues,
+  );
+  const setIsEdit = useCalendarDialogStore((state) => state.setIsEdit);
+
+  const handleEventCreate = (
+    data: CreateServiceRecordDto | UpdateServiceRecordDto,
+  ) => {
+    const parsedData = CreateServiceRecordSchema.safeParse(data);
+    if (!parsedData.success) {
+      toast(parsedData.error.message).error();
+      return;
+    }
+    createServiceRecord(parsedData.data);
+  };
+
+  const handleCreateClick = () => {
+    setIsOpen(true);
+    setIsEdit(false);
+    setInitialValues({
+      vehicleId,
+    });
+  };
+
   if (!records.length) {
     return (
       <Card className="w-full">
@@ -38,13 +77,28 @@ const ServiceHistory = ({ records }: ServiceHistoryProps) => {
             </div>
           }
         >
-          <Button icon={<PlusIcon />}>Додати</Button>
+          <Button
+            className="max-sm:hidden max-[479px]:aspect-square max-[479px]:p-0!"
+            icon={<PlusIcon size={16} aria-hidden="true" />}
+            onClick={handleCreateClick}
+          >
+            <span className="max-sm:sr-only">Додати</span>
+          </Button>
         </SectionHeader>
         <CardContent>
           <div className="flex items-center justify-center">
             <p className="text-slate-500">Немає обслуговувань</p>
           </div>
         </CardContent>
+        <ServiceRecordDialog>
+          <ServiceRecordForm
+            initialData={{
+              vehicleId,
+            }}
+            onSubmit={handleEventCreate}
+            isLoading={isCreating}
+          />
+        </ServiceRecordDialog>
       </Card>
     );
   }
@@ -60,10 +114,16 @@ const ServiceHistory = ({ records }: ServiceHistoryProps) => {
           </div>
         }
       >
-        <Button icon={<PlusIcon />}>Додати</Button>
+        <Button
+          className="max-sm:hidden max-[479px]:aspect-square max-[479px]:p-0!"
+          icon={<PlusIcon size={16} aria-hidden="true" />}
+          onClick={handleCreateClick}
+        >
+          <span className="max-sm:sr-only">Додати</span>
+        </Button>
       </SectionHeader>
-      <CardContent className="">
-        <ScrollArea className="max-h-[37rem] overflow-y-auto">
+      <CardContent>
+        <ScrollArea className="h-[37rem]">
           <Timeline className="mx-1" defaultValue={2}>
             {records.map((record, index) => {
               const Icon = STATUS_MAPPER[record.status].icon;
@@ -92,16 +152,16 @@ const ServiceHistory = ({ records }: ServiceHistoryProps) => {
                           <TimelineDate className="text-slate-500 text-sm mt-1">
                             {record.endTime ? (
                               <>
-                                {formatDate(record.endTime.toISOString())} •
-                                Тривалість:{' '}
-                                {calculateDurationHours(
-                                  record.startTime,
-                                  record.endTime,
-                                )}{' '}
-                                годин
+                                {formatDate(record.endTime)} • Тривалість:{' '}
+                                {formatShortDuration(
+                                  differenceInMinutes(
+                                    record.endTime,
+                                    record.startTime,
+                                  ),
+                                )}
                               </>
                             ) : (
-                              <>{formatDate(record.startTime.toISOString())}</>
+                              <>{formatDate(record.startTime)}</>
                             )}
                           </TimelineDate>
                         </div>
@@ -184,6 +244,15 @@ const ServiceHistory = ({ records }: ServiceHistoryProps) => {
           </Timeline>
         </ScrollArea>
       </CardContent>
+      <ServiceRecordDialog>
+        <ServiceRecordForm
+          initialData={{
+            vehicleId,
+          }}
+          onSubmit={handleEventCreate}
+          isLoading={isCreating}
+        />
+      </ServiceRecordDialog>
     </Card>
   );
 };

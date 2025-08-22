@@ -1,19 +1,13 @@
 import { api } from '@/lib/trpc/client';
-import useOrganizationsStore from '@/store/use-organizations-store';
 
-const useVehiclesQuery = () => {
-  const { currentOrganization } = useOrganizationsStore();
-
+const useVehiclesQuery = (organizationId: string) => {
   const {
     data: vehicles = [],
     isPending,
     error,
-  } = api.vehicle.getVehiclesByOrganization.useQuery(
-    currentOrganization ?? '',
-    {
-      enabled: !!currentOrganization,
-    },
-  );
+  } = api.vehicle.getVehiclesByOrganization.useQuery(organizationId, {
+    enabled: !!organizationId,
+  });
 
   return { vehicles, isLoading: isPending, error };
 };

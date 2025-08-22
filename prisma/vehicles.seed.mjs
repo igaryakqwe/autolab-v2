@@ -161,8 +161,8 @@ async function main() {
       const employee =
         employees[faker.number.int({ min: 0, max: employees.length - 1 })];
 
-      // Get 1-3 random services
-      const serviceCount = faker.number.int({ min: 1, max: 3 });
+      // Get 1-5 random services
+      const serviceCount = faker.number.int({ min: 1, max: 5 });
       const selectedServices = faker.helpers.arrayElements(
         services,
         serviceCount,
@@ -174,24 +174,31 @@ async function main() {
         0,
       );
 
-      // Create a date in the past year
-      const startTime = faker.date.past({ years: 1 });
+      // Create a date within ±7 days from now with rounded minutes
+      const daysOffset = faker.number.int({ min: -7, max: 7 });
+      const startTime = new Date();
+      startTime.setDate(startTime.getDate() + daysOffset);
 
-      // Some records are completed, some are still pending
-      const status = faker.helpers.arrayElement([
-        'PENDING',
-        'IN_PROGRESS',
-        'COMPLETED',
-      ]);
+      // Set random hours (8-20) and round minutes to nearest 15-minute interval
+      startTime.setHours(faker.number.int({ min: 8, max: 20 }));
+      const roundedMinutes = Math.floor(startTime.getMinutes() / 15) * 15;
+      startTime.setMinutes(roundedMinutes, 0, 0);
 
-      // If completed, add an end time
-      let endTime = null;
-      if (status === 'COMPLETED') {
-        // Add a few hours to the start time
-        endTime = new Date(startTime);
-        endTime.setHours(
-          endTime.getHours() + faker.number.int({ min: 1, max: 8 }),
-        );
+      // Add a few hours to the start time (1-8 hours)
+      const endTime = new Date(startTime);
+      const hoursToAdd = faker.number.int({ min: 1, max: 8 });
+      endTime.setHours(endTime.getHours() + hoursToAdd);
+
+      // Determine status based on current time
+      const now = new Date();
+      let status;
+
+      if (now < startTime) {
+        status = 'PENDING';
+      } else if (now >= startTime && now <= endTime) {
+        status = 'IN_PROGRESS';
+      } else {
+        status = 'COMPLETED';
       }
 
       // Create the service record
@@ -207,9 +214,6 @@ async function main() {
           },
           employee: {
             connect: { id: employee.id },
-          },
-          client: {
-            connect: { id: client.userId || employee.userId }, // Connect to a User ID
           },
           vehicle: {
             connect: { id: vehicle.id },

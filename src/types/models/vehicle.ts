@@ -33,10 +33,10 @@ export type ServiceStatus =
 export const ServiceRecordSchema = z.object({
   id: z.string(),
   startTime: z.date(),
-  endTime: z.date().nullable(),
+  endTime: z.date(),
   status: z.enum(['PENDING', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED']),
   notes: z.string().nullable(),
-  totalPrice: z.number().nullable(),
+  totalPrice: z.number(),
   organizationId: z.string().uuid(),
   employeeId: z.string().uuid(),
   vehicleId: z.string().uuid(),

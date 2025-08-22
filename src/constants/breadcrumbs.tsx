@@ -44,4 +44,13 @@ export const routeMapping: Record<string, BreadcrumbItem[]> = {
     { title: 'Організація', link: OrganizationRoutes.Home },
     { title: 'Авто', link: OrganizationRoutes.Vehicles },
   ],
+  [Routes.Vehicle]: [
+    dashboardBreadcrumbs,
+    { title: 'Авто', link: OrganizationRoutes.Vehicles },
+  ],
+  [OrganizationRoutes.Calendar]: [
+    dashboardBreadcrumbs,
+    { title: 'Організація', link: OrganizationRoutes.Home },
+    { title: 'Календар', link: OrganizationRoutes.Calendar },
+  ],
 };

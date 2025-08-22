@@ -12,14 +12,14 @@ export const CreateVehicleSchema = z.object({
   make: z.string(),
   model: z.string(),
   year: z.coerce.number(),
-  vin: z.string().nullable(),
+  vin: z.string().nullable().optional(),
   bodyStyle: z.string(),
   licensePlate: z.string().min(8).max(8),
   engine: z.string(),
-  engineVolume: z.coerce.number().nullable(),
+  engineVolume: z.coerce.number().nullable().optional(),
   notes: z.string().nullable().optional(),
-  clientId: z.string().nullable(),
-  userId: z.string().nullable(),
+  clientId: z.string().nullable().optional(),
+  userId: z.string().nullable().optional(),
 });
 
 export type CreateVehicleDto = z.infer<typeof CreateVehicleSchema>;

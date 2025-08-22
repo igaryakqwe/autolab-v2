@@ -15,9 +15,9 @@ class EmployeeRepository {
         select: {
           role: true,
           isActive: true,
+          id: true,
           user: {
             select: {
-              id: true,
               image: true,
               email: true,
               firstName: true,

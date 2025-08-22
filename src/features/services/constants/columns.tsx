@@ -1,7 +1,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Service } from '@/types/service';
-import { formatDuration } from '@/utils/date-utils';
+import { formatShortDuration } from '@/utils/date.utils';
 import { ColumnDef } from '@tanstack/react-table';
 import ServiceInfoModal from '@/features/services/components/service-info-modal';
 import EditServiceModal from '@/features/services/components/edit-service-modal';
@@ -59,7 +59,7 @@ const servicesColumns: ColumnDef<Service>[] = [
     header: 'Тривалість',
     accessorKey: 'duration',
     cell: ({ row }) => {
-      return <span>{formatDuration(row.original.duration)}</span>;
+      return <span>{formatShortDuration(row.original.duration)}</span>;
     },
   },
   {

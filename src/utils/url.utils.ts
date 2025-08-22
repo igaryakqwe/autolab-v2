@@ -9,15 +9,25 @@ const getMatchedRoute = (
   pathname: string,
   routeMapping: Record<string, unknown>,
 ): string | undefined => {
+  if (routeMapping[pathname]) {
+    return pathname;
+  }
+
   return Object.keys(routeMapping).find((route) => {
-    if (!route.includes('?')) {
-      return pathname === route;
+    const routePattern = route.split('?')[0];
+
+    if (routePattern.includes(':')) {
+      const regex = new RegExp(`^${routePattern.replace(/:\w+/g, '[^/]+')}$`);
+      if (regex.test(pathname)) {
+        return true;
+      }
     }
 
-    const regex = new RegExp(
-      `^${route.split('?')[0].replace(':id', '[^/]+')}$`,
-    );
-    return regex.test(pathname);
+    if (route.includes('?')) {
+      return routePattern === pathname;
+    }
+
+    return false;
   });
 };
 
