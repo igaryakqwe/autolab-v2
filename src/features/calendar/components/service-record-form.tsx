@@ -28,6 +28,7 @@ import {
   CreateServiceRecordDto,
   CreateServiceRecordSchema,
   UpdateServiceRecordDto,
+  UpdateServiceRecordSchema,
 } from '@/server/api/routers/service-record/service-record.dto';
 import { formatShortDuration } from '@/utils/date.utils';
 import { formatCurrency } from '@/utils/currency.utils';
@@ -37,7 +38,7 @@ import { ServiceStatus } from '@/types/models/vehicle';
 interface ServiceRecordFormProps {
   onSubmit: (data: CreateServiceRecordDto | UpdateServiceRecordDto) => void;
   isLoading?: boolean;
-  initialData?: Partial<CreateServiceRecordDto | UpdateServiceRecordDto>;
+  initialData?: UpdateServiceRecordDto;
 }
 
 const ServiceRecordForm = ({
@@ -46,7 +47,7 @@ const ServiceRecordForm = ({
   initialData,
 }: ServiceRecordFormProps) => {
   const { currentOrganization } = useOrganizationsStore();
-  const form = useForm<CreateServiceRecordDto | UpdateServiceRecordDto>({
+  const form = useForm<CreateServiceRecordDto>({
     resolver: zodResolver(CreateServiceRecordSchema),
     defaultValues: {
       vehicleId: initialData?.vehicleId || '',
@@ -104,8 +105,12 @@ const ServiceRecordForm = ({
   const submitForm = (
     data: CreateServiceRecordDto | UpdateServiceRecordDto,
   ) => {
-    console.log(data);
-    onSubmit(data);
+    const parsedData = UpdateServiceRecordSchema.safeParse(data);
+    if (parsedData.success) {
+      onSubmit({ id: initialData?.id, ...parsedData.data });
+    } else {
+      onSubmit(data);
+    }
   };
 
   return (
@@ -215,7 +220,7 @@ const ServiceRecordForm = ({
       )}
 
       <Button isLoading={isLoading} type="submit" className="w-full">
-        Створити запис
+        Зберегти
       </Button>
     </form>
   );

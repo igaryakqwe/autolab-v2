@@ -25,6 +25,7 @@ import { addMinutes, differenceInMinutes } from 'date-fns';
 
 import { CalendarEvent } from '@/features/calendar/lib/types';
 import { EventItem } from '@/features/calendar/components/event-item';
+import { UpdateServiceRecordDto } from '@/server/api/routers/service-record/service-record.dto';
 
 // Define the context type
 type CalendarDndContextType = {
@@ -63,7 +64,7 @@ export const useCalendarDnd = () => useContext(CalendarDndContext);
 // Props for the provider
 interface CalendarDndProviderProps {
   children: ReactNode;
-  onEventUpdate: (event: CalendarEvent) => void;
+  onEventUpdate: (event: UpdateServiceRecordDto) => void;
 }
 
 export function CalendarDndProvider({
@@ -301,10 +302,11 @@ export function CalendarDndProvider({
         originalStart.getHours() !== newStart.getHours() ||
         originalStart.getMinutes() !== newStart.getMinutes();
 
+      console.log(calendarEvent);
+
       if (hasStartTimeChanged) {
-        // Update the event only if the time has changed
         onEventUpdate({
-          ...calendarEvent,
+          id: calendarEvent.id,
           startTime: newStart,
           endTime: newEnd,
         });

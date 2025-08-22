@@ -1,3 +1,5 @@
+import { CalendarView } from './types';
+
 export const EventHeight = 24;
 
 // Vertical gap between events in pixels - controls spacing in month view
@@ -24,4 +26,13 @@ export const VIEW_TYPE = {
   week: 'Тиждень',
   day: 'День',
   agenda: 'Агенда',
+};
+
+export const VIEW_TYPES = Object.keys(VIEW_TYPE) as CalendarView[];
+
+export const KEYBOARD_SHORTCUTS: Record<string, CalendarView> = {
+  m: 'month',
+  w: 'week',
+  d: 'day',
+  a: 'agenda',
 };

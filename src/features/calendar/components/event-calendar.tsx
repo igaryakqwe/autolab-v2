@@ -1,9 +1,8 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { RiCalendarCheckLine } from '@remixicon/react';
-import { addDays, addMonths, addWeeks, subMonths, subWeeks } from 'date-fns';
-import { getViewTitle } from '@/features/calendar/lib/utils';
+import { getViewTitle, viewHandlers } from '@/features/calendar/lib/utils';
 import {
   ChevronDownIcon,
   ChevronLeftIcon,
@@ -20,9 +19,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import {
-  AgendaDaysToShow,
   EventGap,
   EventHeight,
+  KEYBOARD_SHORTCUTS,
+  VIEW_TYPES,
   VIEW_TYPE,
   WeekCellsHeight,
 } from '@/features/calendar/lib/constants';
@@ -32,32 +32,49 @@ import { MonthView } from '@/features/calendar/components/month-view';
 import { WeekView } from '@/features/calendar/components/week-view';
 import { DayView } from '@/features/calendar/components/day-view';
 import { AgendaView } from '@/features/calendar/components/agenda-view';
-import ServiceRecordDialog from './service-record-dialog';
-import ServiceRecordForm from './service-record-form';
-import useCreateServiceRecordMutation from '../hooks/mutations/use-create-service-record.mutation';
-import { CreateServiceRecordDto } from '@/server/api/routers/service-record/service-record.dto';
+import ServiceRecordDialog from '@/features/calendar/components/service-record-dialog';
+import ServiceRecordForm from '@/features/calendar/components/service-record-form';
+import useCreateServiceRecordMutation from '@/features/calendar/hooks/mutations/use-create-service-record.mutation';
+import {
+  CreateServiceRecordDto,
+  CreateServiceRecordSchema,
+  UpdateServiceRecordDto,
+} from '@/server/api/routers/service-record/service-record.dto';
+import useCalendarDialogStore from '@/features/calendar/stores/use-calendar-dialog.store';
+import { parseAsIsoDate, parseAsStringLiteral, useQueryState } from 'nuqs';
+import useUpdateServiceRecordMutation from '../hooks/mutations/use-update-service-record.mutation copy 2';
+import { toast } from '@/utils/toast-utils';
 
 export interface EventCalendarProps {
   events?: CalendarEvent[];
-  onEventAdd?: (event: CalendarEvent) => void;
-  onEventUpdate?: (event: CalendarEvent) => void;
-  onEventDelete?: (eventId: string) => void;
   className?: string;
-  initialView?: CalendarView;
 }
 
-export function EventCalendar({
-  events = [],
-  className,
-  initialView = 'month',
-}: EventCalendarProps) {
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [view, setView] = useState<CalendarView>(initialView);
+export function EventCalendar({ events = [], className }: EventCalendarProps) {
+  const [view, setView] = useQueryState(
+    'view',
+    parseAsStringLiteral(VIEW_TYPES).withDefault('week'),
+  );
+  const [currentDate, setCurrentDate] = useQueryState(
+    'currentDate',
+    parseAsIsoDate.withDefault(new Date()),
+  );
   const { createServiceRecord, isCreating } = useCreateServiceRecordMutation();
+  const { updateServiceRecord } = useUpdateServiceRecordMutation();
+  const dialogOpen = useCalendarDialogStore((state) => state.open);
+  const setDialogOpen = useCalendarDialogStore((state) => state.setOpen);
+  const initialValues = useCalendarDialogStore((state) => state.initialValues);
+  const setInitialValues = useCalendarDialogStore(
+    (state) => state.setInitialValues,
+  );
+  const isEdit = useCalendarDialogStore((state) => state.isEdit);
+  const setIsEdit = useCalendarDialogStore((state) => state.setIsEdit);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      const key = e.key.toLowerCase();
       if (
+        dialogOpen ||
         e.target instanceof HTMLInputElement ||
         e.target instanceof HTMLTextAreaElement ||
         (e.target instanceof HTMLElement && e.target.isContentEditable)
@@ -65,19 +82,8 @@ export function EventCalendar({
         return;
       }
 
-      switch (e.key.toLowerCase()) {
-        case 'm':
-          setView('month');
-          break;
-        case 'w':
-          setView('week');
-          break;
-        case 'd':
-          setView('day');
-          break;
-        case 'a':
-          setView('agenda');
-          break;
+      if (Object.keys(KEYBOARD_SHORTCUTS).includes(key)) {
+        setView(KEYBOARD_SHORTCUTS[key] as CalendarView);
       }
     };
 
@@ -89,42 +95,41 @@ export function EventCalendar({
   }, []);
 
   const handlePrevious = () => {
-    if (view === 'month') {
-      setCurrentDate(subMonths(currentDate, 1));
-    } else if (view === 'week') {
-      setCurrentDate(subWeeks(currentDate, 1));
-    } else if (view === 'day') {
-      setCurrentDate(addDays(currentDate, -1));
-    } else if (view === 'agenda') {
-      setCurrentDate(addDays(currentDate, -AgendaDaysToShow));
-    }
+    setCurrentDate(viewHandlers[view].previous(currentDate));
   };
 
   const handleNext = () => {
-    if (view === 'month') {
-      setCurrentDate(addMonths(currentDate, 1));
-    } else if (view === 'week') {
-      setCurrentDate(addWeeks(currentDate, 1));
-    } else if (view === 'day') {
-      setCurrentDate(addDays(currentDate, 1));
-    } else if (view === 'agenda') {
-      setCurrentDate(addDays(currentDate, AgendaDaysToShow));
-    }
+    setCurrentDate(viewHandlers[view].next(currentDate));
   };
 
   const handleToday = () => {
     setCurrentDate(new Date());
   };
 
-  const handleEventSelect = (event: CreateServiceRecordDto) => {
-    console.log('Event selected:', event);
+  const handleCreateClick = () => {
+    setDialogOpen(true);
+    setIsEdit(false);
+    setInitialValues(undefined);
   };
 
-  const handleEventCreate = (data: CreateServiceRecordDto) => {
-    createServiceRecord(data);
+  const handleEventSubmit = (
+    data: CreateServiceRecordDto | UpdateServiceRecordDto,
+  ) => {
+    if (isEdit) {
+      updateServiceRecord(data);
+    } else {
+      const parsedData = CreateServiceRecordSchema.safeParse(data);
+      if (!parsedData.success) {
+        toast(parsedData.error.message).error();
+        return;
+      }
+      createServiceRecord(parsedData.data);
+    }
   };
 
-  const handleEventUpdate = () => {};
+  const handleEventUpdate = (data: UpdateServiceRecordDto) => {
+    updateServiceRecord(data);
+  };
 
   const viewTitle = useMemo(
     () => getViewTitle(view, currentDate),
@@ -213,58 +218,38 @@ export function EventCalendar({
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-            <ServiceRecordDialog
-              trigger={
-                <Button
-                  className="max-sm:hidden max-[479px]:aspect-square max-[479px]:p-0!"
-                  icon={<PlusIcon size={16} aria-hidden="true" />}
-                >
-                  <span className="max-sm:sr-only">Додати</span>
-                </Button>
-              }
+            <Button
+              className="max-sm:hidden max-[479px]:aspect-square max-[479px]:p-0!"
+              icon={<PlusIcon size={16} aria-hidden="true" />}
+              onClick={handleCreateClick}
             >
-              <ServiceRecordForm
-                onSubmit={handleEventCreate}
-                isLoading={isCreating}
-              />
-            </ServiceRecordDialog>
+              <span className="max-sm:sr-only">Додати</span>
+            </Button>
           </div>
         </div>
 
         <div className="flex w-full flex-1 flex-col">
           {view === 'month' && (
-            <MonthView
-              currentDate={currentDate}
-              events={events}
-              onEventSelect={handleEventSelect}
-              onEventCreate={handleEventCreate}
-            />
+            <MonthView currentDate={currentDate} events={events} />
           )}
           {view === 'week' && (
-            <WeekView
-              currentDate={currentDate}
-              events={events}
-              onEventSelect={handleEventSelect}
-              onEventCreate={handleEventCreate}
-            />
+            <WeekView currentDate={currentDate} events={events} />
           )}
           {view === 'day' && (
-            <DayView
-              currentDate={currentDate}
-              events={events}
-              onEventSelect={handleEventSelect}
-              onEventCreate={handleEventCreate}
-            />
+            <DayView currentDate={currentDate} events={events} />
           )}
           {view === 'agenda' && (
-            <AgendaView
-              currentDate={currentDate}
-              events={events}
-              onEventSelect={handleEventSelect}
-            />
+            <AgendaView currentDate={currentDate} events={events} />
           )}
         </div>
       </CalendarDndProvider>
+      <ServiceRecordDialog>
+        <ServiceRecordForm
+          onSubmit={handleEventSubmit}
+          isLoading={isCreating}
+          initialData={initialValues}
+        />
+      </ServiceRecordDialog>
     </div>
   );
 }

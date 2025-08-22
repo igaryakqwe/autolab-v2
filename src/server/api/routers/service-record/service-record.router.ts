@@ -30,7 +30,7 @@ const serviceRecordRouter = createTRPCRouter({
   updateServiceRecord: protectedProcedure
     .input(UpdateServiceRecordSchema)
     .mutation(async ({ input }) => {
-      return serviceRecordService.updateServiceRecord(input.id, input);
+      return serviceRecordService.updateServiceRecord(input);
     }),
 
   deleteServiceRecord: protectedProcedure

@@ -3,8 +3,7 @@
 import { useMemo } from 'react';
 import type { DraggableAttributes } from '@dnd-kit/core';
 import type { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
-import { differenceInMinutes, format, getMinutes, isPast } from 'date-fns';
-import { uk } from 'date-fns/locale';
+import { differenceInMinutes, isPast } from 'date-fns';
 import { type CalendarEvent } from '@/features/calendar/lib/types';
 import {
   getBorderRadiusClasses,
@@ -12,10 +11,8 @@ import {
   isAllDayEvent,
 } from '@/features/calendar/lib/utils';
 import { cn } from '@/utils/style-utils';
-
-const formatTimeWithOptionalMinutes = (date: Date) => {
-  return format(date, getMinutes(date) === 0 ? 'h' : 'h:mm', { locale: uk });
-};
+import useCalendarDialogStore from '../stores/use-calendar-dialog.store';
+import { getTime } from '@/utils/date.utils';
 
 interface EventWrapperProps {
   event: CalendarEvent;
@@ -46,6 +43,12 @@ function EventWrapper({
   onMouseDown,
   onTouchStart,
 }: EventWrapperProps) {
+  const setIsEdit = useCalendarDialogStore((state) => state.setIsEdit);
+  const setOpenDialog = useCalendarDialogStore((state) => state.setOpen);
+  const setInitialValues = useCalendarDialogStore(
+    (state) => state.setInitialValues,
+  );
+
   const displayEnd = currentTime
     ? new Date(
         new Date(currentTime).getTime() +
@@ -55,6 +58,13 @@ function EventWrapper({
     : new Date(event.endTime);
 
   const isEventInPast = isPast(displayEnd);
+
+  const handleClick = (e: React.MouseEvent) => {
+    setIsEdit(true);
+    setOpenDialog(true);
+    setInitialValues(event);
+    onClick?.(e);
+  };
 
   return (
     <button
@@ -66,7 +76,7 @@ function EventWrapper({
       )}
       data-dragging={isDragging || undefined}
       data-past-event={isEventInPast || undefined}
-      onClick={onClick}
+      onClick={handleClick}
       onMouseDown={onMouseDown}
       onTouchStart={onTouchStart}
       {...dndListeners}
@@ -133,12 +143,9 @@ export function EventItem({
   }, [displayStart, displayEnd]);
 
   const getEventTime = () => {
-    if (isAllDay) return 'All day';
+    if (isAllDay) return 'День';
 
-    if (durationMinutes < 45) {
-      return formatTimeWithOptionalMinutes(displayStart);
-    }
-    return `${formatTimeWithOptionalMinutes(displayStart)} - ${formatTimeWithOptionalMinutes(displayEnd)}`;
+    return `${getTime(displayStart)} - ${getTime(displayEnd)}`;
   };
 
   if (view === 'month') {
@@ -163,7 +170,7 @@ export function EventItem({
           <span className="truncate">
             {!isAllDay && (
               <span className="truncate font-normal opacity-70 sm:text-[11px]">
-                {formatTimeWithOptionalMinutes(displayStart)}{' '}
+                {getTime(displayStart)}{' '}
               </span>
             )}
             {event.vehicle.make} - {event.vehicle.model}
@@ -198,9 +205,7 @@ export function EventItem({
           <div className="truncate">
             {event.vehicle.make} - {event.vehicle.model}{' '}
             {showTime && (
-              <span className="opacity-70">
-                {formatTimeWithOptionalMinutes(displayStart)}
-              </span>
+              <span className="opacity-70">{getTime(displayStart)}</span>
             )}
           </div>
         ) : (
@@ -242,8 +247,7 @@ export function EventItem({
           <span>All day</span>
         ) : (
           <span className="uppercase">
-            {formatTimeWithOptionalMinutes(displayStart)} -{' '}
-            {formatTimeWithOptionalMinutes(displayEnd)}
+            {getTime(displayStart)} - {getTime(displayEnd)}
           </span>
         )}
       </div>

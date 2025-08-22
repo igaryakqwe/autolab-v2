@@ -1,5 +1,8 @@
 import db from '@/lib/db';
-import { CreateServiceRecordDto } from './service-record.dto';
+import {
+  CreateServiceRecordDto,
+  UpdateServiceRecordDto,
+} from './service-record.dto';
 
 class ServiceRecordRepository {
   constructor() {}
@@ -53,9 +56,14 @@ class ServiceRecordRepository {
       },
       select: {
         id: true,
+        organizationId: true,
+        vehicleId: true,
+        employeeId: true,
+        services: true,
         startTime: true,
         endTime: true,
         status: true,
+        notes: true,
         totalPrice: true,
         vehicle: {
           select: {
@@ -83,15 +91,15 @@ class ServiceRecordRepository {
     });
   }
 
-  async updateServiceRecord(id: string, record: CreateServiceRecordDto) {
+  async updateServiceRecord(record: UpdateServiceRecordDto) {
     return db.serviceRecord.update({
       where: {
-        id,
+        id: record.id,
       },
       data: {
         ...record,
         services: {
-          connect: record.services.map((serviceId) => ({
+          connect: record.services?.map((serviceId) => ({
             id: serviceId,
           })),
         },

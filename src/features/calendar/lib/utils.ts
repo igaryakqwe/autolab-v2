@@ -5,9 +5,16 @@ import {
   isSameMonth,
   addDays,
   format,
+  subMonths,
+  addMonths,
+  subWeeks,
+  addWeeks,
 } from 'date-fns';
 import { CalendarEvent, CalendarView } from '@/features/calendar/lib/types';
-import { DAYS_IN_AGENDA } from '@/features/calendar/lib/constants';
+import {
+  AgendaDaysToShow,
+  DAYS_IN_AGENDA,
+} from '@/features/calendar/lib/constants';
 import { formatMonth, formatMonthYear } from '@/utils/date.utils';
 import { uk } from 'date-fns/locale/uk';
 import { ServiceStatus } from '@/types/models/vehicle';
@@ -193,4 +200,23 @@ export const isAllDayEvent = (startTime: Date, endTime: Date): boolean => {
     endTime.getSeconds() === 59;
 
   return isStartAtMidnight && isEndAtMidnight;
+};
+
+export const viewHandlers = {
+  month: {
+    previous: (date: Date) => subMonths(date, 1),
+    next: (date: Date) => addMonths(date, 1),
+  },
+  week: {
+    previous: (date: Date) => subWeeks(date, 1),
+    next: (date: Date) => addWeeks(date, 1),
+  },
+  day: {
+    previous: (date: Date) => addDays(date, -1),
+    next: (date: Date) => addDays(date, 1),
+  },
+  agenda: {
+    previous: (date: Date) => addDays(date, -AgendaDaysToShow),
+    next: (date: Date) => addDays(date, AgendaDaysToShow),
+  },
 };

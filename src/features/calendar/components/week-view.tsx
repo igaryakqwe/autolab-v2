@@ -31,13 +31,10 @@ import { useCurrentTimeIndicator } from '@/features/calendar/hooks/use-current-t
 import { EventItem } from '@/features/calendar/components/event-item';
 import { DraggableEvent } from '@/features/calendar/components/draggable-event';
 import { DroppableCell } from '@/features/calendar/components/droppable-cell';
-import { CreateServiceRecordDto } from '@/server/api/routers/service-record/service-record.dto';
 
 interface WeekViewProps {
   currentDate: Date;
   events: CalendarEvent[];
-  onEventSelect: (event: CreateServiceRecordDto) => void;
-  onEventCreate: (data: CreateServiceRecordDto) => void;
 }
 
 interface PositionedEvent {

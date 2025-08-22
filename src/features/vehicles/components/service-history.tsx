@@ -24,7 +24,13 @@ import { differenceInMinutes } from 'date-fns';
 import ServiceRecordDialog from '@/features/calendar/components/service-record-dialog';
 import ServiceRecordForm from '@/features/calendar/components/service-record-form';
 import useCreateServiceRecordMutation from '@/features/calendar/hooks/mutations/use-create-service-record.mutation';
-import { CreateServiceRecordDto } from '@/server/api/routers/service-record/service-record.dto';
+import {
+  CreateServiceRecordDto,
+  CreateServiceRecordSchema,
+  UpdateServiceRecordDto,
+} from '@/server/api/routers/service-record/service-record.dto';
+import useCalendarDialogStore from '@/features/calendar/stores/use-calendar-dialog.store';
+import { toast } from '@/utils/toast-utils';
 
 export type ServiceHistoryProps = {
   vehicleId: string;
@@ -34,8 +40,29 @@ export type ServiceHistoryProps = {
 const ServiceHistory = ({ vehicleId, records }: ServiceHistoryProps) => {
   const { createServiceRecord, isCreating } = useCreateServiceRecordMutation();
 
-  const handleEventCreate = (data: CreateServiceRecordDto) => {
-    createServiceRecord(data);
+  const setIsOpen = useCalendarDialogStore((state) => state.setOpen);
+  const setInitialValues = useCalendarDialogStore(
+    (state) => state.setInitialValues,
+  );
+  const setIsEdit = useCalendarDialogStore((state) => state.setIsEdit);
+
+  const handleEventCreate = (
+    data: CreateServiceRecordDto | UpdateServiceRecordDto,
+  ) => {
+    const parsedData = CreateServiceRecordSchema.safeParse(data);
+    if (!parsedData.success) {
+      toast(parsedData.error.message).error();
+      return;
+    }
+    createServiceRecord(parsedData.data);
+  };
+
+  const handleCreateClick = () => {
+    setIsOpen(true);
+    setIsEdit(false);
+    setInitialValues({
+      vehicleId,
+    });
   };
 
   if (!records.length) {
@@ -50,30 +77,28 @@ const ServiceHistory = ({ vehicleId, records }: ServiceHistoryProps) => {
             </div>
           }
         >
-          <ServiceRecordDialog
-            trigger={
-              <Button
-                className="max-sm:hidden max-[479px]:aspect-square max-[479px]:p-0!"
-                icon={<PlusIcon size={16} aria-hidden="true" />}
-              >
-                <span className="max-sm:sr-only">Додати</span>
-              </Button>
-            }
+          <Button
+            className="max-sm:hidden max-[479px]:aspect-square max-[479px]:p-0!"
+            icon={<PlusIcon size={16} aria-hidden="true" />}
+            onClick={handleCreateClick}
           >
-            <ServiceRecordForm
-              initialData={{
-                vehicleId,
-              }}
-              onSubmit={handleEventCreate}
-              isLoading={isCreating}
-            />
-          </ServiceRecordDialog>
+            <span className="max-sm:sr-only">Додати</span>
+          </Button>
         </SectionHeader>
         <CardContent>
           <div className="flex items-center justify-center">
             <p className="text-slate-500">Немає обслуговувань</p>
           </div>
         </CardContent>
+        <ServiceRecordDialog>
+          <ServiceRecordForm
+            initialData={{
+              vehicleId,
+            }}
+            onSubmit={handleEventCreate}
+            isLoading={isCreating}
+          />
+        </ServiceRecordDialog>
       </Card>
     );
   }
@@ -89,27 +114,16 @@ const ServiceHistory = ({ vehicleId, records }: ServiceHistoryProps) => {
           </div>
         }
       >
-        <ServiceRecordDialog
-          trigger={
-            <Button
-              className="max-sm:hidden max-[479px]:aspect-square max-[479px]:p-0!"
-              icon={<PlusIcon size={16} aria-hidden="true" />}
-            >
-              <span className="max-sm:sr-only">Додати</span>
-            </Button>
-          }
+        <Button
+          className="max-sm:hidden max-[479px]:aspect-square max-[479px]:p-0!"
+          icon={<PlusIcon size={16} aria-hidden="true" />}
+          onClick={handleCreateClick}
         >
-          <ServiceRecordForm
-            initialData={{
-              vehicleId,
-            }}
-            onSubmit={handleEventCreate}
-            isLoading={isCreating}
-          />
-        </ServiceRecordDialog>{' '}
+          <span className="max-sm:sr-only">Додати</span>
+        </Button>
       </SectionHeader>
-      <CardContent className="">
-        <ScrollArea className="max-h-[37rem] overflow-y-auto">
+      <CardContent>
+        <ScrollArea className="h-[37rem]">
           <Timeline className="mx-1" defaultValue={2}>
             {records.map((record, index) => {
               const Icon = STATUS_MAPPER[record.status].icon;
@@ -230,6 +244,15 @@ const ServiceHistory = ({ vehicleId, records }: ServiceHistoryProps) => {
           </Timeline>
         </ScrollArea>
       </CardContent>
+      <ServiceRecordDialog>
+        <ServiceRecordForm
+          initialData={{
+            vehicleId,
+          }}
+          onSubmit={handleEventCreate}
+          isLoading={isCreating}
+        />
+      </ServiceRecordDialog>
     </Card>
   );
 };

@@ -28,13 +28,10 @@ import { getTime } from '@/utils/date.utils';
 import { CalendarEvent } from '@/features/calendar/lib/types';
 import { DraggableEvent } from '@/features/calendar/components/draggable-event';
 import { DroppableCell } from '@/features/calendar/components/droppable-cell';
-import { CreateServiceRecordDto } from '@/server/api/routers/service-record/service-record.dto';
 
 interface DayViewProps {
   currentDate: Date;
   events: CalendarEvent[];
-  onEventSelect: (event: CreateServiceRecordDto) => void;
-  onEventCreate: (data: CreateServiceRecordDto) => void;
 }
 
 interface PositionedEvent {

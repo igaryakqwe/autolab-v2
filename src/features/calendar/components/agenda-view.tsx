@@ -11,12 +11,10 @@ import { AgendaDaysToShow } from '@/features/calendar/lib/constants';
 import { getAgendaEventsForDay } from '@/features/calendar/lib/utils';
 import { EventItem } from '@/features/calendar/components/event-item';
 import { cn } from '@/utils/style-utils';
-import { CreateServiceRecordDto } from '@/server/api/routers/service-record/service-record.dto';
 
 interface AgendaViewProps {
   currentDate: Date;
   events: CalendarEvent[];
-  onEventSelect: (event: CreateServiceRecordDto) => void;
 }
 
 export function AgendaView({ currentDate, events }: AgendaViewProps) {

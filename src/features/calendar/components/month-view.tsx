@@ -35,13 +35,10 @@ import { uk } from 'date-fns/locale';
 import { DroppableCell } from '@/features/calendar/components/droppable-cell';
 import { EventItem } from '@/features/calendar/components/event-item';
 import { DraggableEvent } from '@/features/calendar/components/draggable-event';
-import { CreateServiceRecordDto } from '@/server/api/routers/service-record/service-record.dto';
 
 interface MonthViewProps {
   currentDate: Date;
   events: CalendarEvent[];
-  onEventSelect: (data: CreateServiceRecordDto) => void;
-  onEventCreate: (data: CreateServiceRecordDto) => void;
 }
 
 export function MonthView({ currentDate, events }: MonthViewProps) {
